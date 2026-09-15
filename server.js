@@ -1,17 +1,13 @@
-```js
 const express = require("express");
 const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Permite recibir datos en formato JSON
 app.use(express.json());
 
-// Servir la aplicación visual
 app.use(express.static(path.join(__dirname, "public")));
 
-// Ruta de prueba
 app.get("/api/status", (req, res) => {
   res.json({
     ok: true,
@@ -19,7 +15,6 @@ app.get("/api/status", (req, res) => {
   });
 });
 
-// Analizar una publicación de prueba
 app.post("/api/analyze", (req, res) => {
   const {
     text,
@@ -38,10 +33,6 @@ app.post("/api/analyze", (req, res) => {
 
   const warnings = [];
   const observations = [];
-
-  // -----------------------------------
-  // 1. UBICACIÓN
-  // -----------------------------------
 
   const locationWords = [
     "estoy en",
@@ -69,10 +60,6 @@ app.post("/api/analyze", (req, res) => {
     });
   }
 
-  // -----------------------------------
-  // 2. CONTEXTO ACADÉMICO
-  // -----------------------------------
-
   if (academicContext) {
     observations.push({
       icon: "🎓",
@@ -82,10 +69,6 @@ app.post("/api/analyze", (req, res) => {
     });
   }
 
-  // -----------------------------------
-  // 3. DIFERENTES INTERPRETACIONES
-  // -----------------------------------
-
   if (ambiguousContext) {
     observations.push({
       icon: "👀",
@@ -94,10 +77,6 @@ app.post("/api/analyze", (req, res) => {
         "Una persona que no conoce el contexto completo podría interpretar la publicación de otra manera."
     });
   }
-
-  // -----------------------------------
-  // 4. DATOS PERSONALES
-  // -----------------------------------
 
   const personalWords = [
     "cédula",
@@ -124,10 +103,6 @@ app.post("/api/analyze", (req, res) => {
     });
   }
 
-  // -----------------------------------
-  // 5. NIVEL DE CUIDADO
-  // -----------------------------------
-
   let level = "Bajo cuidado";
 
   if (warnings.length === 1) {
@@ -137,10 +112,6 @@ app.post("/api/analyze", (req, res) => {
   if (warnings.length >= 2) {
     level = "Alto cuidado";
   }
-
-  // -----------------------------------
-  // 6. MENSAJE FINAL
-  // -----------------------------------
 
   let message;
 
@@ -152,12 +123,16 @@ app.post("/api/analyze", (req, res) => {
       "Huella+ detectó algunos aspectos que podrías revisar antes de publicar.";
   }
 
-  // -----------------------------------
-  // 7. RESPUESTA AL FRONTEND
-  // -----------------------------------
-
   res.json({
     ok: true,
     level,
-    warni
-```
+    warnings,
+    observations,
+    context: context || "No especificado",
+    message
+  });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Huella+ está funcionando en el puerto ${PORT}`);
+});

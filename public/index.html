@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huella+ | Tu huella digital con propósito</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f5f8;
+    color: #25222a;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.app {
+    min-height: 100vh;
+    display: flex;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #e8e3ea;
+    padding: 30px 18px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.logo span {
+    color: #8b5cf6;
+}
+
+.tagline {
+    font-size: 11px;
+    color: #88818e;
+    line-height: 1.4;
+    margin-bottom: 35px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav button {
+    border: none;
+    background: transparent;
+    text-align: left;
+    padding: 13px 14px;
+    border-radius: 12px;
+    color: #706a75;
+    font-size: 14px;
+}
+
+.nav button:hover,
+.nav button.active {
+    background: #f1ebff;
+    color: #6842b9;
+}
+
+.demo-box {
+    position: absolute;
+    bottom: 25px;
+    left: 18px;
+    right: 18px;
+    background: #faf7ff;
+    border: 1px solid #e6dcfa;
+    border-radius: 16px;
+    padding: 15px;
+}
+
+.demo-box small {
+    color: #8c8492;
+    display: block;
+    margin-bottom: 9px;
+}
+
+.demo-box button {
+    width: 100%;
+    border: none;
+    background: #7c4dca;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 38px 50px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.topbar h1 {
+    font-size: 29px;
+}
+
+.topbar p {
+    color: #89838d;
+    margin-top: 6px;
+}
+
+.notification {
+    position: relative;
+    width: 43px;
+    height: 43px;
+    border: 1px solid #e5e0e8;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #e65b75;
+    color: white;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CARDS */
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 22px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e9e4eb;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(45, 32, 55, 0.03);
+}
+
+.hero {
+    background: linear-gradient(135deg, #f2ebff, #ffffff);
+    min-height: 245px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.eyebrow {
+    font-size: 12px;
+    color: #7b5bb5;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 10px;
+}
+
+.hero h2 {
+    font-size: 28px;
+    max-width: 560px;
+    line-height: 1.2;
+}
+
+.hero p {
+    color: #716a77;
+    max-width: 560px;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+.primary {
+    border: none;
+    background: #7043b8;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 11px;
+    font-weight: 600;
+    margin-top: 20px;
+    width: fit-content;
+}
+
+.primary:hover {
+    background: #5f35a4;
+}
+
+.section-title {
+    margin: 30px 0 15px;
+    font-size: 18px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.feature {
+    background: white;
+    border: 1px solid #e9e4eb;
+    border-radius: 17px;
+    padding: 21px;
+}
+
+.feature-icon {
+    font-size: 23px;
+    margin-bottom: 14px;
+}
+
+.feature h3 {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.feature p {
+    color: #817a85;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ALERT */
+
+.alert-card {
+    border-left: 4px solid #e6ae3e;
+}
+
+.alert-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.alert-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff4d9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alert-card p {
+    color: #716b75;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* SCREENS */
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* ANALYSIS */
+
+.back {
+    border: none;
+    background: transparent;
+    color: #7651a9;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.analysis-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 25px;
+}
+
+.post {
+    background: #fff;
+    border: 1px solid #e7e1e9;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.avatar {
+    width: 39px;
+    height: 39px;
+    border-radius: 50%;
+    background: #e8ddfa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-image {
+    height: 190px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ded7e7, #bdb2c8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.post p {
+    line-height: 1.5;
+}
+
+.level {
+    display: inline-flex;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 15px 0;
+    background: #fff3d4;
+    color: #926b12;
+}
+
+.reason {
+    padding: 14px 0;
+    border-top: 1px solid #eee9ef;
+    display: flex;
+    gap: 12px;
+}
+
+.reason strong {
+    font-size: 14px;
+}
+
+.reason p {
+    color: #817983;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+/* PERSPECTIVES */
+
+.perspective-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.perspective-buttons button {
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #ddd5e4;
+    background: white;
+    color: #625b68;
+}
+
+.perspective-buttons button.active {
+    background: #eee5fc;
+    border-color: #cdb6ed;
+    color: #6541a2;
+}
+
+.perspective-result {
+    background: #faf8fc;
+    border-radius: 16px;
+    padding: 20px;
+    line-height: 1.6;
+    color: #655e69;
+}
+
+/* DECISION */
+
+.decision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.decision {
+    padding: 17px;
+    border: 1px solid #e1dae5;
+    border-radius: 14px;
+    background: white;
+    text-align: left;
+}
+
+.decision:hover {
+    border-color: #9c75ce;
+    background: #faf7ff;
+}
+
+.decision strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.decision span {
+    color: #837b87;
+    font-size: 12px;
+}
+
+/* NETWORKS */
+
+.network {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+    border-bottom: 1px solid #eee9ef;
+}
+
+.network-info {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.network-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #f0ebf4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.connected {
+    font-size: 12px;
+    color: #4c9464;
+    background: #eaf7ee;
+    padding: 7px 10px;
+    border-radius: 15px;
+}
+
+/* FUTURE */
+
+.future {
+    text-align: center;
+    max-width: 760px;
+    margin: 50px auto;
+}
+
+.future-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.future h2 {
+    font-size: 31px;
+    margin-bottom: 15px;
+}
+
+.future p {
+    color: #756e79;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+/* RESPONSIBLE AI */
+
+.ai-list {
+    display: grid;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.ai-item {
+    padding: 18px;
+    border-radius: 14px;
+    background: #faf8fc;
+    border: 1px solid #ebe5ef;
+}
+
+.ai-item h3 {
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+.ai-item p {
+    color: #77707b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* TOAST */
+
+.toast {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    background: #27222d;
+    color: white;
+    padding: 17px 20px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    transform: translateY(120px);
+    opacity: 0;
+    transition: .35s;
+    z-index: 100;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* MOBILE */
+
+@media(max-width: 850px) {
+    .sidebar {
+        width: 80px;
+        padding: 25px 10px;
+    }
+
+    .logo {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .tagline,
+    .nav button span,
+    .demo-box {
+        display: none;
+    }
+
+    .nav button {
+        text-align: center;
+        font-size: 20px;
+    }
+
+    .main {
+        margin-left: 80px;
+        width: calc(100% - 80px);
+        padding: 25px;
+    }
+
+    .grid,
+    .analysis-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+    <div class="logo">Huella<span>+</span></div>
+
+    <div class="tagline">
+        Antes de publicar,<br>
+        piensa en lo que estás construyendo.
+    </div>
+
+    <nav class="nav">
+
+        <button class="active" onclick="showScreen('inicio', this)">
+            🏠 <span>Inicio</span>
+        </button>
+
+        <button onclick="showScreen('huella', this)">
+            👣 <span>Mi huella</span>
+        </button>
+
+        <button onclick="showScreen('alertas', this)">
+            🔔 <span>Alertas</span>
+        </button>
+
+        <button onclick="showScreen('redes', this)">
+            🔗 <span>Mis redes</span>
+        </button>
+
+        <button onclick="showScreen('ia', this)">
+            🤖 <span>IA responsable</span>
+        </button>
+
+    </nav>
+
+    <div class="demo-box">
+        <small>Modo demostración</small>
+        <button onclick="simulatePost()">Simular publicación</button>
+    </div>
+
+</aside>
+
+
+<main class="main">
+
+<!-- INICIO -->
+
+<section id="inicio" class="screen active">
+
+    <div class="topbar">
+        <div>
+            <h1>Hola, Jennifer 👋</h1>
+            <p>Construye una huella digital que represente lo que quieres proyectar.</p>
+        </div>
+
+        <button class="notification" onclick="showScreen('alertas')">
+            🔔
+            <span id="badge" class="badge">1</span>
+        </button>
+    </div>
+
+
+    <div class="grid">
+
+        <div class="card hero">
+
+            <div>
+                <div class="eyebrow">Tu huella digital</div>
+
+                <h2>
+                    Antes de publicar, piensa en lo que estás construyendo.
+                </h2>
+
+                <p>
+                    Huella+ te ayuda a observar tus publicaciones desde
+                    diferentes perspectivas antes de tomar una decisión.
+                </p>
+            </div>
+
+            <button class="primary" onclick="simulatePost()">
+                Simular nueva publicación →
+            </button>
+
+        </div>
+
+
+        <div class="card alert-card">
+
+            <div class="alert-header">
+                <div class="alert-icon">🔔</div>
+
+                <div>
+                    <strong id="alertTitle">Todo tranquilo</strong>
+                    <p style="font-size:12px;color:#999">
+                        Monitoreo de tu huella
+                    </p>
+                </div>
+            </div>
+
+            <p id="alertText">
+                No tienes publicaciones pendientes de revisar.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <h3 class="section-title">¿Qué puedes hacer con Huella+?</h3>
+
+    <div class="feature-grid">
+
+        <div class="feature">
+            <div class="feature-icon">🔎</div>
+            <h3>Mi huella</h3>
+            <p>
+                Observa los aspectos de tu presencia digital que estás
+                construyendo.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">🤖</div>
+            <h3>Análisis con IA</h3>
+            <p>
+                Recibe observaciones sobre privacidad, contexto y posibles
+                interpretaciones.
+            </p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">👥</div>
+            <h3>Otras perspectivas</h3>
+            <p>
+                Explora cómo podría interpretarse una publicación desde
+                distintos contextos.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ALERTAS -->
+
+<section id="alertas" class="screen">
+
+    <div class="topbar">
+        <div>
+            <h1>Alertas</h1>
+            <p>Publicaciones que Huella+ recomienda revisar.</p>
+        </div>
+    </div>
+
+    <div id="alertContent">
+
+        <div class="card">
+            <h3>No tienes alertas nuevas</h3>
+            <p style="color:#888;margin-top:8px">
+                Cuando Huella+ detecte una publicación para revisar,
+                aparecerá aquí.
+            </p>
+
+            <button class="primary" onclick="simulatePost()">
+                Simular publicación
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ANALISIS -->
+
+<section id="analisis" class="screen">
+
+    <button class="back" onclick="showScreen('alertas')">
+        ← Volver a alertas
+    </button>
+
+    <div class="topbar">
+        <div>
+            <h1>Análisis de Huella+</h1>
+            <p>Observa antes de decidir.</p>
+        </div>
+    </div>
+
+
+    <div class="analysis-layout">
+
+        <div class="post">
+
+            <div class="post-header">
+
+                <div class="avatar">J</div>
+
+                <div>
+                    <strong>Jennifer</strong>
+                    <div style="font-size:12px;color:#999">
+                        Instagram · Hace 2 min
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="post-image">📸</div>
+
+            <p>
+                “Por fin saliendo de clase 😭📚”
+            </p>
+
+            <p style="color:#888;font-size:13px;margin-top:8px">
+                📍 Universidad · ubicación visible
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="eyebrow">Resultado del análisis</div>
+
+            <h2 id="analysisTitle">Requiere reflexión</h2>
+
+            <div id="analysisLevel" class="level">
+                🟡 Requiere reflexión
+            </div>
+
+            <p id="analysisMessage" style="color:#777;line-height:1.6">
+                La publicación no necesariamente representa un problema,
+                pero contiene elementos que podrían adquirir otro significado
+                fuera del contexto original.
+            </p>
+
+
+            <div id="analysisReasons" style="margin-top:20px">
+
+                <div class="reason">
+                    <div>📍</div>
+                    <div>
+                        <strong>Ubicación</strong>
+                        <p>
+                            La publicación permite relacionar el contenido
+                            con un lugar específico.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="reason">
+                    <div>🎓</div>
+                    <div>
+                        <strong>Contexto académico</strong>
+                        <p>
+                            El contenido puede asociarse con tu vida
+                            universitaria.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="reason">
+                    <div>👀</div>
+                    <div>
+                        <strong>Diferentes interpretaciones</strong>
+                        <p>
+                            Una persona que no conoce el contexto podría
+                            interpretar la publicación de otra manera.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <button class="primary" onclick="showScreen('perspectivas')">
+                Ver perspectivas →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PERSPECTIVAS -->
+
+<section id="perspectivas" class="screen">
+
+    <button class="back" onclick="showScreen('analisis')">
+        ← Volver al análisis
+    </button>
+
+    <div class="topbar">
+        <div>
+            <h1>Otras perspectivas</h1>
+            <p>
+                No son predicciones. Son posibles formas de interpretar
+                el mismo contenido.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="card">
+
+        <div class="perspective-buttons">
+
+            <button class="active"
+                onclick="changePerspective('amigo', this)">
+                👩‍🦰 Amigo
+            </button>
+
+            <button
+                onclick="changePerspective('profesor', this)">
+                👨‍🏫 Profesor
+            </button>
+
+            <button
+                onclick="changePerspective('reclutador', this)">
+                💼 Reclutador
+            </button>
+
+            <button
+                onclick="changePerspective('desconocido', this)">
+                👤 Desconocido
+            </button>
+
+        </div>
+
+
+        <div id="perspectiveText" class="perspective-result">
+
+            <strong>Como amigo:</strong>
+
+            <br><br>
+
+            Probablemente podría entender la publicación como una expresión
+            cotidiana de tu vida universitaria. El contexto que ya conoce
+            puede ayudarle a interpretar el contenido.
+
+        </div>
+
+
+        <button class="primary" onclick="showScreen('futuro')">
+            Ver “5 años después” →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- FUTURO -->
+
+<section id="futuro" class="screen">
+
+    <div class="future">
+
+        <div class="future-icon">⏳</div>
+
+        <div class="eyebrow">Perspectiva futura</div>
+
+        <h2>5 años después...</h2>
+
+        <p>
+            Imagina que encuentras esta publicación dentro de cinco años.
+            Ya estás en otro momento de tu vida, con nuevas experiencias,
+            proyectos y personas alrededor.
+        </p>
+
+        <p>
+            <strong>
+                ¿Seguiría sintiéndose como una publicación que representa
+                la huella digital que quieres construir?
+            </strong>
+        </p>
+
+
+        <div class="decision-grid">
+
+            <button class="decision" onclick="decision('mantener')">
+                <strong>✓ Mantener</strong>
+                <span>La publicación sigue representándome.</span>
+            </button>
+
+            <button class="decision" onclick="decision('editar')">
+                <strong>✎ Editar</strong>
+                <span>Quiero modificar algún elemento.</span>
+            </button>
+
+            <button class="decision" onclick="decision('audiencia')">
+                <strong>👥 Cambiar audiencia</strong>
+                <span>Prefiero limitar quién puede verla.</span>
+            </button>
+
+            <button class="decision" onclick="decision('eliminar')">
+                <strong>🗑 Eliminar</strong>
+                <span>Prefiero retirar esta publicación.</span>
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MI HUELLA -->
+
+<section id="huella" class="screen">
+
+    <div class="topbar">
+        <div>
+            <h1>Mi huella</h1>
+            <p>Una mirada general a tu presencia digital.</p>
+        </div>
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="card">
+            <div class="feature-icon">🎓</div>
+            <h3>Académica</h3>
+            <p style="margin-top:8px;color:#888">
+                Cómo tus publicaciones se relacionan con tu identidad
+                universitaria.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="feature-icon">💼</div>
+            <h3>Profesional</h3>
+            <p style="margin-top:8px;color:#888">
+                La imagen digital que estás construyendo para futuros
+                espacios profesionales.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="feature-icon">🔐</div>
+            <h3>Privacidad</h3>
+            <p style="margin-top:8px;color:#888">
+                Información personal que podría estar quedando expuesta.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="card" style="margin-top:22px">
+
+        <div class="eyebrow">Tu propósito digital</div>
+
+        <h2>¿Qué quieres que tu huella diga de ti?</h2>
+
+        <p style="margin-top:10px;color:#888;line-height:1.6">
+            Huella+ no decide cómo debes utilizar tus redes.
+            Te ayuda a conectar tus publicaciones con la identidad
+            digital que quieres construir.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- REDES -->
+
+<section id="redes" class="screen">
+
+    <div class="topbar">
+        <div>
+            <h1>Mis redes</h1>
+            <p>Gestiona las plataformas conectadas a Huella+.</p>
+        </div>
+    </div>
+
+
+    <div class="card">
+
+        <div class="network">
+
+            <div class="network-info">
+                <div class="network-logo">◎</div>
+
+                <div>
+                    <strong>Instagram</strong>
+                    <div style="font-size:12px;color:#999">
+                        Cuenta de demostración
+                    </div>
+                </div>
+            </div>
+
+            <div class="connected">Conectada</div>
+
+        </div>
+
+
+        <div class="network">
+
+            <div class="network-info">
+                <div class="network-logo">♪</div>
+
+                <div>
+                    <strong>TikTok</strong>
+                    <div style="font-size:12px;color:#999">
+                        Cuenta de demostración
+                    </div>
+                </div>
+            </div>
+
+            <div class="connected">Conectada</div>
+
+        </div>
+
+
+        <div class="network">
+
+            <div class="network-info">
+                <div class="network-logo">in</div>
+
+                <div>
+                    <strong>LinkedIn</strong>
+                    <div style="font-size:12px;color:#999">
+                        Cuenta de demostración
+                    </div>
+                </div>
+            </div>
+
+            <div class="connected">Conectada</div>
+
+        </div>
+
+
+        <div class="network" style="border:none">
+
+            <div class="network-info">
+                <div class="network-logo">𝕏</div>
+
+                <div>
+                    <strong>X</strong>
+                    <div style="font-size:12px;color:#999">
+                        Cuenta de demostración
+                    </div>
+                </div>
+            </div>
+
+            <div class="connected">Conectada</div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card" style="margin-top:20px;background:#faf7ff">
+
+        <strong>🔐 Privacidad primero</strong>
+
+        <p style="margin-top:8px;color:#777;line-height:1.6;font-size:13px">
+            En esta versión de demostración no se utilizan contraseñas
+            ni se accede realmente a tus redes sociales. Las conexiones
+            representan el funcionamiento que tendría Huella+ con
+            autorizaciones reales.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- IA RESPONSABLE -->
+
+<section id="ia" class="screen">
+
+    <div class="topbar">
+        <div>
+            <h1>IA responsable</h1>
+            <p>Aprende a utilizar inteligencia artificial sin perder el control.</p>
+        </div>
+    </div>
+
+
+    <div class="card">
+
+        <div class="eyebrow">Aprender para decidir</div>
+
+        <h2>Tu huella también incluye cómo utilizas la IA.</h2>
+
+        <p style="margin-top:10px;color:#777;line-height:1.6">
+            La inteligencia artificial puede ayudarte a crear, analizar
+            y comunicar, pero requiere criterio sobre los datos que
+            compartes y la información que produces.
+        </p>
+
+
+        <div class="ai-list">
+
+            <div class="ai-item">
+                <h3>🔐 Privacidad</h3>
+                <p>
+                    Evita compartir información personal o sensible con
+                    herramientas de IA sin revisar cómo será utilizada.
+                </p>
+            </div>
+
+            <div class="ai-item">
+                <h3>🔎 Verificación</h3>
+                <p>
+                    La IA puede generar información incorrecta.
+                    Comprueba los datos antes de utilizarlos o publicarlos.
+                </p>
+            </div>
+
+            <div class="ai-item">
+                <h3>🧠 Pensamiento crítico</h3>
+                <p>
+                    Utiliza la IA como apoyo para pensar, no como sustituto
+                    automático de tu propio criterio.
+                </p>
+            </div>
+
+            <div class="ai-item">
+                <h3>🌱 Uso consciente</h3>
+                <p>
+                    Considera el propósito, los datos utilizados y el impacto
+                    de las herramientas de IA que utilizas.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+let hasAlert = false;
+
+
+/* CAMBIAR PANTALLA */
+
+function showScreen(id, button) {
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+    });
+
+    const target = document.getElementById(id);
+
+    if (target) {
+        target.classList.add("active");
+    }
+
+    if (button) {
+
+        document.querySelectorAll(".nav button").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+    }
+}
+
+
+/* =========================================================
+   ANALISIS REAL DEL BACKEND
+   ========================================================= */
+
+async function analizarPublicacion(
+    texto,
+    contexto = "público",
+    locationVisible = false,
+    academicContext = false,
+    ambiguousContext = false
+) {
+
+    try {
+
+        const respuesta = await fetch("/api/analyze", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                text: texto,
+
+                context: contexto,
+
+                locationVisible: locationVisible,
+
+                academicContext: academicContext,
+
+                ambiguousContext: ambiguousContext
+
+            })
+
+        });
+
+
+        const resultado = await respuesta.json();
+
+
+        console.log("Resultado de Huella+:", resultado);
+
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                resultado.message || "Error en el análisis"
+            );
+
+        }
+
+
+        return resultado;
+
+
+    } catch (error) {
+
+        console.error(
+            "Error conectando con Huella+:",
+            error
+        );
+
+
+        return {
+
+            ok: false,
+
+            message:
+                "No fue posible conectar con el análisis."
+
+        };
+
+    }
+
+}
+
+
+/* =========================================================
+   MOSTRAR RESULTADO DEL ANALISIS
+   ========================================================= */
+
+function renderAnalysis(resultado) {
+
+    const title =
+        document.getElementById("analysisTitle");
+
+    const level =
+        document.getElementById("analysisLevel");
+
+    const message =
+        document.getElementById("analysisMessage");
+
+    const reasons =
+        document.getElementById("analysisReasons");
+
+
+    if (!resultado || !resultado.ok) {
+
+        title.textContent =
+            "No fue posible analizar";
+
+        level.textContent =
+            "⚪ Revisión no disponible";
+
+        message.textContent =
+            resultado?.message ||
+            "Ocurrió un problema al realizar el análisis.";
+
+        reasons.innerHTML = "";
+
+        return;
+
+    }
+
+
+    /* TITULO */
+
+    title.textContent =
+        resultado.level;
+
+
+    /* NIVEL */
+
+    if (resultado.level === "Bajo cuidado") {
+
+        level.textContent =
+            "🟢 Bajo cuidado";
+
+        level.style.background =
+            "#eaf7ee";
+
+        level.style.color =
+            "#4c9464";
+
+    }
+
+    else if (
+        resultado.level === "Requiere reflexión"
+    ) {
+
+        level.textContent =
+            "🟡 Requiere reflexión";
+
+        level.style.background =
+            "#fff3d4";
+
+        level.style.color =
+            "#926b12";
+
+    }
+
+    else {
+
+        level.textContent =
+            "🔴 Alto cuidado";
+
+        level.style.background =
+            "#fde8ec";
+
+        level.style.color =
+            "#a83f55";
+
+    }
+
+
+    /* MENSAJE */
+
+    message.textContent =
+        resultado.message;
+
+
+    /* OBSERVACIONES */
+
+    reasons.innerHTML = "";
+
+
+    if (
+        resultado.observations &&
+        resultado.observations.length > 0
+    ) {
+
+        resultado.observations.forEach(
+            observation => {
+
+                const reason =
+                    document.createElement("div");
+
+                reason.className =
+                    "reason";
+
+
+                reason.innerHTML = `
+
+                    <div>
+                        ${observation.icon}
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            ${observation.title}
+                        </strong>
+
+                        <p>
+                            ${observation.description}
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                reasons.appendChild(reason);
+
+            }
+        );
+
+    }
+
+    else {
+
+        reasons.innerHTML = `
+
+            <div class="reason">
+
+                <div>✓</div>
+
+                <div>
+
+                    <strong>
+                        Sin observaciones
+                    </strong>
+
+                    <p>
+                        No encontramos elementos que requieran
+                        una revisión adicional en esta demostración.
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   SIMULAR PUBLICACION
+   ========================================================= */
+
+async function simulatePost() {
+
+    hasAlert = true;
+
+
+    /* NOTIFICACION */
+
+    document.getElementById("badge").style.display =
+        "flex";
+
+
+    document.getElementById("alertTitle").textContent =
+        "Nueva publicación detectada";
+
+
+    document.getElementById("alertText").textContent =
+        "Huella+ encontró una publicación que podría beneficiarse de una revisión.";
+
+
+    /* PUBLICACION DE DEMOSTRACION */
+
+    const publicacion = {
+
+        text:
+            "Por fin saliendo de clase 😭📚",
+
+        context:
+            "público",
+
+        locationVisible:
+            true,
+
+        academicContext:
+            true,
+
+        ambiguousContext:
+            true
+
+    };
+
+
+    /* AVISO VISUAL */
+
+    document.getElementById("alertContent").innerHTML = `
+
+        <div class="card alert-card">
+
+            <div class="alert-header">
+
+                <div class="alert-icon">
+                    🔔
+                </div>
+
+                <div>
+
+                    <strong>
+                        Nueva publicación detectada
+                    </strong>
+
+                    <p style="font-size:12px;color:#999">
+                        Instagram · Hace unos segundos
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <p>
+                Huella+ detectó elementos relacionados con ubicación,
+                contexto académico y posibles interpretaciones fuera
+                del contexto original.
+            </p>
+
+
+            <button
+                class="primary"
+                onclick="showScreen('analisis')">
+
+                Ver análisis →
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    /*
+       ENVIAR PUBLICACION AL BACKEND
+       PARA QUE HAGA EL ANALISIS
+    */
+
+    const resultado =
+        await analizarPublicacion(
+
+            publicacion.text,
+
+            publicacion.context,
+
+            publicacion.locationVisible,
+
+            publicacion.academicContext,
+
+            publicacion.ambiguousContext
+
+        );
+
+
+    /*
+       GUARDAR EL RESULTADO PARA
+       MOSTRARLO CUANDO SE ENTRE
+       A LA PANTALLA DE ANALISIS
+    */
+
+    window.ultimoAnalisis =
+        resultado;
+
+
+    /*
+       ACTUALIZAR LA PANTALLA
+    */
+
+    renderAnalysis(resultado);
+
+
+    /* TOAST */
+
+    showToast(
+        "🔔 Huella+ detectó algo para revisar"
+    );
+
+
+    /* IR A ALERTAS */
+
+    showScreen("alertas");
+
+}
+
+
+/* =========================================================
+   PERSPECTIVAS
+   ========================================================= */
+
+function changePerspective(type, button) {
+
+    document
+        .querySelectorAll(".perspective-buttons button")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    button.classList.add("active");
+
+
+    const text =
+        document.getElementById("perspectiveText");
+
+
+    const perspectives = {
+
+
+        amigo: `
+
+            <strong>
+                Como amigo:
+            </strong>
+
+            <br><br>
+
+            Probablemente podría entender la publicación
+            como una expresión cotidiana de tu vida universitaria.
+            El contexto que ya conoce puede ayudarle a interpretar
+            el contenido.
+
+        `,
+
+
+        profesor: `
+
+            <strong>
+                Como profesor:
+            </strong>
+
+            <br><br>
+
+            Podría interpretar la publicación principalmente
+            desde el contexto académico. La publicación no tiene
+            necesariamente una valoración negativa, pero el contexto
+            visible puede influir en la lectura que haga de ella.
+
+        `,
+
+
+        reclutador: `
+
+            <strong>
+                Como reclutador:
+            </strong>
+
+            <br><br>
+
+            Podría observar la publicación como parte de una
+            presencia digital más amplia. Una persona que no conoce
+            tu contexto podría darle una interpretación diferente
+            a la intención original.
+
+        `,
+
+
+        desconocido: `
+
+            <strong>
+                Como persona desconocida:
+            </strong>
+
+            <br><br>
+
+            Al no tener información adicional sobre ti,
+            podría interpretar únicamente lo que aparece
+            explícitamente en la publicación, sin conocer
+            el contexto que tú tienes.
+
+        `
+
+    };
+
+
+    text.innerHTML =
+        perspectives[type];
+
+}
+
+
+/* =========================================================
+   DECISIONES
+   ========================================================= */
+
+function decision(type) {
+
+    const messages = {
+
+        mantener:
+            "Has decidido mantener la publicación.",
+
+        editar:
+            "Has decidido revisar y editar la publicación.",
+
+        audiencia:
+            "Has decidido cambiar la audiencia de la publicación.",
+
+        eliminar:
+            "Has decidido eliminar la publicación."
+
+    };
+
+
+    showToast(
+        "✓ " + messages[type]
+    );
+
+}
+
+
+/* =========================================================
+   NOTIFICACION
+   ========================================================= */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add("show");
+
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3500);
+
+}
+
+</script>
+
+</body>
+</html>

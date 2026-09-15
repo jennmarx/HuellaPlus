@@ -18,8 +18,13 @@ body {
     color: #25222a;
 }
 
-button {
+button,
+textarea,
+select {
     font-family: inherit;
+}
+
+button {
     cursor: pointer;
 }
 
@@ -344,8 +349,16 @@ button {
     margin-bottom: 15px;
 }
 
-.post p {
+.post-text {
+    white-space: pre-wrap;
+    word-break: break-word;
     line-height: 1.5;
+}
+
+.post-context {
+    color: #888;
+    font-size: 13px;
+    margin-top: 8px;
 }
 
 .level {
@@ -374,6 +387,99 @@ button {
     color: #817983;
     font-size: 13px;
     margin-top: 3px;
+}
+
+/* NEW POST FORM */
+
+.form-card {
+    max-width: 850px;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.post-input {
+    width: 100%;
+    min-height: 150px;
+    resize: vertical;
+    border: 1px solid #ddd5e4;
+    border-radius: 14px;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #25222a;
+    background: #fff;
+    outline: none;
+}
+
+.post-input:focus {
+    border-color: #9c75ce;
+    box-shadow: 0 0 0 3px rgba(124, 77, 202, .08);
+}
+
+.context-select {
+    width: 100%;
+    border: 1px solid #ddd5e4;
+    border-radius: 12px;
+    padding: 12px 14px;
+    background: white;
+    color: #403a45;
+    font-size: 14px;
+    outline: none;
+}
+
+.context-select:focus {
+    border-color: #9c75ce;
+}
+
+.check-options {
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.check-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid #ebe5ef;
+    border-radius: 12px;
+    background: #faf8fc;
+    cursor: pointer;
+}
+
+.check-option:hover {
+    background: #f6f0fc;
+}
+
+.check-option input {
+    margin-top: 3px;
+    accent-color: #7043b8;
+}
+
+.check-option span {
+    font-size: 13px;
+    color: #655e69;
+    line-height: 1.4;
+}
+
+.example-note {
+    margin-top: 15px;
+    padding: 13px 15px;
+    border-radius: 12px;
+    background: #faf7ff;
+    color: #756e7d;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 /* PERSPECTIVES */
@@ -549,6 +655,7 @@ button {
 /* MOBILE */
 
 @media(max-width: 850px) {
+
     .sidebar {
         width: 80px;
         padding: 25px 10px;
@@ -627,7 +734,9 @@ button {
 
     <div class="demo-box">
         <small>Modo demostración</small>
-        <button onclick="simulatePost()">Simular publicación</button>
+        <button onclick="openNewPost()">
+            Nueva publicación
+        </button>
     </div>
 
 </aside>
@@ -640,15 +749,23 @@ button {
 <section id="inicio" class="screen active">
 
     <div class="topbar">
+
         <div>
             <h1>Hola, Jennifer 👋</h1>
-            <p>Construye una huella digital que represente lo que quieres proyectar.</p>
+
+            <p>
+                Construye una huella digital que represente lo que quieres proyectar.
+            </p>
         </div>
 
         <button class="notification" onclick="showScreen('alertas')">
+
             🔔
+
             <span id="badge" class="badge">1</span>
+
         </button>
+
     </div>
 
 
@@ -657,7 +774,10 @@ button {
         <div class="card hero">
 
             <div>
-                <div class="eyebrow">Tu huella digital</div>
+
+                <div class="eyebrow">
+                    Tu huella digital
+                </div>
 
                 <h2>
                     Antes de publicar, piensa en lo que estás construyendo.
@@ -667,10 +787,12 @@ button {
                     Huella+ te ayuda a observar tus publicaciones desde
                     diferentes perspectivas antes de tomar una decisión.
                 </p>
+
             </div>
 
-            <button class="primary" onclick="simulatePost()">
-                Simular nueva publicación →
+
+            <button class="primary" onclick="openNewPost()">
+                Nueva publicación →
             </button>
 
         </div>
@@ -679,15 +801,25 @@ button {
         <div class="card alert-card">
 
             <div class="alert-header">
-                <div class="alert-icon">🔔</div>
+
+                <div class="alert-icon">
+                    🔔
+                </div>
 
                 <div>
-                    <strong id="alertTitle">Todo tranquilo</strong>
+
+                    <strong id="alertTitle">
+                        Todo tranquilo
+                    </strong>
+
                     <p style="font-size:12px;color:#999">
                         Monitoreo de tu huella
                     </p>
+
                 </div>
+
             </div>
+
 
             <p id="alertText">
                 No tienes publicaciones pendientes de revisar.
@@ -698,36 +830,227 @@ button {
     </div>
 
 
-    <h3 class="section-title">¿Qué puedes hacer con Huella+?</h3>
+    <h3 class="section-title">
+        ¿Qué puedes hacer con Huella+?
+    </h3>
+
 
     <div class="feature-grid">
 
         <div class="feature">
-            <div class="feature-icon">🔎</div>
-            <h3>Mi huella</h3>
+
+            <div class="feature-icon">
+                🔎
+            </div>
+
+            <h3>
+                Mi huella
+            </h3>
+
             <p>
                 Observa los aspectos de tu presencia digital que estás
                 construyendo.
             </p>
+
         </div>
 
+
         <div class="feature">
-            <div class="feature-icon">🤖</div>
-            <h3>Análisis con IA</h3>
+
+            <div class="feature-icon">
+                🤖
+            </div>
+
+            <h3>
+                Análisis con IA
+            </h3>
+
             <p>
                 Recibe observaciones sobre privacidad, contexto y posibles
                 interpretaciones.
             </p>
+
         </div>
 
+
         <div class="feature">
-            <div class="feature-icon">👥</div>
-            <h3>Otras perspectivas</h3>
+
+            <div class="feature-icon">
+                👥
+            </div>
+
+            <h3>
+                Otras perspectivas
+            </h3>
+
             <p>
                 Explora cómo podría interpretarse una publicación desde
                 distintos contextos.
             </p>
+
         </div>
+
+    </div>
+
+</section>
+
+
+<!-- NUEVA PUBLICACION -->
+
+<section id="nueva" class="screen">
+
+    <button class="back" onclick="showScreen('inicio')">
+        ← Volver al inicio
+    </button>
+
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>
+                Nueva publicación
+            </h1>
+
+            <p>
+                Cuéntale a Huella+ qué quieres publicar.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="card form-card">
+
+        <div class="eyebrow">
+            Antes de publicar
+        </div>
+
+        <h2>
+            ¿Qué quieres compartir?
+        </h2>
+
+
+        <div class="form-group">
+
+            <label class="form-label" for="postText">
+                Texto de la publicación
+            </label>
+
+            <textarea
+                id="postText"
+                class="post-input"
+                placeholder="Escribe aquí la publicación que estás pensando compartir..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="form-label" for="postContext">
+                Contexto de la publicación
+            </label>
+
+            <select id="postContext" class="context-select">
+
+                <option value="público">
+                    Público
+                </option>
+
+                <option value="amigos">
+                    Solo amigos
+                </option>
+
+                <option value="universidad">
+                    Universidad
+                </option>
+
+                <option value="trabajo">
+                    Trabajo / profesional
+                </option>
+
+                <option value="personal">
+                    Personal
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="form-label">
+                ¿Hay algún elemento que quieras tener en cuenta?
+            </label>
+
+
+            <div class="check-options">
+
+                <label class="check-option">
+
+                    <input
+                        type="checkbox"
+                        id="locationVisible"
+                    >
+
+                    <span>
+                        📍 La publicación muestra o permite identificar una ubicación.
+                    </span>
+
+                </label>
+
+
+                <label class="check-option">
+
+                    <input
+                        type="checkbox"
+                        id="academicContext"
+                    >
+
+                    <span>
+                        🎓 La publicación está relacionada con mi vida universitaria.
+                    </span>
+
+                </label>
+
+
+                <label class="check-option">
+
+                    <input
+                        type="checkbox"
+                        id="ambiguousContext"
+                    >
+
+                    <span>
+                        👀 Alguien que no conoce el contexto podría interpretarla de otra manera.
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div class="example-note">
+
+            💡 <strong>Consejo:</strong>
+            puedes escribir una publicación real o simplemente probar
+            con un ejemplo. Huella+ analizará únicamente la información
+            que le proporciones en esta demostración.
+
+        </div>
+
+
+        <button
+            class="primary"
+            onclick="analyzeNewPost()"
+        >
+            Analizar publicación →
+        </button>
 
     </div>
 
@@ -739,24 +1062,42 @@ button {
 <section id="alertas" class="screen">
 
     <div class="topbar">
+
         <div>
-            <h1>Alertas</h1>
-            <p>Publicaciones que Huella+ recomienda revisar.</p>
+
+            <h1>
+                Alertas
+            </h1>
+
+            <p>
+                Publicaciones que Huella+ recomienda revisar.
+            </p>
+
         </div>
+
     </div>
+
 
     <div id="alertContent">
 
         <div class="card">
-            <h3>No tienes alertas nuevas</h3>
+
+            <h3>
+                No tienes alertas nuevas
+            </h3>
+
             <p style="color:#888;margin-top:8px">
+
                 Cuando Huella+ detecte una publicación para revisar,
                 aparecerá aquí.
+
             </p>
 
-            <button class="primary" onclick="simulatePost()">
-                Simular publicación
+
+            <button class="primary" onclick="openNewPost()">
+                Crear publicación
             </button>
+
         </div>
 
     </div>
@@ -772,39 +1113,68 @@ button {
         ← Volver a alertas
     </button>
 
+
     <div class="topbar">
+
         <div>
-            <h1>Análisis de Huella+</h1>
-            <p>Observa antes de decidir.</p>
+
+            <h1>
+                Análisis de Huella+
+            </h1>
+
+            <p>
+                Observa antes de decidir.
+            </p>
+
         </div>
+
     </div>
 
 
     <div class="analysis-layout">
 
+
         <div class="post">
 
             <div class="post-header">
 
-                <div class="avatar">J</div>
+                <div class="avatar">
+                    J
+                </div>
 
                 <div>
-                    <strong>Jennifer</strong>
+
+                    <strong>
+                        Jennifer
+                    </strong>
+
                     <div style="font-size:12px;color:#999">
-                        Instagram · Hace 2 min
+                        Publicación · Hace unos segundos
                     </div>
+
                 </div>
 
             </div>
 
-            <div class="post-image">📸</div>
 
-            <p>
-                “Por fin saliendo de clase 😭📚”
+            <div class="post-image">
+                📸
+            </div>
+
+
+            <p
+                id="displayPostText"
+                class="post-text"
+            >
+                Aquí aparecerá tu publicación.
             </p>
 
-            <p style="color:#888;font-size:13px;margin-top:8px">
-                📍 Universidad · ubicación visible
+
+            <p
+                id="displayPostContext"
+                class="post-context"
+            >
+                📍 Contexto: público
             </p>
 
         </div>
@@ -812,60 +1182,61 @@ button {
 
         <div class="card">
 
-            <div class="eyebrow">Resultado del análisis</div>
+            <div class="eyebrow">
+                Resultado del análisis
+            </div>
 
-            <h2 id="analysisTitle">Requiere reflexión</h2>
+
+            <h2 id="analysisTitle">
+                Requiere reflexión
+            </h2>
+
 
             <div id="analysisLevel" class="level">
                 🟡 Requiere reflexión
             </div>
 
-            <p id="analysisMessage" style="color:#777;line-height:1.6">
-                La publicación no necesariamente representa un problema,
-                pero contiene elementos que podrían adquirir otro significado
-                fuera del contexto original.
+
+            <p
+                id="analysisMessage"
+                style="color:#777;line-height:1.6"
+            >
+                El análisis aparecerá aquí.
             </p>
 
 
-            <div id="analysisReasons" style="margin-top:20px">
+            <div
+                id="analysisReasons"
+                style="margin-top:20px"
+            >
 
                 <div class="reason">
-                    <div>📍</div>
-                    <div>
-                        <strong>Ubicación</strong>
-                        <p>
-                            La publicación permite relacionar el contenido
-                            con un lugar específico.
-                        </p>
-                    </div>
-                </div>
 
-                <div class="reason">
-                    <div>🎓</div>
                     <div>
-                        <strong>Contexto académico</strong>
-                        <p>
-                            El contenido puede asociarse con tu vida
-                            universitaria.
-                        </p>
+                        💭
                     </div>
-                </div>
 
-                <div class="reason">
-                    <div>👀</div>
                     <div>
-                        <strong>Diferentes interpretaciones</strong>
+
+                        <strong>
+                            Esperando análisis
+                        </strong>
+
                         <p>
-                            Una persona que no conoce el contexto podría
-                            interpretar la publicación de otra manera.
+                            Escribe una publicación para comenzar.
                         </p>
+
                     </div>
+
                 </div>
 
             </div>
 
 
-            <button class="primary" onclick="showScreen('perspectivas')">
+            <button
+                class="primary"
+                onclick="showScreen('perspectivas')"
+            >
                 Ver perspectivas →
             </button>
 
@@ -880,18 +1251,29 @@ button {
 
 <section id="perspectivas" class="screen">
 
-    <button class="back" onclick="showScreen('analisis')">
+    <button
+        class="back"
+        onclick="showScreen('analisis')"
+    >
         ← Volver al análisis
     </button>
 
+
     <div class="topbar">
+
         <div>
-            <h1>Otras perspectivas</h1>
+
+            <h1>
+                Otras perspectivas
+            </h1>
+
             <p>
                 No son predicciones. Son posibles formas de interpretar
                 el mismo contenido.
             </p>
+
         </div>
+
     </div>
 
 
@@ -899,43 +1281,59 @@ button {
 
         <div class="perspective-buttons">
 
-            <button class="active"
-                onclick="changePerspective('amigo', this)">
+            <button
+                class="active"
+                onclick="changePerspective('amigo', this)"
+            >
                 👩‍🦰 Amigo
             </button>
 
+
             <button
-                onclick="changePerspective('profesor', this)">
+                onclick="changePerspective('profesor', this)"
+            >
                 👨‍🏫 Profesor
             </button>
 
+
             <button
-                onclick="changePerspective('reclutador', this)">
+                onclick="changePerspective('reclutador', this)"
+            >
                 💼 Reclutador
             </button>
 
+
             <button
-                onclick="changePerspective('desconocido', this)">
+                onclick="changePerspective('desconocido', this)"
+            >
                 👤 Desconocido
             </button>
 
         </div>
 
 
-        <div id="perspectiveText" class="perspective-result">
+        <div
+            id="perspectiveText"
+            class="perspective-result"
+        >
 
-            <strong>Como amigo:</strong>
+            <strong>
+                Como amigo:
+            </strong>
 
             <br><br>
 
             Probablemente podría entender la publicación como una expresión
-            cotidiana de tu vida universitaria. El contexto que ya conoce
-            puede ayudarle a interpretar el contenido.
+            cotidiana de tu vida. El contexto que ya conoce puede ayudarle
+            a interpretar el contenido.
 
         </div>
 
 
-        <button class="primary" onclick="showScreen('futuro')">
+        <button
+            class="primary"
+            onclick="showScreen('futuro')"
+        >
             Ver “5 años después” →
         </button>
 
@@ -950,11 +1348,17 @@ button {
 
     <div class="future">
 
-        <div class="future-icon">⏳</div>
+        <div class="future-icon">
+            ⏳
+        </div>
 
-        <div class="eyebrow">Perspectiva futura</div>
+        <div class="eyebrow">
+            Perspectiva futura
+        </div>
 
-        <h2>5 años después...</h2>
+        <h2>
+            5 años después...
+        </h2>
 
         <p>
             Imagina que encuentras esta publicación dentro de cinco años.
@@ -972,24 +1376,63 @@ button {
 
         <div class="decision-grid">
 
-            <button class="decision" onclick="decision('mantener')">
-                <strong>✓ Mantener</strong>
-                <span>La publicación sigue representándome.</span>
+            <button
+                class="decision"
+                onclick="decision('mantener')"
+            >
+                <strong>
+                    ✓ Mantener
+                </strong>
+
+                <span>
+                    La publicación sigue representándome.
+                </span>
+
             </button>
 
-            <button class="decision" onclick="decision('editar')">
-                <strong>✎ Editar</strong>
-                <span>Quiero modificar algún elemento.</span>
+
+            <button
+                class="decision"
+                onclick="decision('editar')"
+            >
+                <strong>
+                    ✎ Editar
+                </strong>
+
+                <span>
+                    Quiero modificar algún elemento.
+                </span>
+
             </button>
 
-            <button class="decision" onclick="decision('audiencia')">
-                <strong>👥 Cambiar audiencia</strong>
-                <span>Prefiero limitar quién puede verla.</span>
+
+            <button
+                class="decision"
+                onclick="decision('audiencia')"
+            >
+                <strong>
+                    👥 Cambiar audiencia
+                </strong>
+
+                <span>
+                    Prefiero limitar quién puede verla.
+                </span>
+
             </button>
 
-            <button class="decision" onclick="decision('eliminar')">
-                <strong>🗑 Eliminar</strong>
-                <span>Prefiero retirar esta publicación.</span>
+
+            <button
+                class="decision"
+                onclick="decision('eliminar')"
+            >
+                <strong>
+                    🗑 Eliminar
+                </strong>
+
+                <span>
+                    Prefiero retirar esta publicación.
+                </span>
+
             </button>
 
         </div>
@@ -1004,51 +1447,95 @@ button {
 <section id="huella" class="screen">
 
     <div class="topbar">
+
         <div>
-            <h1>Mi huella</h1>
-            <p>Una mirada general a tu presencia digital.</p>
+
+            <h1>
+                Mi huella
+            </h1>
+
+            <p>
+                Una mirada general a tu presencia digital.
+            </p>
+
         </div>
+
     </div>
 
 
     <div class="feature-grid">
 
         <div class="card">
-            <div class="feature-icon">🎓</div>
-            <h3>Académica</h3>
+
+            <div class="feature-icon">
+                🎓
+            </div>
+
+            <h3>
+                Académica
+            </h3>
+
             <p style="margin-top:8px;color:#888">
                 Cómo tus publicaciones se relacionan con tu identidad
                 universitaria.
             </p>
+
         </div>
 
+
         <div class="card">
-            <div class="feature-icon">💼</div>
-            <h3>Profesional</h3>
+
+            <div class="feature-icon">
+                💼
+            </div>
+
+            <h3>
+                Profesional
+            </h3>
+
             <p style="margin-top:8px;color:#888">
                 La imagen digital que estás construyendo para futuros
                 espacios profesionales.
             </p>
+
         </div>
 
+
         <div class="card">
-            <div class="feature-icon">🔐</div>
-            <h3>Privacidad</h3>
+
+            <div class="feature-icon">
+                🔐
+            </div>
+
+            <h3>
+                Privacidad
+            </h3>
+
             <p style="margin-top:8px;color:#888">
                 Información personal que podría estar quedando expuesta.
             </p>
+
         </div>
 
     </div>
 
 
-    <div class="card" style="margin-top:22px">
+    <div
+        class="card"
+        style="margin-top:22px"
+    >
 
-        <div class="eyebrow">Tu propósito digital</div>
+        <div class="eyebrow">
+            Tu propósito digital
+        </div>
 
-        <h2>¿Qué quieres que tu huella diga de ti?</h2>
+        <h2>
+            ¿Qué quieres que tu huella diga de ti?
+        </h2>
 
-        <p style="margin-top:10px;color:#888;line-height:1.6">
+        <p
+            style="margin-top:10px;color:#888;line-height:1.6"
+        >
             Huella+ no decide cómo debes utilizar tus redes.
             Te ayuda a conectar tus publicaciones con la identidad
             digital que quieres construir.
@@ -1064,10 +1551,19 @@ button {
 <section id="redes" class="screen">
 
     <div class="topbar">
+
         <div>
-            <h1>Mis redes</h1>
-            <p>Gestiona las plataformas conectadas a Huella+.</p>
+
+            <h1>
+                Mis redes
+            </h1>
+
+            <p>
+                Gestiona las plataformas conectadas a Huella+.
+            </p>
+
         </div>
+
     </div>
 
 
@@ -1076,17 +1572,28 @@ button {
         <div class="network">
 
             <div class="network-info">
-                <div class="network-logo">◎</div>
+
+                <div class="network-logo">
+                    ◎
+                </div>
 
                 <div>
-                    <strong>Instagram</strong>
+
+                    <strong>
+                        Instagram
+                    </strong>
+
                     <div style="font-size:12px;color:#999">
                         Cuenta de demostración
                     </div>
+
                 </div>
+
             </div>
 
-            <div class="connected">Conectada</div>
+            <div class="connected">
+                Conectada
+            </div>
 
         </div>
 
@@ -1094,17 +1601,28 @@ button {
         <div class="network">
 
             <div class="network-info">
-                <div class="network-logo">♪</div>
+
+                <div class="network-logo">
+                    ♪
+                </div>
 
                 <div>
-                    <strong>TikTok</strong>
+
+                    <strong>
+                        TikTok
+                    </strong>
+
                     <div style="font-size:12px;color:#999">
                         Cuenta de demostración
                     </div>
+
                 </div>
+
             </div>
 
-            <div class="connected">Conectada</div>
+            <div class="connected">
+                Conectada
+            </div>
 
         </div>
 
@@ -1112,46 +1630,78 @@ button {
         <div class="network">
 
             <div class="network-info">
-                <div class="network-logo">in</div>
+
+                <div class="network-logo">
+                    in
+                </div>
 
                 <div>
-                    <strong>LinkedIn</strong>
+
+                    <strong>
+                        LinkedIn
+                    </strong>
+
                     <div style="font-size:12px;color:#999">
                         Cuenta de demostración
                     </div>
+
                 </div>
+
             </div>
 
-            <div class="connected">Conectada</div>
+            <div class="connected">
+                Conectada
+            </div>
 
         </div>
 
 
-        <div class="network" style="border:none">
+        <div
+            class="network"
+            style="border:none"
+        >
 
             <div class="network-info">
-                <div class="network-logo">𝕏</div>
+
+                <div class="network-logo">
+                    𝕏
+                </div>
 
                 <div>
-                    <strong>X</strong>
+
+                    <strong>
+                        X
+                    </strong>
+
                     <div style="font-size:12px;color:#999">
                         Cuenta de demostración
                     </div>
+
                 </div>
+
             </div>
 
-            <div class="connected">Conectada</div>
+            <div class="connected">
+                Conectada
+            </div>
 
         </div>
 
     </div>
 
 
-    <div class="card" style="margin-top:20px;background:#faf7ff">
+    <div
+        class="card"
+        style="margin-top:20px;background:#faf7ff"
+    >
 
-        <strong>🔐 Privacidad primero</strong>
+        <strong>
+            🔐 Privacidad primero
+        </strong>
 
-        <p style="margin-top:8px;color:#777;line-height:1.6;font-size:13px">
+        <p
+            style="margin-top:8px;color:#777;line-height:1.6;font-size:13px"
+        >
             En esta versión de demostración no se utilizan contraseñas
             ni se accede realmente a tus redes sociales. Las conexiones
             representan el funcionamiento que tendría Huella+ con
@@ -1168,20 +1718,35 @@ button {
 <section id="ia" class="screen">
 
     <div class="topbar">
+
         <div>
-            <h1>IA responsable</h1>
-            <p>Aprende a utilizar inteligencia artificial sin perder el control.</p>
+
+            <h1>
+                IA responsable
+            </h1>
+
+            <p>
+                Aprende a utilizar inteligencia artificial sin perder el control.
+            </p>
+
         </div>
+
     </div>
 
 
     <div class="card">
 
-        <div class="eyebrow">Aprender para decidir</div>
+        <div class="eyebrow">
+            Aprender para decidir
+        </div>
 
-        <h2>Tu huella también incluye cómo utilizas la IA.</h2>
+        <h2>
+            Tu huella también incluye cómo utilizas la IA.
+        </h2>
 
-        <p style="margin-top:10px;color:#777;line-height:1.6">
+        <p
+            style="margin-top:10px;color:#777;line-height:1.6"
+        >
             La inteligencia artificial puede ayudarte a crear, analizar
             y comunicar, pero requiere criterio sobre los datos que
             compartes y la información que produces.
@@ -1191,35 +1756,58 @@ button {
         <div class="ai-list">
 
             <div class="ai-item">
-                <h3>🔐 Privacidad</h3>
+
+                <h3>
+                    🔐 Privacidad
+                </h3>
+
                 <p>
                     Evita compartir información personal o sensible con
                     herramientas de IA sin revisar cómo será utilizada.
                 </p>
+
             </div>
 
+
             <div class="ai-item">
-                <h3>🔎 Verificación</h3>
+
+                <h3>
+                    🔎 Verificación
+                </h3>
+
                 <p>
                     La IA puede generar información incorrecta.
                     Comprueba los datos antes de utilizarlos o publicarlos.
                 </p>
+
             </div>
 
+
             <div class="ai-item">
-                <h3>🧠 Pensamiento crítico</h3>
+
+                <h3>
+                    🧠 Pensamiento crítico
+                </h3>
+
                 <p>
                     Utiliza la IA como apoyo para pensar, no como sustituto
                     automático de tu propio criterio.
                 </p>
+
             </div>
 
+
             <div class="ai-item">
-                <h3>🌱 Uso consciente</h3>
+
+                <h3>
+                    🌱 Uso consciente
+                </h3>
+
                 <p>
                     Considera el propósito, los datos utilizados y el impacto
                     de las herramientas de IA que utilizas.
                 </p>
+
             </div>
 
         </div>
@@ -1241,7 +1829,9 @@ button {
 let hasAlert = false;
 
 
-/* CAMBIAR PANTALLA */
+/* =========================================================
+   CAMBIAR PANTALLA
+   ========================================================= */
 
 function showScreen(id, button) {
 
@@ -1249,11 +1839,14 @@ function showScreen(id, button) {
         screen.classList.remove("active");
     });
 
+
     const target = document.getElementById(id);
+
 
     if (target) {
         target.classList.add("active");
     }
+
 
     if (button) {
 
@@ -1261,8 +1854,33 @@ function showScreen(id, button) {
             btn.classList.remove("active");
         });
 
+
         button.classList.add("active");
+
     }
+
+}
+
+
+/* =========================================================
+   ABRIR NUEVA PUBLICACION
+   ========================================================= */
+
+function openNewPost() {
+
+    showScreen("nueva");
+
+    const textarea =
+        document.getElementById("postText");
+
+    if (textarea) {
+
+        setTimeout(() => {
+            textarea.focus();
+        }, 100);
+
+    }
+
 }
 
 
@@ -1308,13 +1926,17 @@ async function analizarPublicacion(
         const resultado = await respuesta.json();
 
 
-        console.log("Resultado de Huella+:", resultado);
+        console.log(
+            "Resultado de Huella+:",
+            resultado
+        );
 
 
         if (!respuesta.ok) {
 
             throw new Error(
-                resultado.message || "Error en el análisis"
+                resultado.message ||
+                "Error en el análisis"
             );
 
         }
@@ -1346,6 +1968,186 @@ async function analizarPublicacion(
 
 
 /* =========================================================
+   ANALIZAR NUEVA PUBLICACION
+   ========================================================= */
+
+async function analyzeNewPost() {
+
+    const textarea =
+        document.getElementById("postText");
+
+
+    const contexto =
+        document.getElementById("postContext").value;
+
+
+    const locationVisible =
+        document.getElementById("locationVisible").checked;
+
+
+    const academicContext =
+        document.getElementById("academicContext").checked;
+
+
+    const ambiguousContext =
+        document.getElementById("ambiguousContext").checked;
+
+
+    const texto =
+        textarea.value.trim();
+
+
+    /* VALIDAR TEXTO */
+
+    if (!texto) {
+
+        showToast(
+            "✏️ Escribe una publicación primero"
+        );
+
+        textarea.focus();
+
+        return;
+
+    }
+
+
+    /* GUARDAR PUBLICACION */
+
+    window.publicacionActual = {
+
+        text: texto,
+
+        context: contexto,
+
+        locationVisible: locationVisible,
+
+        academicContext: academicContext,
+
+        ambiguousContext: ambiguousContext
+
+    };
+
+
+    /* ACTUALIZAR TARJETA DE ALERTA */
+
+    hasAlert = true;
+
+
+    document.getElementById("badge").style.display =
+        "flex";
+
+
+    document.getElementById("alertTitle").textContent =
+        "Nueva publicación analizada";
+
+
+    document.getElementById("alertText").textContent =
+        "Huella+ revisó la publicación que ingresaste.";
+
+
+    /* MOSTRAR TEXTO EN ANALISIS */
+
+    document.getElementById("displayPostText").textContent =
+        texto;
+
+
+    document.getElementById("displayPostContext").textContent =
+        "🌐 Contexto: " + contexto;
+
+
+    /* ANALIZAR */
+
+    showToast(
+        "🔎 Analizando publicación..."
+    );
+
+
+    const resultado =
+        await analizarPublicacion(
+
+            texto,
+
+            contexto,
+
+            locationVisible,
+
+            academicContext,
+
+            ambiguousContext
+
+        );
+
+
+    /* GUARDAR RESULTADO */
+
+    window.ultimoAnalisis =
+        resultado;
+
+
+    /* MOSTRAR RESULTADO */
+
+    renderAnalysis(resultado);
+
+
+    /* ACTUALIZAR ALERTAS */
+
+    document.getElementById("alertContent").innerHTML = `
+
+        <div class="card alert-card">
+
+            <div class="alert-header">
+
+                <div class="alert-icon">
+                    🔔
+                </div>
+
+                <div>
+
+                    <strong>
+                        Publicación analizada
+                    </strong>
+
+                    <p style="font-size:12px;color:#999">
+                        Huella+ · Hace unos segundos
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <p>
+                Huella+ terminó la revisión de la publicación
+                que ingresaste.
+            </p>
+
+
+            <button
+                class="primary"
+                onclick="showScreen('analisis')"
+            >
+                Ver análisis →
+            </button>
+
+        </div>
+
+    `;
+
+
+    /* IR AL ANALISIS */
+
+    showScreen("analisis");
+
+
+    showToast(
+        "✓ Análisis completado"
+    );
+
+}
+
+
+/* =========================================================
    MOSTRAR RESULTADO DEL ANALISIS
    ========================================================= */
 
@@ -1354,11 +2156,14 @@ function renderAnalysis(resultado) {
     const title =
         document.getElementById("analysisTitle");
 
+
     const level =
         document.getElementById("analysisLevel");
 
+
     const message =
         document.getElementById("analysisMessage");
+
 
     const reasons =
         document.getElementById("analysisReasons");
@@ -1369,14 +2174,26 @@ function renderAnalysis(resultado) {
         title.textContent =
             "No fue posible analizar";
 
+
         level.textContent =
             "⚪ Revisión no disponible";
+
+
+        level.style.background =
+            "#f0edf2";
+
+
+        level.style.color =
+            "#6f6874";
+
 
         message.textContent =
             resultado?.message ||
             "Ocurrió un problema al realizar el análisis.";
 
+
         reasons.innerHTML = "";
+
 
         return;
 
@@ -1391,41 +2208,53 @@ function renderAnalysis(resultado) {
 
     /* NIVEL */
 
-    if (resultado.level === "Bajo cuidado") {
+    if (
+        resultado.level ===
+        "Bajo cuidado"
+    ) {
 
         level.textContent =
             "🟢 Bajo cuidado";
 
+
         level.style.background =
             "#eaf7ee";
+
 
         level.style.color =
             "#4c9464";
 
     }
 
+
     else if (
-        resultado.level === "Requiere reflexión"
+        resultado.level ===
+        "Requiere reflexión"
     ) {
 
         level.textContent =
             "🟡 Requiere reflexión";
 
+
         level.style.background =
             "#fff3d4";
+
 
         level.style.color =
             "#926b12";
 
     }
 
+
     else {
 
         level.textContent =
             "🔴 Alto cuidado";
 
+
         level.style.background =
             "#fde8ec";
+
 
         level.style.color =
             "#a83f55";
@@ -1455,30 +2284,43 @@ function renderAnalysis(resultado) {
                 const reason =
                     document.createElement("div");
 
+
                 reason.className =
                     "reason";
 
 
-                reason.innerHTML = `
+                const icon =
+                    document.createElement("div");
 
-                    <div>
-                        ${observation.icon}
-                    </div>
+                icon.textContent =
+                    observation.icon || "•";
 
-                    <div>
 
-                        <strong>
-                            ${observation.title}
-                        </strong>
+                const content =
+                    document.createElement("div");
 
-                        <p>
-                            ${observation.description}
-                        </p>
 
-                    </div>
+                const strong =
+                    document.createElement("strong");
 
-                `;
+                strong.textContent =
+                    observation.title;
 
+
+                const paragraph =
+                    document.createElement("p");
+
+                paragraph.textContent =
+                    observation.description;
+
+
+                content.appendChild(strong);
+
+                content.appendChild(paragraph);
+
+                reason.appendChild(icon);
+
+                reason.appendChild(content);
 
                 reasons.appendChild(reason);
 
@@ -1487,13 +2329,16 @@ function renderAnalysis(resultado) {
 
     }
 
+
     else {
 
         reasons.innerHTML = `
 
             <div class="reason">
 
-                <div>✓</div>
+                <div>
+                    ✓
+                </div>
 
                 <div>
 
@@ -1518,150 +2363,6 @@ function renderAnalysis(resultado) {
 
 
 /* =========================================================
-   SIMULAR PUBLICACION
-   ========================================================= */
-
-async function simulatePost() {
-
-    hasAlert = true;
-
-
-    /* NOTIFICACION */
-
-    document.getElementById("badge").style.display =
-        "flex";
-
-
-    document.getElementById("alertTitle").textContent =
-        "Nueva publicación detectada";
-
-
-    document.getElementById("alertText").textContent =
-        "Huella+ encontró una publicación que podría beneficiarse de una revisión.";
-
-
-    /* PUBLICACION DE DEMOSTRACION */
-
-    const publicacion = {
-
-        text:
-            "Por fin saliendo de clase 😭📚",
-
-        context:
-            "público",
-
-        locationVisible:
-            true,
-
-        academicContext:
-            true,
-
-        ambiguousContext:
-            true
-
-    };
-
-
-    /* AVISO VISUAL */
-
-    document.getElementById("alertContent").innerHTML = `
-
-        <div class="card alert-card">
-
-            <div class="alert-header">
-
-                <div class="alert-icon">
-                    🔔
-                </div>
-
-                <div>
-
-                    <strong>
-                        Nueva publicación detectada
-                    </strong>
-
-                    <p style="font-size:12px;color:#999">
-                        Instagram · Hace unos segundos
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <p>
-                Huella+ detectó elementos relacionados con ubicación,
-                contexto académico y posibles interpretaciones fuera
-                del contexto original.
-            </p>
-
-
-            <button
-                class="primary"
-                onclick="showScreen('analisis')">
-
-                Ver análisis →
-
-            </button>
-
-        </div>
-
-    `;
-
-
-    /*
-       ENVIAR PUBLICACION AL BACKEND
-       PARA QUE HAGA EL ANALISIS
-    */
-
-    const resultado =
-        await analizarPublicacion(
-
-            publicacion.text,
-
-            publicacion.context,
-
-            publicacion.locationVisible,
-
-            publicacion.academicContext,
-
-            publicacion.ambiguousContext
-
-        );
-
-
-    /*
-       GUARDAR EL RESULTADO PARA
-       MOSTRARLO CUANDO SE ENTRE
-       A LA PANTALLA DE ANALISIS
-    */
-
-    window.ultimoAnalisis =
-        resultado;
-
-
-    /*
-       ACTUALIZAR LA PANTALLA
-    */
-
-    renderAnalysis(resultado);
-
-
-    /* TOAST */
-
-    showToast(
-        "🔔 Huella+ detectó algo para revisar"
-    );
-
-
-    /* IR A ALERTAS */
-
-    showScreen("alertas");
-
-}
-
-
-/* =========================================================
    PERSPECTIVAS
    ========================================================= */
 
@@ -1680,7 +2381,9 @@ function changePerspective(type, button) {
 
 
     const text =
-        document.getElementById("perspectiveText");
+        document.getElementById(
+            "perspectiveText"
+        );
 
 
     const perspectives = {
@@ -1695,7 +2398,7 @@ function changePerspective(type, button) {
             <br><br>
 
             Probablemente podría entender la publicación
-            como una expresión cotidiana de tu vida universitaria.
+            como una expresión cotidiana de tu vida.
             El contexto que ya conoce puede ayudarle a interpretar
             el contenido.
 

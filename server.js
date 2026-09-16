@@ -532,34 +532,34 @@ app.get(
       // ======================================================
       // INTERCAMBIAR CODE POR TOKEN
       //
-      // IMPORTANTE:
-      // Instagram Business Login utiliza form-data.
+      // Instagram Business Login utiliza
+      // application/x-www-form-urlencoded.
       // ======================================================
 
       const tokenForm =
-        new FormData();
+        new URLSearchParams();
 
-      tokenForm.append(
+      tokenForm.set(
         "client_id",
         process.env.META_APP_ID
       );
 
-      tokenForm.append(
+      tokenForm.set(
         "client_secret",
         process.env.META_APP_SECRET
       );
 
-      tokenForm.append(
+      tokenForm.set(
         "grant_type",
         "authorization_code"
       );
 
-      tokenForm.append(
+      tokenForm.set(
         "redirect_uri",
         INSTAGRAM_REDIRECT_URI
       );
 
-      tokenForm.append(
+      tokenForm.set(
         "code",
         instagramCode
       );
@@ -582,8 +582,13 @@ app.get(
 
             method: "POST",
 
+            headers: {
+              "Content-Type":
+                "application/x-www-form-urlencoded"
+            },
+
             body:
-              tokenForm
+              tokenForm.toString()
 
           }
         );

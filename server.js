@@ -20,14 +20,167 @@ const instagramStates = new Map();
 
 
 // ================================
+// FUNCIONES AUXILIARES
+// ================================
+
+async function obtenerUsuarioSupabase(accessToken) {
+
+  if (
+    !process.env.SUPABASE_URL ||
+    !process.env.SUPABASE_PUBLISHABLE_KEY
+  ) {
+
+    throw new Error(
+      "Falta configurar la conexión con Supabase."
+    );
+
+  }
+
+
+  const response =
+    await fetch(
+      `${process.env.SUPABASE_URL}/auth/v1/user`,
+      {
+
+        headers: {
+
+          apikey:
+            process.env.SUPABASE_PUBLISHABLE_KEY,
+
+          Authorization:
+            `Bearer ${accessToken}`
+
+        }
+
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if (
+    !response.ok ||
+    !data.id
+  ) {
+
+    return null;
+
+  }
+
+
+  return data;
+
+}
+
+
+async function obtenerUsuarioDesdeRequest(req) {
+
+  const authHeader =
+    req.headers.authorization || "";
+
+
+  if (
+    !authHeader.startsWith("Bearer ")
+  ) {
+
+    return null;
+
+  }
+
+
+  const accessToken =
+    authHeader
+      .replace("Bearer ", "")
+      .trim();
+
+
+  if (!accessToken) {
+
+    return null;
+
+  }
+
+
+  return await obtenerUsuarioSupabase(
+    accessToken
+  );
+
+}
+
+
+async function obtenerConexionInstagram(userId) {
+
+  if (
+    !process.env.SUPABASE_URL ||
+    !process.env.SUPABASE_SERVICE_ROLE_KEY
+  ) {
+
+    throw new Error(
+      "Falta configurar la clave segura de Supabase."
+    );
+
+  }
+
+
+  const response =
+    await fetch(
+      `${process.env.SUPABASE_URL}/rest/v1/instagram_connections?user_id=eq.${encodeURIComponent(userId)}&select=id,user_id,instagram_user_id,instagram_username,access_token,token_expires_at`,
+      {
+
+        headers: {
+
+          apikey:
+            process.env.SUPABASE_SERVICE_ROLE_KEY,
+
+          Authorization:
+            `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
+
+        }
+
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if (!response.ok) {
+
+    console.error(
+      "Error consultando conexión de Instagram:",
+      data
+    );
+
+    throw new Error(
+      "No fue posible consultar la conexión de Instagram."
+    );
+
+  }
+
+
+  return data[0] || null;
+
+}
+
+
+// ================================
 // ESTADO DEL SERVIDOR
 // ================================
 
 app.get("/api/status", (req, res) => {
+
   res.json({
+
     ok: true,
-    message: "Huella+ está funcionando correctamente 🚀"
+
+    message:
+      "Huella+ está funcionando correctamente 🚀"
+
   });
+
 });
 
 
@@ -35,214 +188,198 @@ app.get("/api/status", (req, res) => {
 // INSTAGRAM - INICIO DE SESION
 // ================================
 
-app.get("/auth/instagram", async (req, res) => {
+app.get(
+  "/auth/instagram",
+  async (req, res) => {
 
-  try {
+    try {
 
-    const authHeader =
-      req.headers.authorization || "";
-
-
-    if (!authHeader.startsWith("Bearer ")) {
-
-      return res.status(401).json({
-
-        ok: false,
-
-        message:
-          "Debes iniciar sesión en Huella+."
-
-      });
-
-    }
+      const authHeader =
+        req.headers.authorization || "";
 
 
-    const supabaseAccessToken =
-      authHeader
-        .replace("Bearer ", "")
-        .trim();
+      if (
+        !authHeader.startsWith("Bearer ")
+      ) {
+
+        return res.status(401).json({
+
+          ok: false,
+
+          message:
+            "Debes iniciar sesión en Huella+."
+
+        });
+
+      }
 
 
-    if (
-      !process.env.SUPABASE_URL ||
-      !process.env.SUPABASE_PUBLISHABLE_KEY
-    ) {
+      const supabaseAccessToken =
+        authHeader
+          .replace("Bearer ", "")
+          .trim();
+
+
+      const userData =
+        await obtenerUsuarioSupabase(
+          supabaseAccessToken
+        );
+
+
+      if (!userData) {
+
+        return res.status(401).json({
+
+          ok: false,
+
+          message:
+            "La sesión de Huella+ no es válida."
+
+        });
+
+      }
+
+
+      if (
+        !process.env.META_APP_ID ||
+        !process.env.INSTAGRAM_REDIRECT_URI
+      ) {
+
+        return res.status(500).json({
+
+          ok: false,
+
+          message:
+            "Falta configurar la conexión con Instagram."
+
+        });
+
+      }
+
+
+      // ================================
+      // CREAR STATE DE SEGURIDAD
+      // ================================
+
+      const state =
+        crypto.randomBytes(32).toString("hex");
+
+
+      instagramStates.set(
+        state,
+        {
+
+          userId:
+            userData.id,
+
+          createdAt:
+            Date.now()
+
+        }
+      );
+
+
+      // El state será válido durante 10 minutos
+
+      setTimeout(
+        () => {
+
+          instagramStates.delete(state);
+
+        },
+        10 * 60 * 1000
+      );
+
+
+      // ================================
+      // CREAR URL DE INSTAGRAM
+      // ================================
+
+      const instagramUrl =
+        new URL(
+          "https://www.instagram.com/oauth/authorize"
+        );
+
+
+      instagramUrl.searchParams.set(
+        "client_id",
+        process.env.META_APP_ID
+      );
+
+
+      instagramUrl.searchParams.set(
+        "redirect_uri",
+        process.env.INSTAGRAM_REDIRECT_URI
+      );
+
+
+      instagramUrl.searchParams.set(
+        "response_type",
+        "code"
+      );
+
+
+      instagramUrl.searchParams.set(
+        "scope",
+        "instagram_business_basic"
+      );
+
+
+      instagramUrl.searchParams.set(
+        "state",
+        state
+      );
+
+
+      // ================================
+      // RESPONDER AL FRONTEND
+      // ================================
+
+      if (
+        req.headers.accept &&
+        req.headers.accept.includes(
+          "application/json"
+        )
+      ) {
+
+        return res.json({
+
+          ok: true,
+
+          url:
+            instagramUrl.toString()
+
+        });
+
+      }
+
+
+      return res.redirect(
+        instagramUrl.toString()
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "Error iniciando Instagram OAuth:",
+        error
+      );
+
 
       return res.status(500).json({
 
         ok: false,
 
         message:
-          "Falta configurar la conexión con Supabase."
+          "No fue posible iniciar la conexión con Instagram."
 
       });
 
     }
-
-
-    // ================================
-    // VERIFICAR USUARIO DE SUPABASE
-    // ================================
-
-    const userResponse =
-      await fetch(
-        `${process.env.SUPABASE_URL}/auth/v1/user`,
-        {
-
-          headers: {
-
-            apikey:
-              process.env.SUPABASE_PUBLISHABLE_KEY,
-
-            Authorization:
-              `Bearer ${supabaseAccessToken}`
-
-          }
-
-        }
-      );
-
-
-    const userData =
-      await userResponse.json();
-
-
-    if (
-      !userResponse.ok ||
-      !userData.id
-    ) {
-
-      return res.status(401).json({
-
-        ok: false,
-
-        message:
-          "La sesión de Huella+ no es válida."
-
-      });
-
-    }
-
-
-    // ================================
-    // CREAR STATE DE SEGURIDAD
-    // ================================
-
-    const state =
-      crypto.randomBytes(32).toString("hex");
-
-
-    instagramStates.set(
-      state,
-      {
-
-        userId:
-          userData.id,
-
-        createdAt:
-          Date.now()
-
-      }
-    );
-
-
-    // El state será válido durante 10 minutos
-
-    setTimeout(
-      () => {
-
-        instagramStates.delete(state);
-
-      },
-      10 * 60 * 1000
-    );
-
-
-    // ================================
-    // CREAR URL DE INSTAGRAM
-    // ================================
-
-    const instagramUrl =
-      new URL(
-        "https://www.instagram.com/oauth/authorize"
-      );
-
-
-    instagramUrl.searchParams.set(
-      "client_id",
-      process.env.META_APP_ID
-    );
-
-
-    instagramUrl.searchParams.set(
-      "redirect_uri",
-      process.env.INSTAGRAM_REDIRECT_URI
-    );
-
-
-    instagramUrl.searchParams.set(
-      "response_type",
-      "code"
-    );
-
-
-    instagramUrl.searchParams.set(
-      "scope",
-      "instagram_business_basic"
-    );
-
-
-    instagramUrl.searchParams.set(
-      "state",
-      state
-    );
-
-
-    // ================================
-    // RESPONDER AL FRONTEND
-    // ================================
-
-    if (
-      req.headers.accept &&
-      req.headers.accept.includes("application/json")
-    ) {
-
-      return res.json({
-        ok: true,
-        url: instagramUrl.toString()
-      });
-
-    }
-
-
-    // Si alguien entra directamente a la ruta,
-    // seguimos permitiendo la redirección normal.
-
-    return res.redirect(
-      instagramUrl.toString()
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "Error iniciando Instagram OAuth:",
-      error
-    );
-
-
-    return res.status(500).json({
-
-      ok: false,
-
-      message:
-        "No fue posible iniciar la conexión con Instagram."
-
-    });
 
   }
-
-});
+);
 
 
 // ================================
@@ -251,13 +388,18 @@ app.get("/auth/instagram", async (req, res) => {
 
 app.get(
   "/auth/instagram/callback",
-  (req, res) => {
+  async (req, res) => {
 
     const {
+
       code,
+
       state,
+
       error,
+
       error_description
+
     } = req.query;
 
 
@@ -333,39 +475,422 @@ app.get(
     }
 
 
-    // ================================
-    // PRUEBA DEL CALLBACK
-    // ================================
+    try {
 
-    console.log(
-      "Instagram autorizó al usuario de Huella+:",
-      stateData.userId
-    );
+      console.log(
+        "Instagram autorizó al usuario de Huella+:",
+        stateData.userId
+      );
 
 
-    // Todavía NO guardamos el token.
-    // Eso lo haremos en el siguiente paso.
+      // ================================
+      // VERIFICAR VARIABLES
+      // ================================
+
+      if (
+        !process.env.META_APP_ID ||
+        !process.env.META_APP_SECRET ||
+        !process.env.INSTAGRAM_REDIRECT_URI
+      ) {
+
+        throw new Error(
+          "Faltan variables de configuración de Meta."
+        );
+
+      }
 
 
-    return res.send(`
+      if (
+        !process.env.SUPABASE_URL ||
+        !process.env.SUPABASE_SERVICE_ROLE_KEY
+      ) {
 
-      <h2>
-        Instagram autorizado correctamente 🎉
-      </h2>
+        throw new Error(
+          "Falta configurar la clave segura de Supabase."
+        );
 
-      <p>
-        Huella+ recibió la autorización de Instagram.
-      </p>
+      }
 
-      <p>
-        Ya podemos continuar con la conexión de la cuenta.
-      </p>
 
-      <p>
-        Puedes cerrar esta ventana.
-      </p>
+      // ================================
+      // INTERCAMBIAR CODE POR TOKEN
+      // ================================
 
-    `);
+      const tokenBody =
+        new URLSearchParams();
+
+
+      tokenBody.set(
+        "client_id",
+        process.env.META_APP_ID
+      );
+
+
+      tokenBody.set(
+        "client_secret",
+        process.env.META_APP_SECRET
+      );
+
+
+      tokenBody.set(
+        "grant_type",
+        "authorization_code"
+      );
+
+
+      tokenBody.set(
+        "redirect_uri",
+        process.env.INSTAGRAM_REDIRECT_URI
+      );
+
+
+      tokenBody.set(
+        "code",
+        code
+      );
+
+
+      const tokenResponse =
+        await fetch(
+          "https://api.instagram.com/oauth/access_token",
+          {
+
+            method: "POST",
+
+            headers: {
+
+              "Content-Type":
+                "application/x-www-form-urlencoded"
+
+            },
+
+            body:
+              tokenBody.toString()
+
+          }
+        );
+
+
+      const tokenData =
+        await tokenResponse.json();
+
+
+      if (
+        !tokenResponse.ok ||
+        !tokenData.access_token
+      ) {
+
+        console.error(
+          "Error intercambiando código de Instagram:",
+          tokenData
+        );
+
+        throw new Error(
+          "Instagram no permitió obtener el token."
+        );
+
+      }
+
+
+      const shortLivedToken =
+        tokenData.access_token;
+
+
+      // ================================
+      // INTENTAR OBTENER TOKEN DE MAYOR DURACIÓN
+      // ================================
+
+      const longTokenUrl =
+        new URL(
+          "https://graph.instagram.com/access_token"
+        );
+
+
+      longTokenUrl.searchParams.set(
+        "grant_type",
+        "ig_exchange_token"
+      );
+
+
+      longTokenUrl.searchParams.set(
+        "client_secret",
+        process.env.META_APP_SECRET
+      );
+
+
+      longTokenUrl.searchParams.set(
+        "access_token",
+        shortLivedToken
+      );
+
+
+      const longTokenResponse =
+        await fetch(longTokenUrl);
+
+
+      const longTokenData =
+        await longTokenResponse.json();
+
+
+      let accessToken =
+        shortLivedToken;
+
+
+      let expiresIn =
+        null;
+
+
+      if (
+        longTokenResponse.ok &&
+        longTokenData.access_token
+      ) {
+
+        accessToken =
+          longTokenData.access_token;
+
+
+        expiresIn =
+          longTokenData.expires_in || null;
+
+      }
+
+
+      // ================================
+      // OBTENER PERFIL DE INSTAGRAM
+      // ================================
+
+      const profileUrl =
+        new URL(
+          "https://graph.instagram.com/me"
+        );
+
+
+      profileUrl.searchParams.set(
+        "fields",
+        "id,username"
+      );
+
+
+      profileUrl.searchParams.set(
+        "access_token",
+        accessToken
+      );
+
+
+      const profileResponse =
+        await fetch(profileUrl);
+
+
+      const profileData =
+        await profileResponse.json();
+
+
+      if (
+        !profileResponse.ok ||
+        !profileData.id ||
+        !profileData.username
+      ) {
+
+        console.error(
+          "Error obteniendo perfil de Instagram:",
+          profileData
+        );
+
+        throw new Error(
+          "No fue posible obtener el perfil de Instagram."
+        );
+
+      }
+
+
+      // ================================
+      // CALCULAR EXPIRACIÓN
+      // ================================
+
+      let tokenExpiresAt =
+        null;
+
+
+      if (expiresIn) {
+
+        tokenExpiresAt =
+          new Date(
+            Date.now() +
+            Number(expiresIn) * 1000
+          ).toISOString();
+
+      }
+
+
+      // ================================
+      // HEADERS SEGUROS DE SUPABASE
+      // ================================
+
+      const supabaseHeaders = {
+
+        "Content-Type":
+          "application/json",
+
+        apikey:
+          process.env.SUPABASE_SERVICE_ROLE_KEY,
+
+        Authorization:
+          `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+
+        Prefer:
+          "resolution=merge-duplicates,return=minimal"
+
+      };
+
+
+      // ================================
+      // GUARDAR CONEXIÓN DE INSTAGRAM
+      // ================================
+
+      const connectionResponse =
+        await fetch(
+          `${process.env.SUPABASE_URL}/rest/v1/instagram_connections?on_conflict=user_id`,
+          {
+
+            method: "POST",
+
+            headers:
+              supabaseHeaders,
+
+            body:
+              JSON.stringify({
+
+                user_id:
+                  stateData.userId,
+
+                instagram_user_id:
+                  String(profileData.id),
+
+                instagram_username:
+                  profileData.username,
+
+                access_token:
+                  accessToken,
+
+                token_expires_at:
+                  tokenExpiresAt,
+
+                updated_at:
+                  new Date().toISOString()
+
+              })
+
+          }
+        );
+
+
+      if (!connectionResponse.ok) {
+
+        const connectionError =
+          await connectionResponse.text();
+
+
+        console.error(
+          "Error guardando conexión de Instagram:",
+          connectionError
+        );
+
+
+        throw new Error(
+          "No fue posible guardar la conexión de Instagram."
+        );
+
+      }
+
+
+      // ================================
+      // ACTUALIZAR MIS REDES
+      // ================================
+
+      const socialResponse =
+        await fetch(
+          `${process.env.SUPABASE_URL}/rest/v1/social_accounts?on_conflict=user_id,platform`,
+          {
+
+            method: "POST",
+
+            headers:
+              supabaseHeaders,
+
+            body:
+              JSON.stringify({
+
+                user_id:
+                  stateData.userId,
+
+                platform:
+                  "instagram",
+
+                username:
+                  profileData.username,
+
+                updated_at:
+                  new Date().toISOString()
+
+              })
+
+          }
+        );
+
+
+      if (!socialResponse.ok) {
+
+        const socialError =
+          await socialResponse.text();
+
+
+        console.error(
+          "Error actualizando Mis redes:",
+          socialError
+        );
+
+      }
+
+
+      console.log(
+        `Instagram conectado correctamente: @${profileData.username}`
+      );
+
+
+      // ================================
+      // VOLVER A HUella+
+      // ================================
+
+      return res.redirect(
+        "/?instagram=connected"
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "Error completando conexión de Instagram:",
+        error
+      );
+
+
+      return res.status(500).send(`
+
+        <h2>
+          No se pudo completar la conexión con Instagram
+        </h2>
+
+        <p>
+          ${error.message}
+        </p>
+
+        <p>
+          Puedes cerrar esta ventana y volver a Huella+.
+        </p>
+
+      `);
+
+    }
 
   }
 );
@@ -375,105 +900,128 @@ app.get(
 // INSTAGRAM - PERFIL
 // ================================
 
-app.get("/api/instagram/profile", async (req, res) => {
+app.get(
+  "/api/instagram/profile",
+  async (req, res) => {
 
-  try {
+    try {
 
-    const token =
-      process.env.INSTAGRAM_ACCESS_TOKEN;
+      const user =
+        await obtenerUsuarioDesdeRequest(req);
 
 
-    if (!token) {
+      if (!user) {
+
+        return res.status(401).json({
+
+          ok: false,
+
+          message:
+            "Debes iniciar sesión en Huella+."
+
+        });
+
+      }
+
+
+      const connection =
+        await obtenerConexionInstagram(
+          user.id
+        );
+
+
+      if (!connection) {
+
+        return res.status(404).json({
+
+          ok: false,
+
+          message:
+            "No tienes una cuenta de Instagram conectada."
+
+        });
+
+      }
+
+
+      const profileUrl =
+        new URL(
+          "https://graph.instagram.com/me"
+        );
+
+
+      profileUrl.searchParams.set(
+        "fields",
+        "id,username"
+      );
+
+
+      profileUrl.searchParams.set(
+        "access_token",
+        connection.access_token
+      );
+
+
+      const response =
+        await fetch(profileUrl);
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        console.error(
+          "Error de Instagram:",
+          data
+        );
+
+
+        return res.status(
+          response.status
+        ).json({
+
+          ok: false,
+
+          message:
+            "Instagram no pudo devolver los datos del perfil."
+
+        });
+
+      }
+
+
+      return res.json({
+
+        ok: true,
+
+        profile: data
+
+      });
+
+
+    } catch (error) {
+
+      console.error(
+        "Error conectando con Instagram:",
+        error
+      );
+
 
       return res.status(500).json({
 
         ok: false,
 
         message:
-          "No se encontró el token de Instagram."
+          "No fue posible conectar con Instagram."
 
       });
 
     }
-
-
-    const profileUrl =
-      new URL(
-        "https://graph.instagram.com/me"
-      );
-
-
-    profileUrl.searchParams.set(
-      "fields",
-      "id,username"
-    );
-
-
-    profileUrl.searchParams.set(
-      "access_token",
-      token
-    );
-
-
-    const response =
-      await fetch(profileUrl);
-
-
-    const data =
-      await response.json();
-
-
-    if (!response.ok) {
-
-      console.error(
-        "Error de Instagram:",
-        data
-      );
-
-
-      return res.status(
-        response.status
-      ).json({
-
-        ok: false,
-
-        message:
-          "Instagram no pudo devolver los datos del perfil."
-
-      });
-
-    }
-
-
-    return res.json({
-
-      ok: true,
-
-      profile: data
-
-    });
-
-
-  } catch (error) {
-
-    console.error(
-      "Error conectando con Instagram:",
-      error
-    );
-
-
-    return res.status(500).json({
-
-      ok: false,
-
-      message:
-        "No fue posible conectar con Instagram."
-
-    });
 
   }
-
-});
+);
 
 
 // ================================
@@ -487,9 +1035,13 @@ function analizarTextoHuella(
 ) {
 
   const {
+
     locationVisible = false,
+
     academicContext = false,
+
     ambiguousContext = false
+
   } = options;
 
 
@@ -498,6 +1050,7 @@ function analizarTextoHuella(
 
 
   const warnings = [];
+
   const observations = [];
 
 
@@ -508,22 +1061,39 @@ function analizarTextoHuella(
   const locationWords = [
 
     "estoy en",
+
     "vivo en",
+
     "mi dirección",
+
     "mi direccion",
+
     "mi casa",
+
     "ubicación",
+
     "ubicacion",
+
     "location",
+
     "bucaramanga",
+
     "floridablanca",
+
     "girón",
+
     "giron",
+
     "bogotá",
+
     "bogota",
+
     "medellín",
+
     "medellin",
+
     "cali",
+
     "cartagena"
 
   ];
@@ -607,16 +1177,27 @@ function analizarTextoHuella(
   const personalWords = [
 
     "cédula",
+
     "cedula",
+
     "documento",
+
     "teléfono",
+
     "telefono",
+
     "número",
+
     "numero",
+
     "contraseña",
+
     "password",
+
     "correo",
+
     "email",
+
     "gmail.com"
 
   ];
@@ -657,11 +1238,17 @@ function analizarTextoHuella(
   const contactWords = [
 
     "whatsapp",
+
     "escríbeme al",
+
     "escribeme al",
+
     "contáctame",
+
     "contactame",
+
     "dm",
+
     "link en bio"
 
   ];
@@ -783,205 +1370,239 @@ function analizarTextoHuella(
 // INSTAGRAM - PUBLICACIONES
 // ================================
 
-app.get("/api/instagram/media", async (req, res) => {
+app.get(
+  "/api/instagram/media",
+  async (req, res) => {
 
-  try {
+    try {
 
-    const token =
-      process.env.INSTAGRAM_ACCESS_TOKEN;
+      const user =
+        await obtenerUsuarioDesdeRequest(req);
 
 
-    if (!token) {
+      if (!user) {
+
+        return res.status(401).json({
+
+          ok: false,
+
+          message:
+            "Debes iniciar sesión en Huella+."
+
+        });
+
+      }
+
+
+      const connection =
+        await obtenerConexionInstagram(
+          user.id
+        );
+
+
+      if (!connection) {
+
+        return res.status(404).json({
+
+          ok: false,
+
+          message:
+            "No tienes una cuenta de Instagram conectada."
+
+        });
+
+      }
+
+
+      // ================================
+      // OBTENER PUBLICACIONES
+      // ================================
+
+      const mediaUrl =
+        new URL(
+          "https://graph.instagram.com/me/media"
+        );
+
+
+      mediaUrl.searchParams.set(
+        "fields",
+        "id,caption,media_type,media_url,permalink,timestamp"
+      );
+
+
+      mediaUrl.searchParams.set(
+        "limit",
+        "10"
+      );
+
+
+      mediaUrl.searchParams.set(
+        "access_token",
+        connection.access_token
+      );
+
+
+      const response =
+        await fetch(mediaUrl);
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        console.error(
+          "Error obteniendo publicaciones:",
+          data
+        );
+
+
+        return res.status(
+          response.status
+        ).json({
+
+          ok: false,
+
+          message:
+            "Instagram no pudo devolver las publicaciones."
+
+        });
+
+      }
+
+
+      // ================================
+      // ANALIZAR CADA PUBLICACION
+      // ================================
+
+      const publicaciones =
+        (data.data || []).map(
+          (publicacion) => {
+
+            const caption =
+              publicacion.caption || "";
+
+
+            const analysis =
+              analizarTextoHuella(
+                caption,
+                "Instagram"
+              );
+
+
+            return {
+
+              ...publicacion,
+
+              analysis
+
+            };
+
+          }
+        );
+
+
+      return res.json({
+
+        ok: true,
+
+        media:
+          publicaciones,
+
+        paging:
+          data.paging || null
+
+      });
+
+
+    } catch (error) {
+
+      console.error(
+        "Error obteniendo publicaciones de Instagram:",
+        error
+      );
+
 
       return res.status(500).json({
 
         ok: false,
 
         message:
-          "No se encontró el token de Instagram."
+          "No fue posible obtener las publicaciones de Instagram."
 
       });
 
     }
-
-
-    const mediaUrl =
-      new URL(
-        "https://graph.instagram.com/me/media"
-      );
-
-
-    mediaUrl.searchParams.set(
-      "fields",
-      "id,caption,media_type,media_url,permalink,timestamp"
-    );
-
-
-    mediaUrl.searchParams.set(
-      "limit",
-      "10"
-    );
-
-
-    mediaUrl.searchParams.set(
-      "access_token",
-      token
-    );
-
-
-    const response =
-      await fetch(mediaUrl);
-
-
-    const data =
-      await response.json();
-
-
-    if (!response.ok) {
-
-      console.error(
-        "Error obteniendo publicaciones:",
-        data
-      );
-
-
-      return res.status(
-        response.status
-      ).json({
-
-        ok: false,
-
-        message:
-          "Instagram no pudo devolver las publicaciones."
-
-      });
-
-    }
-
-
-    // ================================
-    // ANALIZAR CADA PUBLICACION
-    // ================================
-
-    const publicaciones =
-      (data.data || []).map(
-        (publicacion) => {
-
-          const caption =
-            publicacion.caption || "";
-
-
-          const analysis =
-            analizarTextoHuella(
-              caption,
-              "Instagram"
-            );
-
-
-          return {
-
-            ...publicacion,
-
-            analysis
-
-          };
-
-        }
-      );
-
-
-    return res.json({
-
-      ok: true,
-
-      media: publicaciones,
-
-      paging:
-        data.paging || null
-
-    });
-
-
-  } catch (error) {
-
-    console.error(
-      "Error obteniendo publicaciones de Instagram:",
-      error
-    );
-
-
-    return res.status(500).json({
-
-      ok: false,
-
-      message:
-        "No fue posible obtener las publicaciones de Instagram."
-
-    });
 
   }
-
-});
+);
 
 
 // ================================
 // ANALIZAR PUBLICACION MANUAL
 // ================================
 
-app.post("/api/analyze", (req, res) => {
+app.post(
+  "/api/analyze",
+  (req, res) => {
 
-  const {
-
-    text,
-
-    context,
-
-    locationVisible = false,
-
-    academicContext = false,
-
-    ambiguousContext = false
-
-  } = req.body;
-
-
-  if (!text) {
-
-    return res.status(400).json({
-
-      ok: false,
-
-      message:
-        "No se recibió ninguna publicación."
-
-    });
-
-  }
-
-
-  const resultado =
-    analizarTextoHuella(
+    const {
 
       text,
 
-      context || "No especificado",
+      context,
 
-      {
+      locationVisible = false,
 
-        locationVisible,
+      academicContext = false,
 
-        academicContext,
+      ambiguousContext = false
 
-        ambiguousContext
+    } = req.body;
 
-      }
 
+    if (!text) {
+
+      return res.status(400).json({
+
+        ok: false,
+
+        message:
+          "No se recibió ninguna publicación."
+
+      });
+
+    }
+
+
+    const resultado =
+      analizarTextoHuella(
+
+        text,
+
+        context ||
+          "No especificado",
+
+        {
+
+          locationVisible,
+
+          academicContext,
+
+          ambiguousContext
+
+        }
+
+      );
+
+
+    return res.json(
+      resultado
     );
 
-
-  return res.json(resultado);
-
-});
+  }
+);
 
 
 // ================================

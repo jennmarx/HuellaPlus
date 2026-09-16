@@ -3709,9 +3709,31 @@ async function loadInstagramConnection() {
 
 async function loadInstagramProfile() {
 
+    const { data: sessionData, error: sessionError } =
+        await supabaseClient.auth.getSession();
+
+    if (sessionError || !sessionData.session) {
+
+        throw new Error(
+            "Tu sesión ha expirado. Inicia sesión nuevamente."
+        );
+
+    }
+
     const response =
         await fetch(
-            "/api/instagram/profile"
+            "/api/instagram/profile",
+            {
+                headers: {
+
+                    "Authorization":
+                        `Bearer ${sessionData.session.access_token}`,
+
+                    "Accept":
+                        "application/json"
+
+                }
+            }
         );
 
     const data =
@@ -3725,22 +3747,6 @@ async function loadInstagramProfile() {
         );
 
     }
-
-    /*
-     * El backend puede devolver directamente:
-     *
-     * {
-     *     id: "...",
-     *     username: "..."
-     * }
-     *
-     * o:
-     *
-     * {
-     *     ok: true,
-     *     profile: {...}
-     * }
-     */
 
     const profile =
         data.profile ||
@@ -3781,9 +3787,31 @@ async function loadInstagramMedia() {
 
     try {
 
+        const { data: sessionData, error: sessionError } =
+            await supabaseClient.auth.getSession();
+
+        if (sessionError || !sessionData.session) {
+
+            throw new Error(
+                "Tu sesión ha expirado. Inicia sesión nuevamente."
+            );
+
+        }
+
         const response =
             await fetch(
-                "/api/instagram/media"
+                "/api/instagram/media",
+                {
+                    headers: {
+
+                        "Authorization":
+                            `Bearer ${sessionData.session.access_token}`,
+
+                        "Accept":
+                            "application/json"
+
+                    }
+                }
             );
 
         const data =
@@ -3797,18 +3825,6 @@ async function loadInstagramMedia() {
             );
 
         }
-
-        /*
-         * El backend actual devuelve:
-         *
-         * {
-         *     ok: true,
-         *     media: [...]
-         * }
-         *
-         * También dejamos compatibilidad con
-         * data.posts y con un array directo.
-         */
 
         const posts =
             Array.isArray(data.media)

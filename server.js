@@ -7,21 +7,33 @@ const crypto = require("crypto");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ============================================================
+// CONFIGURACIÓN
+// ============================================================
+
+const INSTAGRAM_REDIRECT_URI =
+  process.env.INSTAGRAM_REDIRECT_URI ||
+  "https://huellaplus.onrender.com/auth/instagram/callback";
+
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  express.static(
+    path.join(__dirname, "public")
+  )
+);
 
 
-// ================================
+// ============================================================
 // ESTADOS TEMPORALES DE INSTAGRAM
-// ================================
+// ============================================================
 
 const instagramStates = new Map();
 
 
-// ================================
+// ============================================================
 // FUNCIONES AUXILIARES
-// ================================
+// ============================================================
 
 async function obtenerUsuarioSupabase(accessToken) {
 
@@ -146,9 +158,9 @@ async function obtenerConexionInstagram(userId) {
 }
 
 
-// ================================
+// ============================================================
 // ESTADO DEL SERVIDOR
-// ================================
+// ============================================================
 
 app.get("/api/status", (req, res) => {
 
@@ -164,9 +176,9 @@ app.get("/api/status", (req, res) => {
 });
 
 
-// ================================
+// ============================================================
 // INSTAGRAM - INICIO DE SESIÓN
-// ================================
+// ============================================================
 
 app.get(
   "/auth/instagram",
@@ -217,7 +229,7 @@ app.get(
 
       if (
         !process.env.META_APP_ID ||
-        !process.env.INSTAGRAM_REDIRECT_URI
+        !process.env.META_APP_SECRET
       ) {
 
         return res.status(500).json({
@@ -232,9 +244,9 @@ app.get(
       }
 
 
-      // ================================
-      // CREAR STATE DE SEGURIDAD
-      // ================================
+      // ======================================================
+      // CREAR STATE
+      // ======================================================
 
       const state =
         crypto.randomBytes(32).toString("hex");
@@ -251,8 +263,6 @@ app.get(
       );
 
 
-      // El state será válido durante 10 minutos
-
       setTimeout(
         () => {
 
@@ -263,41 +273,34 @@ app.get(
       );
 
 
-      // ================================
-      // CREAR URL DE INSTAGRAM
-      // ================================
+      // ======================================================
+      // CREAR URL DE INSTAGRAM BUSINESS LOGIN
+      // ======================================================
 
       const instagramUrl =
         new URL(
           "https://www.instagram.com/oauth/authorize"
         );
 
-
       instagramUrl.searchParams.set(
         "force_reauth",
         "true"
       );
-
 
       instagramUrl.searchParams.set(
         "client_id",
         process.env.META_APP_ID
       );
 
-
       instagramUrl.searchParams.set(
         "redirect_uri",
-        process.env.INSTAGRAM_REDIRECT_URI
+        INSTAGRAM_REDIRECT_URI
       );
-
 
       instagramUrl.searchParams.set(
         "response_type",
         "code"
       );
-
-
-      // Permisos utilizados por Huella+
 
       instagramUrl.searchParams.set(
         "scope",
@@ -310,16 +313,25 @@ app.get(
         ].join(",")
       );
 
-
       instagramUrl.searchParams.set(
         "state",
         state
       );
 
 
-      // ================================
+      console.log(
+        "Instagram OAuth iniciado."
+      );
+
+      console.log(
+        "Redirect URI:",
+        INSTAGRAM_REDIRECT_URI
+      );
+
+
+      // ======================================================
       // RESPONDER AL FRONTEND
-      // ================================
+      // ======================================================
 
       if (
         req.headers.accept &&
@@ -367,30 +379,25 @@ app.get(
 );
 
 
-// ================================
+// ============================================================
 // INSTAGRAM - CALLBACK
-// ================================
+// ============================================================
 
 app.get(
   "/auth/instagram/callback",
   async (req, res) => {
 
     const {
-
       code,
-
       state,
-
       error,
-
       error_description
-
     } = req.query;
 
 
-    // ================================
+    // ========================================================
     // USUARIO CANCELÓ
-    // ================================
+    // ========================================================
 
     if (error) {
 
@@ -416,9 +423,9 @@ app.get(
     }
 
 
-    // ================================
+    // ========================================================
     // VERIFICAR STATE
-    // ================================
+    // ========================================================
 
     if (!state) {
 
@@ -442,14 +449,12 @@ app.get(
     }
 
 
-    // El state ya cumplió su función
-
     instagramStates.delete(state);
 
 
-    // ================================
+    // ========================================================
     // VERIFICAR CODE
-    // ================================
+    // ========================================================
 
     if (!code) {
 
@@ -468,14 +473,13 @@ app.get(
       );
 
 
-      // ================================
-      // VERIFICAR VARIABLES
-      // ================================
+      // ======================================================
+      // VARIABLES
+      // ======================================================
 
       if (
         !process.env.META_APP_ID ||
-        !process.env.META_APP_SECRET ||
-        !process.env.INSTAGRAM_REDIRECT_URI
+        !process.env.META_APP_SECRET
       ) {
 
         throw new Error(
@@ -497,50 +501,49 @@ app.get(
       }
 
 
-      // ================================
+      // ======================================================
       // INTERCAMBIAR CODE POR TOKEN
-      // ================================
+      //
+      // IMPORTANTE:
+      // Instagram Business Login utiliza form-data.
+      // ======================================================
 
-      const tokenBody =
-        new URLSearchParams();
+      const tokenForm =
+        new FormData();
 
-
-      tokenBody.set(
+      tokenForm.append(
         "client_id",
         process.env.META_APP_ID
       );
 
-
-      tokenBody.set(
+      tokenForm.append(
         "client_secret",
         process.env.META_APP_SECRET
       );
 
-
-      tokenBody.set(
+      tokenForm.append(
         "grant_type",
         "authorization_code"
       );
 
-
-      // Debe ser exactamente la misma URI
-      // utilizada durante la autorización
-
-      tokenBody.set(
+      tokenForm.append(
         "redirect_uri",
-        process.env.INSTAGRAM_REDIRECT_URI
+        INSTAGRAM_REDIRECT_URI
       );
 
-
-      tokenBody.set(
+      tokenForm.append(
         "code",
         code
       );
 
 
       console.log(
-        "Intercambiando código de Instagram usando redirect_uri:",
-        process.env.INSTAGRAM_REDIRECT_URI
+        "Intercambiando código de Instagram."
+      );
+
+      console.log(
+        "Redirect URI utilizado:",
+        INSTAGRAM_REDIRECT_URI
       );
 
 
@@ -551,22 +554,31 @@ app.get(
 
             method: "POST",
 
-            headers: {
-
-              "Content-Type":
-                "application/x-www-form-urlencoded"
-
-            },
-
             body:
-              tokenBody.toString()
+              tokenForm
 
           }
         );
 
 
-      const tokenData =
-        await tokenResponse.json();
+      const tokenText =
+        await tokenResponse.text();
+
+
+      let tokenData;
+
+      try {
+
+        tokenData =
+          JSON.parse(tokenText);
+
+      } catch {
+
+        tokenData = {
+          raw: tokenText
+        };
+
+      }
 
 
       if (
@@ -590,9 +602,9 @@ app.get(
         tokenData.access_token;
 
 
-      // ================================
-      // INTENTAR OBTENER TOKEN DE MAYOR DURACIÓN
-      // ================================
+      // ======================================================
+      // TOKEN DE MAYOR DURACIÓN
+      // ======================================================
 
       const longTokenUrl =
         new URL(
@@ -648,9 +660,9 @@ app.get(
       }
 
 
-      // ================================
-      // OBTENER PERFIL DE INSTAGRAM
-      // ================================
+      // ======================================================
+      // OBTENER PERFIL
+      // ======================================================
 
       const profileUrl =
         new URL(
@@ -696,9 +708,9 @@ app.get(
       }
 
 
-      // ================================
-      // CALCULAR EXPIRACIÓN
-      // ================================
+      // ======================================================
+      // EXPIRACIÓN
+      // ======================================================
 
       let tokenExpiresAt =
         null;
@@ -715,9 +727,9 @@ app.get(
       }
 
 
-      // ================================
-      // HEADERS SEGUROS DE SUPABASE
-      // ================================
+      // ======================================================
+      // HEADERS SUPABASE
+      // ======================================================
 
       const supabaseHeaders = {
 
@@ -736,9 +748,9 @@ app.get(
       };
 
 
-      // ================================
-      // GUARDAR CONEXIÓN DE INSTAGRAM
-      // ================================
+      // ======================================================
+      // GUARDAR CONEXIÓN
+      // ======================================================
 
       const connectionResponse =
         await fetch(
@@ -796,9 +808,9 @@ app.get(
       }
 
 
-      // ================================
+      // ======================================================
       // ACTUALIZAR MIS REDES
-      // ================================
+      // ======================================================
 
       const socialResponse =
         await fetch(
@@ -850,10 +862,6 @@ app.get(
       );
 
 
-      // ================================
-      // VOLVER A HUella+
-      // ================================
-
       return res.redirect(
         "/?instagram=connected"
       );
@@ -889,9 +897,9 @@ app.get(
 );
 
 
-// ================================
+// ============================================================
 // INSTAGRAM - PERFIL
-// ================================
+// ============================================================
 
 app.get(
   "/api/instagram/profile",
@@ -1017,9 +1025,9 @@ app.get(
 );
 
 
-// ================================
-// FUNCION CENTRAL DE ANALISIS
-// ================================
+// ============================================================
+// FUNCIÓN CENTRAL DE ANÁLISIS
+// ============================================================
 
 function analizarTextoHuella(
   text,
@@ -1028,13 +1036,9 @@ function analizarTextoHuella(
 ) {
 
   const {
-
     locationVisible = false,
-
     academicContext = false,
-
     ambiguousContext = false
-
   } = options;
 
 
@@ -1043,50 +1047,32 @@ function analizarTextoHuella(
 
 
   const warnings = [];
-
   const observations = [];
 
 
-  // ================================
-  // UBICACION
-  // ================================
+  // ==========================================================
+  // UBICACIÓN
+  // ==========================================================
 
   const locationWords = [
 
     "estoy en",
-
     "vivo en",
-
     "mi dirección",
-
     "mi direccion",
-
     "mi casa",
-
     "ubicación",
-
     "ubicacion",
-
     "location",
-
     "bucaramanga",
-
     "floridablanca",
-
     "girón",
-
     "giron",
-
     "bogotá",
-
     "bogota",
-
     "medellín",
-
     "medellin",
-
     "cali",
-
     "cartagena"
 
   ];
@@ -1123,9 +1109,9 @@ function analizarTextoHuella(
   }
 
 
-  // ================================
-  // CONTEXTO ACADEMICO
-  // ================================
+  // ==========================================================
+  // CONTEXTO ACADÉMICO
+  // ==========================================================
 
   if (academicContext) {
 
@@ -1143,9 +1129,9 @@ function analizarTextoHuella(
   }
 
 
-  // ================================
+  // ==========================================================
   // DIFERENTES INTERPRETACIONES
-  // ================================
+  // ==========================================================
 
   if (ambiguousContext) {
 
@@ -1163,34 +1149,23 @@ function analizarTextoHuella(
   }
 
 
-  // ================================
-  // INFORMACION PERSONAL
-  // ================================
+  // ==========================================================
+  // INFORMACIÓN PERSONAL
+  // ==========================================================
 
   const personalWords = [
 
     "cédula",
-
     "cedula",
-
     "documento",
-
     "teléfono",
-
     "telefono",
-
     "número",
-
     "numero",
-
     "contraseña",
-
     "password",
-
     "correo",
-
     "email",
-
     "gmail.com"
 
   ];
@@ -1224,24 +1199,18 @@ function analizarTextoHuella(
   }
 
 
-  // ================================
-  // INFORMACION DE CONTACTO
-  // ================================
+  // ==========================================================
+  // INFORMACIÓN DE CONTACTO
+  // ==========================================================
 
   const contactWords = [
 
     "whatsapp",
-
     "escríbeme al",
-
     "escribeme al",
-
     "contáctame",
-
     "contactame",
-
     "dm",
-
     "link en bio"
 
   ];
@@ -1270,9 +1239,9 @@ function analizarTextoHuella(
   }
 
 
-  // ================================
+  // ==========================================================
   // HASHTAGS
-  // ================================
+  // ==========================================================
 
   const hashtags =
     text.match(
@@ -1296,9 +1265,9 @@ function analizarTextoHuella(
   }
 
 
-  // ================================
+  // ==========================================================
   // NIVEL
-  // ================================
+  // ==========================================================
 
   let level =
     "Bajo cuidado";
@@ -1320,9 +1289,9 @@ function analizarTextoHuella(
   }
 
 
-  // ================================
+  // ==========================================================
   // MENSAJE
-  // ================================
+  // ==========================================================
 
   let message;
 
@@ -1359,9 +1328,9 @@ function analizarTextoHuella(
 }
 
 
-// ================================
+// ============================================================
 // INSTAGRAM - PUBLICACIONES
-// ================================
+// ============================================================
 
 app.get(
   "/api/instagram/media",
@@ -1407,9 +1376,9 @@ app.get(
       }
 
 
-      // ================================
+      // ======================================================
       // OBTENER PUBLICACIONES
-      // ================================
+      // ======================================================
 
       const mediaUrl =
         new URL(
@@ -1465,9 +1434,9 @@ app.get(
       }
 
 
-      // ================================
-      // ANALIZAR CADA PUBLICACION
-      // ================================
+      // ======================================================
+      // ANALIZAR PUBLICACIONES
+      // ======================================================
 
       const publicaciones =
         (data.data || []).map(
@@ -1532,26 +1501,20 @@ app.get(
 );
 
 
-// ================================
-// ANALIZAR PUBLICACION MANUAL
-// ================================
+// ============================================================
+// ANALIZAR PUBLICACIÓN MANUAL
+// ============================================================
 
 app.post(
   "/api/analyze",
   (req, res) => {
 
     const {
-
       text,
-
       context,
-
       locationVisible = false,
-
       academicContext = false,
-
       ambiguousContext = false
-
     } = req.body;
 
 
@@ -1578,13 +1541,9 @@ app.post(
           "No especificado",
 
         {
-
           locationVisible,
-
           academicContext,
-
           ambiguousContext
-
         }
 
       );
@@ -1598,9 +1557,9 @@ app.post(
 );
 
 
-// ================================
+// ============================================================
 // INICIAR SERVIDOR
-// ================================
+// ============================================================
 
 app.listen(
   PORT,

@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Huella+ | Tu huella digital con propósito</title>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -20,13 +24,159 @@ body {
 
 button,
 textarea,
-select {
+select,
+input {
     font-family: inherit;
 }
 
 button {
     cursor: pointer;
 }
+
+/* =========================================================
+   AUTENTICACION
+   ========================================================= */
+
+.auth-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    background:
+        radial-gradient(circle at top left, #eee5ff 0%, transparent 35%),
+        radial-gradient(circle at bottom right, #f1e8fa 0%, transparent 35%),
+        #f7f5f8;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    border: 1px solid #e8e1ed;
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 15px 50px rgba(45, 32, 55, 0.08);
+}
+
+.auth-logo {
+    text-align: center;
+    font-size: 31px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.auth-logo span {
+    color: #8b5cf6;
+}
+
+.auth-subtitle {
+    text-align: center;
+    color: #817986;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
+.auth-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #f6f2f8;
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.auth-tab {
+    border: none;
+    background: transparent;
+    padding: 11px;
+    border-radius: 9px;
+    color: #817986;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.auth-tab.active {
+    background: white;
+    color: #6842b9;
+    box-shadow: 0 2px 8px rgba(50, 30, 70, 0.06);
+}
+
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.auth-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #403a45;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #ddd5e4;
+    border-radius: 11px;
+    outline: none;
+    font-size: 14px;
+    margin-bottom: 17px;
+    background: white;
+}
+
+.auth-input:focus {
+    border-color: #9c75ce;
+    box-shadow: 0 0 0 3px rgba(124, 77, 202, .08);
+}
+
+.auth-button {
+    width: 100%;
+    border: none;
+    background: #7043b8;
+    color: white;
+    padding: 14px;
+    border-radius: 11px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.auth-button:hover {
+    background: #5f35a4;
+}
+
+.auth-message {
+    display: none;
+    margin-bottom: 17px;
+    padding: 12px 14px;
+    border-radius: 11px;
+    background: #faf3ff;
+    color: #7043b8;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.auth-message.show {
+    display: block;
+}
+
+.auth-footer {
+    text-align: center;
+    color: #9a929f;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 22px;
+}
+
+/* =========================================================
+   APP
+   ========================================================= */
 
 .app {
     min-height: 100vh;
@@ -82,6 +232,22 @@ button {
 .nav button:hover,
 .nav button.active {
     background: #f1ebff;
+    color: #6842b9;
+}
+
+.logout-button {
+    width: 100%;
+    border: 1px solid #e4dce9;
+    background: white;
+    color: #766e7b;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-top: 15px;
+}
+
+.logout-button:hover {
+    background: #faf7ff;
     color: #6842b9;
 }
 
@@ -336,6 +502,8 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: 700;
+    color: #6842b9;
 }
 
 .post-image {
@@ -359,34 +527,6 @@ button {
     color: #888;
     font-size: 13px;
     margin-top: 8px;
-}
-
-.level {
-    display: inline-flex;
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    margin: 15px 0;
-    background: #fff3d4;
-    color: #926b12;
-}
-
-.reason {
-    padding: 14px 0;
-    border-top: 1px solid #eee9ef;
-    display: flex;
-    gap: 12px;
-}
-
-.reason strong {
-    font-size: 14px;
-}
-
-.reason p {
-    color: #817983;
-    font-size: 13px;
-    margin-top: 3px;
 }
 
 /* NEW POST FORM */
@@ -480,6 +620,36 @@ button {
     color: #756e7d;
     font-size: 12px;
     line-height: 1.5;
+}
+
+/* ANALYSIS LEVEL */
+
+.level {
+    display: inline-flex;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 15px 0;
+    background: #fff3d4;
+    color: #926b12;
+}
+
+.reason {
+    padding: 14px 0;
+    border-top: 1px solid #eee9ef;
+    display: flex;
+    gap: 12px;
+}
+
+.reason strong {
+    font-size: 14px;
+}
+
+.reason p {
+    color: #817983;
+    font-size: 13px;
+    margin-top: 3px;
 }
 
 /* PERSPECTIVES */
@@ -668,13 +838,19 @@ button {
 
     .tagline,
     .nav button span,
-    .demo-box {
+    .demo-box,
+    .logout-button span {
         display: none;
     }
 
     .nav button {
         text-align: center;
         font-size: 20px;
+    }
+
+    .logout-button {
+        font-size: 20px;
+        padding: 10px 5px;
     }
 
     .main {
@@ -691,78 +867,334 @@ button {
     .feature-grid {
         grid-template-columns: 1fr;
     }
+
+    .auth-card {
+        padding: 28px 22px;
+    }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<div class="app">
+
+<!-- =========================================================
+     PANTALLA DE AUTENTICACION
+     ========================================================= -->
+
+<div id="authScreen" class="auth-screen">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            Huella<span>+</span>
+        </div>
+
+        <p class="auth-subtitle">
+            Tu huella digital con propósito.<br>
+            Antes de publicar, piensa en lo que estás construyendo.
+        </p>
+
+
+        <div class="auth-tabs">
+
+            <button
+                id="loginTab"
+                class="auth-tab active"
+                onclick="showAuthMode('login')"
+            >
+                Iniciar sesión
+            </button>
+
+            <button
+                id="registerTab"
+                class="auth-tab"
+                onclick="showAuthMode('register')"
+            >
+                Crear cuenta
+            </button>
+
+        </div>
+
+
+        <div
+            id="authMessage"
+            class="auth-message"
+        ></div>
+
+
+        <!-- LOGIN -->
+
+        <div
+            id="loginForm"
+            class="auth-form active"
+        >
+
+            <label
+                class="auth-label"
+                for="loginEmail"
+            >
+                Correo electrónico
+            </label>
+
+            <input
+                id="loginEmail"
+                class="auth-input"
+                type="email"
+                placeholder="tucorreo@ejemplo.com"
+                autocomplete="email"
+            >
+
+
+            <label
+                class="auth-label"
+                for="loginPassword"
+            >
+                Contraseña
+            </label>
+
+            <input
+                id="loginPassword"
+                class="auth-input"
+                type="password"
+                placeholder="Tu contraseña"
+                autocomplete="current-password"
+            >
+
+
+            <button
+                class="auth-button"
+                onclick="loginUser()"
+            >
+                Iniciar sesión
+            </button>
+
+        </div>
+
+
+        <!-- REGISTRO -->
+
+        <div
+            id="registerForm"
+            class="auth-form"
+        >
+
+            <label
+                class="auth-label"
+                for="registerName"
+            >
+                ¿Cómo te llamas?
+            </label>
+
+            <input
+                id="registerName"
+                class="auth-input"
+                type="text"
+                placeholder="Tu nombre"
+                autocomplete="name"
+            >
+
+
+            <label
+                class="auth-label"
+                for="registerEmail"
+            >
+                Correo electrónico
+            </label>
+
+            <input
+                id="registerEmail"
+                class="auth-input"
+                type="email"
+                placeholder="tucorreo@ejemplo.com"
+                autocomplete="email"
+            >
+
+
+            <label
+                class="auth-label"
+                for="registerPassword"
+            >
+                Contraseña
+            </label>
+
+            <input
+                id="registerPassword"
+                class="auth-input"
+                type="password"
+                placeholder="Mínimo 6 caracteres"
+                autocomplete="new-password"
+            >
+
+
+            <label
+                class="auth-label"
+                for="registerPasswordConfirm"
+            >
+                Repite tu contraseña
+            </label>
+
+            <input
+                id="registerPasswordConfirm"
+                class="auth-input"
+                type="password"
+                placeholder="Repite tu contraseña"
+                autocomplete="new-password"
+            >
+
+
+            <button
+                class="auth-button"
+                onclick="registerUser()"
+            >
+                Crear mi cuenta
+            </button>
+
+        </div>
+
+
+        <div class="auth-footer">
+            Huella+ utiliza autenticación segura para que cada usuario
+            tenga su propia cuenta y experiencia.
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     APLICACION
+     ========================================================= -->
+
+<div
+    class="app"
+    style="display:none;"
+>
+
 
 <aside class="sidebar">
 
-    <div class="logo">Huella<span>+</span></div>
+    <div class="logo">
+        Huella<span>+</span>
+    </div>
 
     <div class="tagline">
         Antes de publicar,<br>
         piensa en lo que estás construyendo.
     </div>
 
+
     <nav class="nav">
 
-        <button class="active" onclick="showScreen('inicio', this)">
+        <button
+            class="active"
+            onclick="showScreen('inicio', this)"
+        >
             🏠 <span>Inicio</span>
         </button>
 
-        <button onclick="showScreen('huella', this)">
+
+        <button
+            onclick="showScreen('huella', this)"
+        >
             👣 <span>Mi huella</span>
         </button>
 
-        <button onclick="showScreen('alertas', this)">
+
+        <button
+            onclick="showScreen('alertas', this)"
+        >
             🔔 <span>Alertas</span>
         </button>
 
-        <button onclick="showScreen('redes', this)">
+
+        <button
+            onclick="showScreen('redes', this)"
+        >
             🔗 <span>Mis redes</span>
         </button>
 
-        <button onclick="showScreen('ia', this)">
+
+        <button
+            onclick="showScreen('ia', this)"
+        >
             🤖 <span>IA responsable</span>
         </button>
 
     </nav>
 
+
+    <button
+        class="logout-button"
+        onclick="logoutUser()"
+    >
+        🚪 <span>Cerrar sesión</span>
+    </button>
+
+
     <div class="demo-box">
-        <small>Modo demostración</small>
-        <button onclick="openNewPost()">
+
+        <small>
+            Modo demostración
+        </small>
+
+        <button
+            onclick="openNewPost()"
+        >
             Nueva publicación
         </button>
+
     </div>
 
 </aside>
 
 
+
 <main class="main">
 
-<!-- INICIO -->
 
-<section id="inicio" class="screen active">
+<!-- =========================================================
+     INICIO
+     ========================================================= -->
+
+<section
+    id="inicio"
+    class="screen active"
+>
 
     <div class="topbar">
 
         <div>
-            <h1>Hola, Jennifer 👋</h1>
+
+            <h1 id="welcomeTitle">
+                Hola 👋
+            </h1>
 
             <p>
-                Construye una huella digital que represente lo que quieres proyectar.
+                Construye una huella digital que represente
+                lo que quieres proyectar.
             </p>
+
         </div>
 
-        <button class="notification" onclick="showScreen('alertas')">
+
+        <button
+            class="notification"
+            onclick="showScreen('alertas')"
+        >
 
             🔔
 
-            <span id="badge" class="badge">1</span>
+            <span
+                id="badge"
+                class="badge"
+            >
+                1
+            </span>
 
         </button>
 
@@ -770,6 +1202,7 @@ button {
 
 
     <div class="grid">
+
 
         <div class="card hero">
 
@@ -791,7 +1224,10 @@ button {
             </div>
 
 
-            <button class="primary" onclick="openNewPost()">
+            <button
+                class="primary"
+                onclick="openNewPost()"
+            >
                 Nueva publicación →
             </button>
 
@@ -836,6 +1272,7 @@ button {
 
 
     <div class="feature-grid">
+
 
         <div class="feature">
 
@@ -895,11 +1332,20 @@ button {
 </section>
 
 
-<!-- NUEVA PUBLICACION -->
 
-<section id="nueva" class="screen">
+<!-- =========================================================
+     NUEVA PUBLICACION
+     ========================================================= -->
 
-    <button class="back" onclick="showScreen('inicio')">
+<section
+    id="nueva"
+    class="screen"
+>
+
+    <button
+        class="back"
+        onclick="showScreen('inicio')"
+    >
         ← Volver al inicio
     </button>
 
@@ -934,7 +1380,10 @@ button {
 
         <div class="form-group">
 
-            <label class="form-label" for="postText">
+            <label
+                class="form-label"
+                for="postText"
+            >
                 Texto de la publicación
             </label>
 
@@ -949,11 +1398,17 @@ button {
 
         <div class="form-group">
 
-            <label class="form-label" for="postContext">
+            <label
+                class="form-label"
+                for="postContext"
+            >
                 Contexto de la publicación
             </label>
 
-            <select id="postContext" class="context-select">
+            <select
+                id="postContext"
+                class="context-select"
+            >
 
                 <option value="público">
                     Público
@@ -997,7 +1452,8 @@ button {
                     >
 
                     <span>
-                        📍 La publicación muestra o permite identificar una ubicación.
+                        📍 La publicación muestra o permite identificar
+                        una ubicación.
                     </span>
 
                 </label>
@@ -1011,7 +1467,8 @@ button {
                     >
 
                     <span>
-                        🎓 La publicación está relacionada con mi vida universitaria.
+                        🎓 La publicación está relacionada con mi vida
+                        universitaria.
                     </span>
 
                 </label>
@@ -1025,7 +1482,8 @@ button {
                     >
 
                     <span>
-                        👀 Alguien que no conoce el contexto podría interpretarla de otra manera.
+                        👀 Alguien que no conoce el contexto podría
+                        interpretarla de otra manera.
                     </span>
 
                 </label>
@@ -1057,9 +1515,15 @@ button {
 </section>
 
 
-<!-- ALERTAS -->
 
-<section id="alertas" class="screen">
+<!-- =========================================================
+     ALERTAS
+     ========================================================= -->
+
+<section
+    id="alertas"
+    class="screen"
+>
 
     <div class="topbar">
 
@@ -1094,7 +1558,10 @@ button {
             </p>
 
 
-            <button class="primary" onclick="openNewPost()">
+            <button
+                class="primary"
+                onclick="openNewPost()"
+            >
                 Crear publicación
             </button>
 
@@ -1105,11 +1572,20 @@ button {
 </section>
 
 
-<!-- ANALISIS -->
 
-<section id="analisis" class="screen">
+<!-- =========================================================
+     ANALISIS
+     ========================================================= -->
 
-    <button class="back" onclick="showScreen('alertas')">
+<section
+    id="analisis"
+    class="screen"
+>
+
+    <button
+        class="back"
+        onclick="showScreen('alertas')"
+    >
         ← Volver a alertas
     </button>
 
@@ -1138,14 +1614,18 @@ button {
 
             <div class="post-header">
 
-                <div class="avatar">
-                    J
+                <div
+                    id="userAvatar"
+                    class="avatar"
+                >
+                    ?
                 </div>
+
 
                 <div>
 
-                    <strong>
-                        Jennifer
+                    <strong id="postUserName">
+                        Usuario
                     </strong>
 
                     <div style="font-size:12px;color:#999">
@@ -1192,7 +1672,10 @@ button {
             </h2>
 
 
-            <div id="analysisLevel" class="level">
+            <div
+                id="analysisLevel"
+                class="level"
+            >
                 🟡 Requiere reflexión
             </div>
 
@@ -1247,9 +1730,15 @@ button {
 </section>
 
 
-<!-- PERSPECTIVAS -->
 
-<section id="perspectivas" class="screen">
+<!-- =========================================================
+     PERSPECTIVAS
+     ========================================================= -->
+
+<section
+    id="perspectivas"
+    class="screen"
+>
 
     <button
         class="back"
@@ -1342,9 +1831,15 @@ button {
 </section>
 
 
-<!-- FUTURO -->
 
-<section id="futuro" class="screen">
+<!-- =========================================================
+     FUTURO
+     ========================================================= -->
+
+<section
+    id="futuro"
+    class="screen"
+>
 
     <div class="future">
 
@@ -1367,19 +1862,23 @@ button {
         </p>
 
         <p>
+
             <strong>
                 ¿Seguiría sintiéndose como una publicación que representa
                 la huella digital que quieres construir?
             </strong>
+
         </p>
 
 
         <div class="decision-grid">
 
+
             <button
                 class="decision"
                 onclick="decision('mantener')"
             >
+
                 <strong>
                     ✓ Mantener
                 </strong>
@@ -1395,6 +1894,7 @@ button {
                 class="decision"
                 onclick="decision('editar')"
             >
+
                 <strong>
                     ✎ Editar
                 </strong>
@@ -1410,6 +1910,7 @@ button {
                 class="decision"
                 onclick="decision('audiencia')"
             >
+
                 <strong>
                     👥 Cambiar audiencia
                 </strong>
@@ -1425,6 +1926,7 @@ button {
                 class="decision"
                 onclick="decision('eliminar')"
             >
+
                 <strong>
                     🗑 Eliminar
                 </strong>
@@ -1442,9 +1944,15 @@ button {
 </section>
 
 
-<!-- MI HUELLA -->
 
-<section id="huella" class="screen">
+<!-- =========================================================
+     MI HUELLA
+     ========================================================= -->
+
+<section
+    id="huella"
+    class="screen"
+>
 
     <div class="topbar">
 
@@ -1464,6 +1972,7 @@ button {
 
 
     <div class="feature-grid">
+
 
         <div class="card">
 
@@ -1546,9 +2055,15 @@ button {
 </section>
 
 
-<!-- REDES -->
 
-<section id="redes" class="screen">
+<!-- =========================================================
+     REDES
+     ========================================================= -->
+
+<section
+    id="redes"
+    class="screen"
+>
 
     <div class="topbar">
 
@@ -1568,6 +2083,7 @@ button {
 
 
     <div class="card">
+
 
         <div class="network">
 
@@ -1713,9 +2229,15 @@ button {
 </section>
 
 
-<!-- IA RESPONSABLE -->
 
-<section id="ia" class="screen">
+<!-- =========================================================
+     IA RESPONSABLE
+     ========================================================= -->
+
+<section
+    id="ia"
+    class="screen"
+>
 
     <div class="topbar">
 
@@ -1754,6 +2276,7 @@ button {
 
 
         <div class="ai-list">
+
 
             <div class="ai-item">
 
@@ -1816,17 +2339,724 @@ button {
 
 </section>
 
+
 </main>
 
 </div>
 
 
-<div id="toast" class="toast"></div>
+<div
+    id="toast"
+    class="toast"
+></div>
+
 
 
 <script>
 
-let hasAlert = false;
+/* =========================================================
+   SUPABASE
+   ========================================================= */
+
+const SUPABASE_URL =
+    "https://bhmvjxbbdcygumepjhbz.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_HfJcWn4wu4YETrFrwL75uw_TTeOrbtH";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+let currentUser = null;
+
+
+/* =========================================================
+   AUTENTICACION
+   ========================================================= */
+
+async function initializeAuth() {
+
+    try {
+
+        const {
+            data: {
+                session
+            }
+        } = await supabaseClient.auth.getSession();
+
+
+        if (session && session.user) {
+
+            currentUser =
+                session.user;
+
+            showApp();
+
+            updateUserInterface();
+
+        }
+
+        else {
+
+            showAuthScreen();
+
+        }
+
+
+        supabaseClient.auth.onAuthStateChange(
+            async (event, session) => {
+
+                if (session && session.user) {
+
+                    currentUser =
+                        session.user;
+
+                    showApp();
+
+                    updateUserInterface();
+
+                }
+
+                else {
+
+                    currentUser =
+                        null;
+
+                    showAuthScreen();
+
+                }
+
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Error inicializando autenticación:",
+            error
+        );
+
+        showAuthScreen();
+
+    }
+
+}
+
+
+/* =========================================================
+   MOSTRAR APP
+   ========================================================= */
+
+function showApp() {
+
+    const authScreen =
+        document.getElementById("authScreen");
+
+
+    const app =
+        document.querySelector(".app");
+
+
+    if (authScreen) {
+
+        authScreen.style.display =
+            "none";
+
+    }
+
+
+    if (app) {
+
+        app.style.display =
+            "flex";
+
+    }
+
+}
+
+
+/* =========================================================
+   MOSTRAR LOGIN
+   ========================================================= */
+
+function showAuthScreen() {
+
+    const authScreen =
+        document.getElementById("authScreen");
+
+
+    const app =
+        document.querySelector(".app");
+
+
+    if (authScreen) {
+
+        authScreen.style.display =
+            "flex";
+
+    }
+
+
+    if (app) {
+
+        app.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   ACTUALIZAR NOMBRE DEL USUARIO
+   ========================================================= */
+
+function updateUserInterface() {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    const name =
+        currentUser.user_metadata?.name ||
+        currentUser.email?.split("@")[0] ||
+        "Usuario";
+
+
+    const firstLetter =
+        name
+            .charAt(0)
+            .toUpperCase();
+
+
+    const welcomeTitle =
+        document.getElementById(
+            "welcomeTitle"
+        );
+
+
+    const postUserName =
+        document.getElementById(
+            "postUserName"
+        );
+
+
+    const userAvatar =
+        document.getElementById(
+            "userAvatar"
+        );
+
+
+    if (welcomeTitle) {
+
+        welcomeTitle.textContent =
+            "Hola, " + name + " 👋";
+
+    }
+
+
+    if (postUserName) {
+
+        postUserName.textContent =
+            name;
+
+    }
+
+
+    if (userAvatar) {
+
+        userAvatar.textContent =
+            firstLetter;
+
+    }
+
+}
+
+
+/* =========================================================
+   CAMBIAR LOGIN / REGISTRO
+   ========================================================= */
+
+function showAuthMode(mode) {
+
+    const loginForm =
+        document.getElementById(
+            "loginForm"
+        );
+
+
+    const registerForm =
+        document.getElementById(
+            "registerForm"
+        );
+
+
+    const loginTab =
+        document.getElementById(
+            "loginTab"
+        );
+
+
+    const registerTab =
+        document.getElementById(
+            "registerTab"
+        );
+
+
+    clearAuthMessage();
+
+
+    if (mode === "login") {
+
+        loginForm.classList.add("active");
+
+        registerForm.classList.remove("active");
+
+        loginTab.classList.add("active");
+
+        registerTab.classList.remove("active");
+
+    }
+
+    else {
+
+        loginForm.classList.remove("active");
+
+        registerForm.classList.add("active");
+
+        loginTab.classList.remove("active");
+
+        registerTab.classList.add("active");
+
+    }
+
+}
+
+
+/* =========================================================
+   REGISTRAR USUARIO
+   ========================================================= */
+
+async function registerUser() {
+
+    const name =
+        document
+            .getElementById("registerName")
+            .value
+            .trim();
+
+
+    const email =
+        document
+            .getElementById("registerEmail")
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById("registerPassword")
+            .value;
+
+
+    const passwordConfirm =
+        document
+            .getElementById(
+                "registerPasswordConfirm"
+            )
+            .value;
+
+
+    if (
+        !name ||
+        !email ||
+        !password ||
+        !passwordConfirm
+    ) {
+
+        showAuthMessage(
+            "Completa todos los campos."
+        );
+
+        return;
+
+    }
+
+
+    if (password.length < 6) {
+
+        showAuthMessage(
+            "La contraseña debe tener al menos 6 caracteres."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        password !==
+        passwordConfirm
+    ) {
+
+        showAuthMessage(
+            "Las contraseñas no coinciden."
+        );
+
+        return;
+
+    }
+
+
+    showAuthMessage(
+        "Creando tu cuenta..."
+    );
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth.signUp({
+
+                email: email,
+
+                password: password,
+
+                options: {
+
+                    data: {
+                        name: name
+                    }
+
+                }
+
+            });
+
+
+        if (error) {
+
+            console.error(error);
+
+            showAuthMessage(
+                translateAuthError(
+                    error.message
+                )
+            );
+
+            return;
+
+        }
+
+
+        if (
+            data &&
+            data.session
+        ) {
+
+            currentUser =
+                data.user;
+
+
+            showApp();
+
+            updateUserInterface();
+
+
+            showToast(
+                "✓ Cuenta creada correctamente"
+            );
+
+        }
+
+        else {
+
+            showAuthMessage(
+                "Cuenta creada. Revisa tu correo para continuar."
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        showAuthMessage(
+            "Ocurrió un problema al crear la cuenta."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   INICIAR SESION
+   ========================================================= */
+
+async function loginUser() {
+
+    const email =
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+
+
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+
+    if (!email || !password) {
+
+        showAuthMessage(
+            "Escribe tu correo y contraseña."
+        );
+
+        return;
+
+    }
+
+
+    showAuthMessage(
+        "Iniciando sesión..."
+    );
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth.signInWithPassword({
+
+                email: email,
+
+                password: password
+
+            });
+
+
+        if (error) {
+
+            console.error(error);
+
+            showAuthMessage(
+                "No pudimos iniciar sesión. Revisa tu correo y contraseña."
+            );
+
+            return;
+
+        }
+
+
+        currentUser =
+            data.user;
+
+
+        showApp();
+
+        updateUserInterface();
+
+
+        showToast(
+            "✓ Bienvenido a Huella+"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        showAuthMessage(
+            "Ocurrió un problema al iniciar sesión."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CERRAR SESION
+   ========================================================= */
+
+async function logoutUser() {
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient.auth.signOut();
+
+
+        if (error) {
+
+            console.error(error);
+
+            showToast(
+                "No fue posible cerrar sesión."
+            );
+
+            return;
+
+        }
+
+
+        currentUser =
+            null;
+
+
+        showAuthScreen();
+
+        showAuthMode("login");
+
+
+        showToast(
+            "Sesión cerrada"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "No fue posible cerrar sesión."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   MENSAJES DE AUTENTICACION
+   ========================================================= */
+
+function showAuthMessage(message) {
+
+    const element =
+        document.getElementById(
+            "authMessage"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        message;
+
+
+    element.classList.add(
+        "show"
+    );
+
+}
+
+
+function clearAuthMessage() {
+
+    const element =
+        document.getElementById(
+            "authMessage"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        "";
+
+
+    element.classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   TRADUCIR ERRORES COMUNES
+   ========================================================= */
+
+function translateAuthError(message) {
+
+    if (!message) {
+
+        return "Ocurrió un problema.";
+
+    }
+
+
+    const lower =
+        message.toLowerCase();
+
+
+    if (
+        lower.includes("user already registered")
+    ) {
+
+        return "Este correo ya tiene una cuenta. Intenta iniciar sesión.";
+
+    }
+
+
+    if (
+        lower.includes("invalid login credentials")
+    ) {
+
+        return "El correo o la contraseña no son correctos.";
+
+    }
+
+
+    if (
+        lower.includes("password should be at least")
+    ) {
+
+        return "La contraseña debe tener al menos 6 caracteres.";
+
+    }
+
+
+    if (
+        lower.includes("invalid email")
+    ) {
+
+        return "Escribe un correo electrónico válido.";
+
+    }
+
+
+    return message;
+
+}
 
 
 /* =========================================================
@@ -1835,27 +3065,46 @@ let hasAlert = false;
 
 function showScreen(id, button) {
 
-    document.querySelectorAll(".screen").forEach(screen => {
-        screen.classList.remove("active");
-    });
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+
+            screen.classList.remove(
+                "active"
+            );
+
+        });
 
 
-    const target = document.getElementById(id);
+    const target =
+        document.getElementById(id);
 
 
     if (target) {
-        target.classList.add("active");
+
+        target.classList.add(
+            "active"
+        );
+
     }
 
 
     if (button) {
 
-        document.querySelectorAll(".nav button").forEach(btn => {
-            btn.classList.remove("active");
-        });
+        document
+            .querySelectorAll(".nav button")
+            .forEach(btn => {
+
+                btn.classList.remove(
+                    "active"
+                );
+
+            });
 
 
-        button.classList.add("active");
+        button.classList.add(
+            "active"
+        );
 
     }
 
@@ -1868,15 +3117,23 @@ function showScreen(id, button) {
 
 function openNewPost() {
 
-    showScreen("nueva");
+    showScreen(
+        "nueva"
+    );
+
 
     const textarea =
-        document.getElementById("postText");
+        document.getElementById(
+            "postText"
+        );
+
 
     if (textarea) {
 
         setTimeout(() => {
+
             textarea.focus();
+
         }, 100);
 
     }
@@ -1898,32 +3155,45 @@ async function analizarPublicacion(
 
     try {
 
-        const respuesta = await fetch("/api/analyze", {
+        const respuesta =
+            await fetch(
+                "/api/analyze",
+                {
 
-            method: "POST",
+                    method: "POST",
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+                    headers: {
 
-            body: JSON.stringify({
+                        "Content-Type":
+                            "application/json"
 
-                text: texto,
+                    },
 
-                context: contexto,
+                    body:
+                        JSON.stringify({
 
-                locationVisible: locationVisible,
+                            text: texto,
 
-                academicContext: academicContext,
+                            context:
+                                contexto,
 
-                ambiguousContext: ambiguousContext
+                            locationVisible:
+                                locationVisible,
 
-            })
+                            academicContext:
+                                academicContext,
 
-        });
+                            ambiguousContext:
+                                ambiguousContext
+
+                        })
+
+                }
+            );
 
 
-        const resultado = await respuesta.json();
+        const resultado =
+            await respuesta.json();
 
 
         console.log(
@@ -1944,8 +3214,10 @@ async function analizarPublicacion(
 
         return resultado;
 
+    }
 
-    } catch (error) {
+
+    catch (error) {
 
         console.error(
             "Error conectando con Huella+:",
@@ -1974,30 +3246,46 @@ async function analizarPublicacion(
 async function analyzeNewPost() {
 
     const textarea =
-        document.getElementById("postText");
+        document.getElementById(
+            "postText"
+        );
 
 
     const contexto =
-        document.getElementById("postContext").value;
+        document
+            .getElementById(
+                "postContext"
+            )
+            .value;
 
 
     const locationVisible =
-        document.getElementById("locationVisible").checked;
+        document
+            .getElementById(
+                "locationVisible"
+            )
+            .checked;
 
 
     const academicContext =
-        document.getElementById("academicContext").checked;
+        document
+            .getElementById(
+                "academicContext"
+            )
+            .checked;
 
 
     const ambiguousContext =
-        document.getElementById("ambiguousContext").checked;
+        document
+            .getElementById(
+                "ambiguousContext"
+            )
+            .checked;
 
 
     const texto =
         textarea.value.trim();
 
-
-    /* VALIDAR TEXTO */
 
     if (!texto) {
 
@@ -2005,58 +3293,69 @@ async function analyzeNewPost() {
             "✏️ Escribe una publicación primero"
         );
 
+
         textarea.focus();
+
 
         return;
 
     }
 
 
-    /* GUARDAR PUBLICACION */
-
     window.publicacionActual = {
 
-        text: texto,
+        text:
+            texto,
 
-        context: contexto,
+        context:
+            contexto,
 
-        locationVisible: locationVisible,
+        locationVisible:
+            locationVisible,
 
-        academicContext: academicContext,
+        academicContext:
+            academicContext,
 
-        ambiguousContext: ambiguousContext
+        ambiguousContext:
+            ambiguousContext
 
     };
 
 
-    /* ACTUALIZAR TARJETA DE ALERTA */
+    hasAlert =
+        true;
 
-    hasAlert = true;
 
-
-    document.getElementById("badge").style.display =
+    document.getElementById(
+        "badge"
+    ).style.display =
         "flex";
 
 
-    document.getElementById("alertTitle").textContent =
+    document.getElementById(
+        "alertTitle"
+    ).textContent =
         "Nueva publicación analizada";
 
 
-    document.getElementById("alertText").textContent =
+    document.getElementById(
+        "alertText"
+    ).textContent =
         "Huella+ revisó la publicación que ingresaste.";
 
 
-    /* MOSTRAR TEXTO EN ANALISIS */
-
-    document.getElementById("displayPostText").textContent =
+    document.getElementById(
+        "displayPostText"
+    ).textContent =
         texto;
 
 
-    document.getElementById("displayPostContext").textContent =
-        "🌐 Contexto: " + contexto;
+    document.getElementById(
+        "displayPostContext"
+    ).textContent =
+        "🌐 Contexto: " +
+        contexto;
 
-
-    /* ANALIZAR */
 
     showToast(
         "🔎 Analizando publicación..."
@@ -2079,20 +3378,18 @@ async function analyzeNewPost() {
         );
 
 
-    /* GUARDAR RESULTADO */
-
     window.ultimoAnalisis =
         resultado;
 
 
-    /* MOSTRAR RESULTADO */
+    renderAnalysis(
+        resultado
+    );
 
-    renderAnalysis(resultado);
 
-
-    /* ACTUALIZAR ALERTAS */
-
-    document.getElementById("alertContent").innerHTML = `
+    document.getElementById(
+        "alertContent"
+    ).innerHTML = `
 
         <div class="card alert-card">
 
@@ -2135,9 +3432,9 @@ async function analyzeNewPost() {
     `;
 
 
-    /* IR AL ANALISIS */
-
-    showScreen("analisis");
+    showScreen(
+        "analisis"
+    );
 
 
     showToast(
@@ -2154,22 +3451,33 @@ async function analyzeNewPost() {
 function renderAnalysis(resultado) {
 
     const title =
-        document.getElementById("analysisTitle");
+        document.getElementById(
+            "analysisTitle"
+        );
 
 
     const level =
-        document.getElementById("analysisLevel");
+        document.getElementById(
+            "analysisLevel"
+        );
 
 
     const message =
-        document.getElementById("analysisMessage");
+        document.getElementById(
+            "analysisMessage"
+        );
 
 
     const reasons =
-        document.getElementById("analysisReasons");
+        document.getElementById(
+            "analysisReasons"
+        );
 
 
-    if (!resultado || !resultado.ok) {
+    if (
+        !resultado ||
+        !resultado.ok
+    ) {
 
         title.textContent =
             "No fue posible analizar";
@@ -2192,7 +3500,8 @@ function renderAnalysis(resultado) {
             "Ocurrió un problema al realizar el análisis.";
 
 
-        reasons.innerHTML = "";
+        reasons.innerHTML =
+            "";
 
 
         return;
@@ -2200,13 +3509,9 @@ function renderAnalysis(resultado) {
     }
 
 
-    /* TITULO */
-
     title.textContent =
         resultado.level;
 
-
-    /* NIVEL */
 
     if (
         resultado.level ===
@@ -2262,15 +3567,12 @@ function renderAnalysis(resultado) {
     }
 
 
-    /* MENSAJE */
-
     message.textContent =
         resultado.message;
 
 
-    /* OBSERVACIONES */
-
-    reasons.innerHTML = "";
+    reasons.innerHTML =
+        "";
 
 
     if (
@@ -2282,7 +3584,9 @@ function renderAnalysis(resultado) {
             observation => {
 
                 const reason =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
 
                 reason.className =
@@ -2290,39 +3594,65 @@ function renderAnalysis(resultado) {
 
 
                 const icon =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
+
 
                 icon.textContent =
-                    observation.icon || "•";
+                    observation.icon ||
+                    "•";
 
 
                 const content =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
 
                 const strong =
-                    document.createElement("strong");
+                    document.createElement(
+                        "strong"
+                    );
+
 
                 strong.textContent =
                     observation.title;
 
 
                 const paragraph =
-                    document.createElement("p");
+                    document.createElement(
+                        "p"
+                    );
+
 
                 paragraph.textContent =
                     observation.description;
 
 
-                content.appendChild(strong);
+                content.appendChild(
+                    strong
+                );
 
-                content.appendChild(paragraph);
 
-                reason.appendChild(icon);
+                content.appendChild(
+                    paragraph
+                );
 
-                reason.appendChild(content);
 
-                reasons.appendChild(reason);
+                reason.appendChild(
+                    icon
+                );
+
+
+                reason.appendChild(
+                    content
+                );
+
+
+                reasons.appendChild(
+                    reason
+                );
 
             }
         );
@@ -2366,18 +3696,27 @@ function renderAnalysis(resultado) {
    PERSPECTIVAS
    ========================================================= */
 
-function changePerspective(type, button) {
+function changePerspective(
+    type,
+    button
+) {
 
     document
-        .querySelectorAll(".perspective-buttons button")
+        .querySelectorAll(
+            ".perspective-buttons button"
+        )
         .forEach(btn => {
 
-            btn.classList.remove("active");
+            btn.classList.remove(
+                "active"
+            );
 
         });
 
 
-    button.classList.add("active");
+    button.classList.add(
+        "active"
+    );
 
 
     const text =
@@ -2387,7 +3726,6 @@ function changePerspective(type, button) {
 
 
     const perspectives = {
-
 
         amigo: `
 
@@ -2485,7 +3823,8 @@ function decision(type) {
 
 
     showToast(
-        "✓ " + messages[type]
+        "✓ " +
+        messages[type]
     );
 
 }
@@ -2498,23 +3837,47 @@ function decision(type) {
 function showToast(message) {
 
     const toast =
-        document.getElementById("toast");
+        document.getElementById(
+            "toast"
+        );
 
 
     toast.textContent =
         message;
 
 
-    toast.classList.add("show");
+    toast.classList.add(
+        "show"
+    );
 
 
     setTimeout(() => {
 
-        toast.classList.remove("show");
+        toast.classList.remove(
+            "show"
+        );
 
     }, 3500);
 
 }
+
+
+/* =========================================================
+   VARIABLE DE ALERTA
+   ========================================================= */
+
+let hasAlert =
+    false;
+
+
+/* =========================================================
+   INICIAR AUTENTICACION
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    initializeAuth
+);
 
 </script>
 

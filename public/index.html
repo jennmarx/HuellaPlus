@@ -715,7 +715,9 @@ button {
     font-size: 12px;
 }
 
-/* NETWORKS */
+/* =========================================================
+   NETWORKS
+   ========================================================= */
 
 .network {
     display: flex;
@@ -748,6 +750,85 @@ button {
     background: #eaf7ee;
     padding: 7px 10px;
     border-radius: 15px;
+}
+
+.network-action {
+    border: 1px solid #ddd5e4;
+    background: white;
+    color: #6842b9;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.network-action:hover {
+    background: #faf7ff;
+    border-color: #cdb6ed;
+}
+
+.network-remove {
+    border: 1px solid #f0d9df;
+    background: #fff8fa;
+    color: #a64b60;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.network-remove:hover {
+    background: #fff0f3;
+}
+
+.social-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 0 0 18px 55px;
+}
+
+.social-input {
+    flex: 1;
+    min-width: 220px;
+    border: 1px solid #ddd5e4;
+    border-radius: 10px;
+    padding: 10px 12px;
+    outline: none;
+    font-size: 13px;
+    background: white;
+}
+
+.social-input:focus {
+    border-color: #9c75ce;
+    box-shadow: 0 0 0 3px rgba(124, 77, 202, .08);
+}
+
+.social-save {
+    border: none;
+    background: #7043b8;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.social-save:hover {
+    background: #5f35a4;
+}
+
+.social-cancel {
+    border: 1px solid #ddd5e4;
+    background: white;
+    color: #756e7d;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.social-cancel:hover {
+    background: #faf8fc;
 }
 
 /* FUTURE */
@@ -871,14 +952,29 @@ button {
     .auth-card {
         padding: 28px 22px;
     }
+
+    .network {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .network-info {
+        min-width: 0;
+    }
+
+    .network-info > div:last-child {
+        min-width: 0;
+    }
+
+    .social-form {
+        padding-left: 0;
+    }
 }
 
 </style>
 </head>
 
-
 <body>
-
 
 <!-- =========================================================
      PANTALLA DE AUTENTICACION
@@ -896,7 +992,6 @@ button {
             Tu huella digital con propósito.<br>
             Antes de publicar, piensa en lo que estás construyendo.
         </p>
-
 
         <div class="auth-tabs">
 
@@ -918,12 +1013,10 @@ button {
 
         </div>
 
-
         <div
             id="authMessage"
             class="auth-message"
         ></div>
-
 
         <!-- LOGIN -->
 
@@ -947,7 +1040,6 @@ button {
                 autocomplete="email"
             >
 
-
             <label
                 class="auth-label"
                 for="loginPassword"
@@ -963,7 +1055,6 @@ button {
                 autocomplete="current-password"
             >
 
-
             <button
                 class="auth-button"
                 onclick="loginUser()"
@@ -972,7 +1063,6 @@ button {
             </button>
 
         </div>
-
 
         <!-- REGISTRO -->
 
@@ -996,7 +1086,6 @@ button {
                 autocomplete="name"
             >
 
-
             <label
                 class="auth-label"
                 for="registerEmail"
@@ -1011,7 +1100,6 @@ button {
                 placeholder="tucorreo@ejemplo.com"
                 autocomplete="email"
             >
-
 
             <label
                 class="auth-label"
@@ -1028,7 +1116,6 @@ button {
                 autocomplete="new-password"
             >
 
-
             <label
                 class="auth-label"
                 for="registerPasswordConfirm"
@@ -1044,7 +1131,6 @@ button {
                 autocomplete="new-password"
             >
 
-
             <button
                 class="auth-button"
                 onclick="registerUser()"
@@ -1053,7 +1139,6 @@ button {
             </button>
 
         </div>
-
 
         <div class="auth-footer">
             Huella+ utiliza autenticación segura para que cada usuario
@@ -1064,8 +1149,6 @@ button {
 
 </div>
 
-
-
 <!-- =========================================================
      APLICACION
      ========================================================= -->
@@ -1074,7 +1157,6 @@ button {
     class="app"
     style="display:none;"
 >
-
 
 <aside class="sidebar">
 
@@ -1087,7 +1169,6 @@ button {
         piensa en lo que estás construyendo.
     </div>
 
-
     <nav class="nav">
 
         <button
@@ -1097,13 +1178,11 @@ button {
             🏠 <span>Inicio</span>
         </button>
 
-
         <button
             onclick="showScreen('huella', this)"
         >
             👣 <span>Mi huella</span>
         </button>
-
 
         <button
             onclick="showScreen('alertas', this)"
@@ -1111,13 +1190,11 @@ button {
             🔔 <span>Alertas</span>
         </button>
 
-
         <button
             onclick="showScreen('redes', this)"
         >
             🔗 <span>Mis redes</span>
         </button>
-
 
         <button
             onclick="showScreen('ia', this)"
@@ -1127,14 +1204,12 @@ button {
 
     </nav>
 
-
     <button
         class="logout-button"
         onclick="logoutUser()"
     >
         🚪 <span>Cerrar sesión</span>
     </button>
-
 
     <div class="demo-box">
 
@@ -1152,10 +1227,7 @@ button {
 
 </aside>
 
-
-
 <main class="main">
-
 
 <!-- =========================================================
      INICIO
@@ -1181,7 +1253,6 @@ button {
 
         </div>
 
-
         <button
             class="notification"
             onclick="showScreen('alertas')"
@@ -1200,9 +1271,7 @@ button {
 
     </div>
 
-
     <div class="grid">
-
 
         <div class="card hero">
 
@@ -1223,7 +1292,6 @@ button {
 
             </div>
 
-
             <button
                 class="primary"
                 onclick="openNewPost()"
@@ -1232,7 +1300,6 @@ button {
             </button>
 
         </div>
-
 
         <div class="card alert-card">
 
@@ -1256,7 +1323,6 @@ button {
 
             </div>
 
-
             <p id="alertText">
                 No tienes publicaciones pendientes de revisar.
             </p>
@@ -1265,14 +1331,11 @@ button {
 
     </div>
 
-
     <h3 class="section-title">
         ¿Qué puedes hacer con Huella+?
     </h3>
 
-
     <div class="feature-grid">
-
 
         <div class="feature">
 
@@ -1291,7 +1354,6 @@ button {
 
         </div>
 
-
         <div class="feature">
 
             <div class="feature-icon">
@@ -1308,7 +1370,6 @@ button {
             </p>
 
         </div>
-
 
         <div class="feature">
 
@@ -1331,8 +1392,6 @@ button {
 
 </section>
 
-
-
 <!-- =========================================================
      NUEVA PUBLICACION
      ========================================================= -->
@@ -1348,7 +1407,6 @@ button {
     >
         ← Volver al inicio
     </button>
-
 
     <div class="topbar">
 
@@ -1366,7 +1424,6 @@ button {
 
     </div>
 
-
     <div class="card form-card">
 
         <div class="eyebrow">
@@ -1376,7 +1433,6 @@ button {
         <h2>
             ¿Qué quieres compartir?
         </h2>
-
 
         <div class="form-group">
 
@@ -1394,7 +1450,6 @@ button {
             ></textarea>
 
         </div>
-
 
         <div class="form-group">
 
@@ -1434,13 +1489,11 @@ button {
 
         </div>
 
-
         <div class="form-group">
 
             <label class="form-label">
                 ¿Hay algún elemento que quieras tener en cuenta?
             </label>
-
 
             <div class="check-options">
 
@@ -1458,7 +1511,6 @@ button {
 
                 </label>
 
-
                 <label class="check-option">
 
                     <input
@@ -1472,7 +1524,6 @@ button {
                     </span>
 
                 </label>
-
 
                 <label class="check-option">
 
@@ -1492,7 +1543,6 @@ button {
 
         </div>
 
-
         <div class="example-note">
 
             💡 <strong>Consejo:</strong>
@@ -1501,7 +1551,6 @@ button {
             que le proporciones en esta demostración.
 
         </div>
-
 
         <button
             class="primary"
@@ -1513,8 +1562,6 @@ button {
     </div>
 
 </section>
-
-
 
 <!-- =========================================================
      ALERTAS
@@ -1541,7 +1588,6 @@ button {
 
     </div>
 
-
     <div id="alertContent">
 
         <div class="card">
@@ -1557,7 +1603,6 @@ button {
 
             </p>
 
-
             <button
                 class="primary"
                 onclick="openNewPost()"
@@ -1570,8 +1615,6 @@ button {
     </div>
 
 </section>
-
-
 
 <!-- =========================================================
      ANALISIS
@@ -1589,7 +1632,6 @@ button {
         ← Volver a alertas
     </button>
 
-
     <div class="topbar">
 
         <div>
@@ -1606,9 +1648,7 @@ button {
 
     </div>
 
-
     <div class="analysis-layout">
-
 
         <div class="post">
 
@@ -1620,7 +1660,6 @@ button {
                 >
                     ?
                 </div>
-
 
                 <div>
 
@@ -1636,11 +1675,9 @@ button {
 
             </div>
 
-
             <div class="post-image">
                 📸
             </div>
-
 
             <p
                 id="displayPostText"
@@ -1648,7 +1685,6 @@ button {
             >
                 Aquí aparecerá tu publicación.
             </p>
-
 
             <p
                 id="displayPostContext"
@@ -1659,18 +1695,15 @@ button {
 
         </div>
 
-
         <div class="card">
 
             <div class="eyebrow">
                 Resultado del análisis
             </div>
 
-
             <h2 id="analysisTitle">
                 Requiere reflexión
             </h2>
-
 
             <div
                 id="analysisLevel"
@@ -1679,14 +1712,12 @@ button {
                 🟡 Requiere reflexión
             </div>
 
-
             <p
                 id="analysisMessage"
                 style="color:#777;line-height:1.6"
             >
                 El análisis aparecerá aquí.
             </p>
-
 
             <div
                 id="analysisReasons"
@@ -1715,7 +1746,6 @@ button {
 
             </div>
 
-
             <button
                 class="primary"
                 onclick="showScreen('perspectivas')"
@@ -1728,8 +1758,6 @@ button {
     </div>
 
 </section>
-
-
 
 <!-- =========================================================
      PERSPECTIVAS
@@ -1746,7 +1774,6 @@ button {
     >
         ← Volver al análisis
     </button>
-
 
     <div class="topbar">
 
@@ -1765,7 +1792,6 @@ button {
 
     </div>
 
-
     <div class="card">
 
         <div class="perspective-buttons">
@@ -1777,20 +1803,17 @@ button {
                 👩‍🦰 Amigo
             </button>
 
-
             <button
                 onclick="changePerspective('profesor', this)"
             >
                 👨‍🏫 Profesor
             </button>
 
-
             <button
                 onclick="changePerspective('reclutador', this)"
             >
                 💼 Reclutador
             </button>
-
 
             <button
                 onclick="changePerspective('desconocido', this)"
@@ -1799,7 +1822,6 @@ button {
             </button>
 
         </div>
-
 
         <div
             id="perspectiveText"
@@ -1818,7 +1840,6 @@ button {
 
         </div>
 
-
         <button
             class="primary"
             onclick="showScreen('futuro')"
@@ -1829,8 +1850,6 @@ button {
     </div>
 
 </section>
-
-
 
 <!-- =========================================================
      FUTURO
@@ -1870,9 +1889,7 @@ button {
 
         </p>
 
-
         <div class="decision-grid">
-
 
             <button
                 class="decision"
@@ -1889,7 +1906,6 @@ button {
 
             </button>
 
-
             <button
                 class="decision"
                 onclick="decision('editar')"
@@ -1905,7 +1921,6 @@ button {
 
             </button>
 
-
             <button
                 class="decision"
                 onclick="decision('audiencia')"
@@ -1920,7 +1935,6 @@ button {
                 </span>
 
             </button>
-
 
             <button
                 class="decision"
@@ -1942,8 +1956,6 @@ button {
     </div>
 
 </section>
-
-
 
 <!-- =========================================================
      MI HUELLA
@@ -1970,9 +1982,7 @@ button {
 
     </div>
 
-
     <div class="feature-grid">
-
 
         <div class="card">
 
@@ -1991,7 +2001,6 @@ button {
 
         </div>
 
-
         <div class="card">
 
             <div class="feature-icon">
@@ -2008,7 +2017,6 @@ button {
             </p>
 
         </div>
-
 
         <div class="card">
 
@@ -2027,7 +2035,6 @@ button {
         </div>
 
     </div>
-
 
     <div
         class="card"
@@ -2054,8 +2061,6 @@ button {
 
 </section>
 
-
-
 <!-- =========================================================
      REDES
      ========================================================= -->
@@ -2074,16 +2079,31 @@ button {
             </h1>
 
             <p>
-                Gestiona las plataformas conectadas a Huella+.
+                Gestiona los perfiles que quieres asociar a tu huella digital.
             </p>
 
         </div>
 
     </div>
 
-
     <div class="card">
 
+        <div class="eyebrow">
+            Tus perfiles
+        </div>
+
+        <h2>
+            Redes asociadas a tu cuenta
+        </h2>
+
+        <p
+            style="margin-top:8px;color:#777;line-height:1.6;font-size:13px"
+        >
+            Agrega el usuario o enlace de cada perfil que quieras tener
+            registrado en Huella+. Puedes modificarlo o quitarlo cuando quieras.
+        </p>
+
+        <!-- INSTAGRAM -->
 
         <div class="network">
 
@@ -2099,20 +2119,63 @@ button {
                         Instagram
                     </strong>
 
-                    <div style="font-size:12px;color:#999">
-                        Cuenta de demostración
+                    <div
+                        id="instagramStatus"
+                        style="font-size:12px;color:#999"
+                    >
+                        Sin agregar
                     </div>
 
                 </div>
 
             </div>
 
-            <div class="connected">
-                Conectada
+            <div
+                id="instagramAction"
+                style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"
+            >
+
+                <button
+                    class="network-action"
+                    onclick="openSocialForm('instagram')"
+                >
+                    Agregar
+                </button>
+
             </div>
 
         </div>
 
+        <div
+            id="instagramForm"
+            class="social-form"
+            style="display:none"
+        >
+
+            <input
+                id="instagramInput"
+                class="social-input"
+                type="text"
+                placeholder="@tuusuario o enlace de Instagram"
+            >
+
+            <button
+                class="social-save"
+                onclick="saveSocialAccount('instagram')"
+            >
+                Guardar
+            </button>
+
+            <button
+                class="social-cancel"
+                onclick="closeSocialForm('instagram')"
+            >
+                Cancelar
+            </button>
+
+        </div>
+
+        <!-- TIKTOK -->
 
         <div class="network">
 
@@ -2128,20 +2191,63 @@ button {
                         TikTok
                     </strong>
 
-                    <div style="font-size:12px;color:#999">
-                        Cuenta de demostración
+                    <div
+                        id="tiktokStatus"
+                        style="font-size:12px;color:#999"
+                    >
+                        Sin agregar
                     </div>
 
                 </div>
 
             </div>
 
-            <div class="connected">
-                Conectada
+            <div
+                id="tiktokAction"
+                style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"
+            >
+
+                <button
+                    class="network-action"
+                    onclick="openSocialForm('tiktok')"
+                >
+                    Agregar
+                </button>
+
             </div>
 
         </div>
 
+        <div
+            id="tiktokForm"
+            class="social-form"
+            style="display:none"
+        >
+
+            <input
+                id="tiktokInput"
+                class="social-input"
+                type="text"
+                placeholder="@tuusuario o enlace de TikTok"
+            >
+
+            <button
+                class="social-save"
+                onclick="saveSocialAccount('tiktok')"
+            >
+                Guardar
+            </button>
+
+            <button
+                class="social-cancel"
+                onclick="closeSocialForm('tiktok')"
+            >
+                Cancelar
+            </button>
+
+        </div>
+
+        <!-- LINKEDIN -->
 
         <div class="network">
 
@@ -2157,20 +2263,63 @@ button {
                         LinkedIn
                     </strong>
 
-                    <div style="font-size:12px;color:#999">
-                        Cuenta de demostración
+                    <div
+                        id="linkedinStatus"
+                        style="font-size:12px;color:#999"
+                    >
+                        Sin agregar
                     </div>
 
                 </div>
 
             </div>
 
-            <div class="connected">
-                Conectada
+            <div
+                id="linkedinAction"
+                style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"
+            >
+
+                <button
+                    class="network-action"
+                    onclick="openSocialForm('linkedin')"
+                >
+                    Agregar
+                </button>
+
             </div>
 
         </div>
 
+        <div
+            id="linkedinForm"
+            class="social-form"
+            style="display:none"
+        >
+
+            <input
+                id="linkedinInput"
+                class="social-input"
+                type="text"
+                placeholder="Tu perfil de LinkedIn"
+            >
+
+            <button
+                class="social-save"
+                onclick="saveSocialAccount('linkedin')"
+            >
+                Guardar
+            </button>
+
+            <button
+                class="social-cancel"
+                onclick="closeSocialForm('linkedin')"
+            >
+                Cancelar
+            </button>
+
+        </div>
+
+        <!-- X -->
 
         <div
             class="network"
@@ -2189,22 +2338,63 @@ button {
                         X
                     </strong>
 
-                    <div style="font-size:12px;color:#999">
-                        Cuenta de demostración
+                    <div
+                        id="xStatus"
+                        style="font-size:12px;color:#999"
+                    >
+                        Sin agregar
                     </div>
 
                 </div>
 
             </div>
 
-            <div class="connected">
-                Conectada
+            <div
+                id="xAction"
+                style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"
+            >
+
+                <button
+                    class="network-action"
+                    onclick="openSocialForm('x')"
+                >
+                    Agregar
+                </button>
+
             </div>
 
         </div>
 
-    </div>
+        <div
+            id="xForm"
+            class="social-form"
+            style="display:none"
+        >
 
+            <input
+                id="xInput"
+                class="social-input"
+                type="text"
+                placeholder="@tuusuario o enlace de X"
+            >
+
+            <button
+                class="social-save"
+                onclick="saveSocialAccount('x')"
+            >
+                Guardar
+            </button>
+
+            <button
+                class="social-cancel"
+                onclick="closeSocialForm('x')"
+            >
+                Cancelar
+            </button>
+
+        </div>
+
+    </div>
 
     <div
         class="card"
@@ -2218,17 +2408,14 @@ button {
         <p
             style="margin-top:8px;color:#777;line-height:1.6;font-size:13px"
         >
-            En esta versión de demostración no se utilizan contraseñas
-            ni se accede realmente a tus redes sociales. Las conexiones
-            representan el funcionamiento que tendría Huella+ con
-            autorizaciones reales.
+            Huella+ no necesita tus contraseñas de redes sociales.
+            En esta versión solamente guardamos el usuario o enlace que
+            tú decidas asociar a tu cuenta.
         </p>
 
     </div>
 
 </section>
-
-
 
 <!-- =========================================================
      IA RESPONSABLE
@@ -2255,7 +2442,6 @@ button {
 
     </div>
 
-
     <div class="card">
 
         <div class="eyebrow">
@@ -2274,9 +2460,7 @@ button {
             compartes y la información que produces.
         </p>
 
-
         <div class="ai-list">
-
 
             <div class="ai-item">
 
@@ -2291,7 +2475,6 @@ button {
 
             </div>
 
-
             <div class="ai-item">
 
                 <h3>
@@ -2305,7 +2488,6 @@ button {
 
             </div>
 
-
             <div class="ai-item">
 
                 <h3>
@@ -2318,7 +2500,6 @@ button {
                 </p>
 
             </div>
-
 
             <div class="ai-item">
 
@@ -2339,18 +2520,14 @@ button {
 
 </section>
 
-
 </main>
 
 </div>
-
 
 <div
     id="toast"
     class="toast"
 ></div>
-
-
 
 <script>
 
@@ -2361,17 +2538,14 @@ button {
 const SUPABASE_URL =
     "https://bhmvjxbbdcygumepjhbz.supabase.co";
 
-
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_HfJcWn4wu4YETrFrwL75uw_TTeOrbtH";
-
 
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
     );
-
 
 let currentUser = null;
 
@@ -2390,7 +2564,6 @@ async function initializeAuth() {
             }
         } = await supabaseClient.auth.getSession();
 
-
         if (session && session.user) {
 
             currentUser =
@@ -2407,7 +2580,6 @@ async function initializeAuth() {
             showAuthScreen();
 
         }
-
 
         supabaseClient.auth.onAuthStateChange(
             async (event, session) => {
@@ -2460,10 +2632,8 @@ function showApp() {
     const authScreen =
         document.getElementById("authScreen");
 
-
     const app =
         document.querySelector(".app");
-
 
     if (authScreen) {
 
@@ -2471,7 +2641,6 @@ function showApp() {
             "none";
 
     }
-
 
     if (app) {
 
@@ -2492,10 +2661,8 @@ function showAuthScreen() {
     const authScreen =
         document.getElementById("authScreen");
 
-
     const app =
         document.querySelector(".app");
-
 
     if (authScreen) {
 
@@ -2503,7 +2670,6 @@ function showAuthScreen() {
             "flex";
 
     }
-
 
     if (app) {
 
@@ -2525,36 +2691,30 @@ function updateUserInterface() {
         return;
     }
 
-
     const name =
         currentUser.user_metadata?.name ||
         currentUser.email?.split("@")[0] ||
         "Usuario";
-
 
     const firstLetter =
         name
             .charAt(0)
             .toUpperCase();
 
-
     const welcomeTitle =
         document.getElementById(
             "welcomeTitle"
         );
-
 
     const postUserName =
         document.getElementById(
             "postUserName"
         );
 
-
     const userAvatar =
         document.getElementById(
             "userAvatar"
         );
-
 
     if (welcomeTitle) {
 
@@ -2563,7 +2723,6 @@ function updateUserInterface() {
 
     }
 
-
     if (postUserName) {
 
         postUserName.textContent =
@@ -2571,11 +2730,461 @@ function updateUserInterface() {
 
     }
 
-
     if (userAvatar) {
 
         userAvatar.textContent =
             firstLetter;
+
+    }
+
+    /* Cargar las redes del usuario actual */
+
+    loadSocialAccounts();
+
+}
+
+
+/* =========================================================
+   REDES SOCIALES POR USUARIO
+   ========================================================= */
+
+const socialPlatforms = [
+    "instagram",
+    "tiktok",
+    "linkedin",
+    "x"
+];
+
+
+async function loadSocialAccounts() {
+
+    if (!currentUser) {
+        return;
+    }
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("social_accounts")
+                .select("*")
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
+
+        if (error) {
+
+            console.error(
+                "Error cargando redes:",
+                error
+            );
+
+            showToast(
+                "No pudimos cargar tus redes."
+            );
+
+            return;
+
+        }
+
+        socialPlatforms.forEach(
+            platform => {
+
+                renderSocialAccount(
+                    platform,
+                    null
+                );
+
+            }
+        );
+
+        if (data) {
+
+            data.forEach(
+                account => {
+
+                    renderSocialAccount(
+                        account.platform,
+                        account
+                    );
+
+                }
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Error cargando redes:",
+            error
+        );
+
+    }
+
+}
+
+
+function renderSocialAccount(
+    platform,
+    account
+) {
+
+    const status =
+        document.getElementById(
+            platform + "Status"
+        );
+
+    const action =
+        document.getElementById(
+            platform + "Action"
+        );
+
+    const form =
+        document.getElementById(
+            platform + "Form"
+        );
+
+    const input =
+        document.getElementById(
+            platform + "Input"
+        );
+
+    if (!status || !action) {
+        return;
+    }
+
+    if (account) {
+
+        status.textContent =
+            account.username;
+
+        status.style.color =
+            "#4c9464";
+
+        action.innerHTML = `
+
+            <span class="connected">
+                ✓ Agregada
+            </span>
+
+            <button
+                class="network-action"
+                onclick="openSocialForm('${platform}')"
+            >
+                Editar
+            </button>
+
+            <button
+                class="network-remove"
+                onclick="removeSocialAccount('${platform}')"
+            >
+                Quitar
+            </button>
+
+        `;
+
+        if (input) {
+
+            input.value =
+                account.username;
+
+        }
+
+        if (form) {
+
+            form.style.display =
+                "none";
+
+        }
+
+    }
+
+    else {
+
+        status.textContent =
+            "Sin agregar";
+
+        status.style.color =
+            "#999";
+
+        action.innerHTML = `
+
+            <button
+                class="network-action"
+                onclick="openSocialForm('${platform}')"
+            >
+                Agregar
+            </button>
+
+        `;
+
+        if (input) {
+
+            input.value =
+                "";
+
+        }
+
+        if (form) {
+
+            form.style.display =
+                "none";
+
+        }
+
+    }
+
+}
+
+
+function openSocialForm(
+    platform
+) {
+
+    const form =
+        document.getElementById(
+            platform + "Form"
+        );
+
+    const input =
+        document.getElementById(
+            platform + "Input"
+        );
+
+    if (!form) {
+        return;
+    }
+
+    form.style.display =
+        "flex";
+
+    if (input) {
+
+        setTimeout(() => {
+
+            input.focus();
+
+        }, 100);
+
+    }
+
+}
+
+
+function closeSocialForm(
+    platform
+) {
+
+    const form =
+        document.getElementById(
+            platform + "Form"
+        );
+
+    if (form) {
+
+        form.style.display =
+            "none";
+
+    }
+
+}
+
+
+async function saveSocialAccount(
+    platform
+) {
+
+    if (!currentUser) {
+
+        showToast(
+            "Inicia sesión para guardar tus redes."
+        );
+
+        return;
+
+    }
+
+    const input =
+        document.getElementById(
+            platform + "Input"
+        );
+
+    if (!input) {
+        return;
+    }
+
+    const username =
+        input.value.trim();
+
+    if (!username) {
+
+        showToast(
+            "✏️ Escribe tu usuario o enlace."
+        );
+
+        input.focus();
+
+        return;
+
+    }
+
+    try {
+
+        showToast(
+            "Guardando..."
+        );
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("social_accounts")
+                .upsert(
+                    {
+                        user_id:
+                            currentUser.id,
+
+                        platform:
+                            platform,
+
+                        username:
+                            username,
+
+                        updated_at:
+                            new Date().toISOString()
+
+                    },
+                    {
+                        onConflict:
+                            "user_id,platform"
+                    }
+                );
+
+        if (error) {
+
+            console.error(
+                "Error guardando red:",
+                error
+            );
+
+            showToast(
+                "No pudimos guardar la cuenta."
+            );
+
+            return;
+
+        }
+
+        renderSocialAccount(
+            platform,
+            {
+                platform:
+                    platform,
+
+                username:
+                    username
+            }
+        );
+
+        showToast(
+            "✓ Cuenta guardada"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Error guardando red:",
+            error
+        );
+
+        showToast(
+            "Ocurrió un problema al guardar."
+        );
+
+    }
+
+}
+
+
+async function removeSocialAccount(
+    platform
+) {
+
+    if (!currentUser) {
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            "¿Quieres quitar esta cuenta de Huella+?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("social_accounts")
+                .delete()
+                .eq(
+                    "user_id",
+                    currentUser.id
+                )
+                .eq(
+                    "platform",
+                    platform
+                );
+
+        if (error) {
+
+            console.error(
+                "Error eliminando red:",
+                error
+            );
+
+            showToast(
+                "No pudimos quitar la cuenta."
+            );
+
+            return;
+
+        }
+
+        renderSocialAccount(
+            platform,
+            null
+        );
+
+        showToast(
+            "✓ Cuenta quitada"
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Error eliminando red:",
+            error
+        );
+
+        showToast(
+            "Ocurrió un problema."
+        );
 
     }
 
@@ -2593,27 +3202,22 @@ function showAuthMode(mode) {
             "loginForm"
         );
 
-
     const registerForm =
         document.getElementById(
             "registerForm"
         );
-
 
     const loginTab =
         document.getElementById(
             "loginTab"
         );
 
-
     const registerTab =
         document.getElementById(
             "registerTab"
         );
 
-
     clearAuthMessage();
-
 
     if (mode === "login") {
 
@@ -2654,19 +3258,16 @@ async function registerUser() {
             .value
             .trim();
 
-
     const email =
         document
             .getElementById("registerEmail")
             .value
             .trim();
 
-
     const password =
         document
             .getElementById("registerPassword")
             .value;
-
 
     const passwordConfirm =
         document
@@ -2674,7 +3275,6 @@ async function registerUser() {
                 "registerPasswordConfirm"
             )
             .value;
-
 
     if (
         !name ||
@@ -2691,7 +3291,6 @@ async function registerUser() {
 
     }
 
-
     if (password.length < 6) {
 
         showAuthMessage(
@@ -2701,7 +3300,6 @@ async function registerUser() {
         return;
 
     }
-
 
     if (
         password !==
@@ -2716,11 +3314,9 @@ async function registerUser() {
 
     }
 
-
     showAuthMessage(
         "Creando tu cuenta..."
     );
-
 
     try {
 
@@ -2744,7 +3340,6 @@ async function registerUser() {
 
             });
 
-
         if (error) {
 
             console.error(error);
@@ -2759,7 +3354,6 @@ async function registerUser() {
 
         }
 
-
         if (
             data &&
             data.session
@@ -2768,11 +3362,9 @@ async function registerUser() {
             currentUser =
                 data.user;
 
-
             showApp();
 
             updateUserInterface();
-
 
             showToast(
                 "✓ Cuenta creada correctamente"
@@ -2815,12 +3407,10 @@ async function loginUser() {
             .value
             .trim();
 
-
     const password =
         document
             .getElementById("loginPassword")
             .value;
-
 
     if (!email || !password) {
 
@@ -2832,11 +3422,9 @@ async function loginUser() {
 
     }
 
-
     showAuthMessage(
         "Iniciando sesión..."
     );
-
 
     try {
 
@@ -2852,7 +3440,6 @@ async function loginUser() {
 
             });
 
-
         if (error) {
 
             console.error(error);
@@ -2865,15 +3452,12 @@ async function loginUser() {
 
         }
 
-
         currentUser =
             data.user;
-
 
         showApp();
 
         updateUserInterface();
-
 
         showToast(
             "✓ Bienvenido a Huella+"
@@ -2907,7 +3491,6 @@ async function logoutUser() {
         } =
             await supabaseClient.auth.signOut();
 
-
         if (error) {
 
             console.error(error);
@@ -2920,15 +3503,12 @@ async function logoutUser() {
 
         }
 
-
         currentUser =
             null;
-
 
         showAuthScreen();
 
         showAuthMode("login");
-
 
         showToast(
             "Sesión cerrada"
@@ -2960,15 +3540,12 @@ function showAuthMessage(message) {
             "authMessage"
         );
 
-
     if (!element) {
         return;
     }
 
-
     element.textContent =
         message;
-
 
     element.classList.add(
         "show"
@@ -2984,15 +3561,12 @@ function clearAuthMessage() {
             "authMessage"
         );
 
-
     if (!element) {
         return;
     }
 
-
     element.textContent =
         "";
-
 
     element.classList.remove(
         "show"
@@ -3013,10 +3587,8 @@ function translateAuthError(message) {
 
     }
 
-
     const lower =
         message.toLowerCase();
-
 
     if (
         lower.includes("user already registered")
@@ -3026,7 +3598,6 @@ function translateAuthError(message) {
 
     }
 
-
     if (
         lower.includes("invalid login credentials")
     ) {
@@ -3034,7 +3605,6 @@ function translateAuthError(message) {
         return "El correo o la contraseña no son correctos.";
 
     }
-
 
     if (
         lower.includes("password should be at least")
@@ -3044,7 +3614,6 @@ function translateAuthError(message) {
 
     }
 
-
     if (
         lower.includes("invalid email")
     ) {
@@ -3052,7 +3621,6 @@ function translateAuthError(message) {
         return "Escribe un correo electrónico válido.";
 
     }
-
 
     return message;
 
@@ -3063,7 +3631,10 @@ function translateAuthError(message) {
    CAMBIAR PANTALLA
    ========================================================= */
 
-function showScreen(id, button) {
+function showScreen(
+    id,
+    button
+) {
 
     document
         .querySelectorAll(".screen")
@@ -3075,10 +3646,8 @@ function showScreen(id, button) {
 
         });
 
-
     const target =
         document.getElementById(id);
-
 
     if (target) {
 
@@ -3087,7 +3656,6 @@ function showScreen(id, button) {
         );
 
     }
-
 
     if (button) {
 
@@ -3100,7 +3668,6 @@ function showScreen(id, button) {
                 );
 
             });
-
 
         button.classList.add(
             "active"
@@ -3121,12 +3688,10 @@ function openNewPost() {
         "nueva"
     );
 
-
     const textarea =
         document.getElementById(
             "postText"
         );
-
 
     if (textarea) {
 
@@ -3172,7 +3737,8 @@ async function analizarPublicacion(
                     body:
                         JSON.stringify({
 
-                            text: texto,
+                            text:
+                                texto,
 
                             context:
                                 contexto,
@@ -3191,16 +3757,13 @@ async function analizarPublicacion(
                 }
             );
 
-
         const resultado =
             await respuesta.json();
-
 
         console.log(
             "Resultado de Huella+:",
             resultado
         );
-
 
         if (!respuesta.ok) {
 
@@ -3211,11 +3774,9 @@ async function analizarPublicacion(
 
         }
 
-
         return resultado;
 
     }
-
 
     catch (error) {
 
@@ -3223,7 +3784,6 @@ async function analizarPublicacion(
             "Error conectando con Huella+:",
             error
         );
-
 
         return {
 
@@ -3250,14 +3810,12 @@ async function analyzeNewPost() {
             "postText"
         );
 
-
     const contexto =
         document
             .getElementById(
                 "postContext"
             )
             .value;
-
 
     const locationVisible =
         document
@@ -3266,14 +3824,12 @@ async function analyzeNewPost() {
             )
             .checked;
 
-
     const academicContext =
         document
             .getElementById(
                 "academicContext"
             )
             .checked;
-
 
     const ambiguousContext =
         document
@@ -3282,10 +3838,8 @@ async function analyzeNewPost() {
             )
             .checked;
 
-
     const texto =
         textarea.value.trim();
-
 
     if (!texto) {
 
@@ -3293,14 +3847,11 @@ async function analyzeNewPost() {
             "✏️ Escribe una publicación primero"
         );
 
-
         textarea.focus();
-
 
         return;
 
     }
-
 
     window.publicacionActual = {
 
@@ -3321,34 +3872,28 @@ async function analyzeNewPost() {
 
     };
 
-
     hasAlert =
         true;
-
 
     document.getElementById(
         "badge"
     ).style.display =
         "flex";
 
-
     document.getElementById(
         "alertTitle"
     ).textContent =
         "Nueva publicación analizada";
-
 
     document.getElementById(
         "alertText"
     ).textContent =
         "Huella+ revisó la publicación que ingresaste.";
 
-
     document.getElementById(
         "displayPostText"
     ).textContent =
         texto;
-
 
     document.getElementById(
         "displayPostContext"
@@ -3356,11 +3901,9 @@ async function analyzeNewPost() {
         "🌐 Contexto: " +
         contexto;
 
-
     showToast(
         "🔎 Analizando publicación..."
     );
-
 
     const resultado =
         await analizarPublicacion(
@@ -3377,15 +3920,12 @@ async function analyzeNewPost() {
 
         );
 
-
     window.ultimoAnalisis =
         resultado;
-
 
     renderAnalysis(
         resultado
     );
-
 
     document.getElementById(
         "alertContent"
@@ -3413,12 +3953,10 @@ async function analyzeNewPost() {
 
             </div>
 
-
             <p>
                 Huella+ terminó la revisión de la publicación
                 que ingresaste.
             </p>
-
 
             <button
                 class="primary"
@@ -3431,11 +3969,9 @@ async function analyzeNewPost() {
 
     `;
 
-
     showScreen(
         "analisis"
     );
-
 
     showToast(
         "✓ Análisis completado"
@@ -3455,24 +3991,20 @@ function renderAnalysis(resultado) {
             "analysisTitle"
         );
 
-
     const level =
         document.getElementById(
             "analysisLevel"
         );
-
 
     const message =
         document.getElementById(
             "analysisMessage"
         );
 
-
     const reasons =
         document.getElementById(
             "analysisReasons"
         );
-
 
     if (
         !resultado ||
@@ -3482,36 +4014,28 @@ function renderAnalysis(resultado) {
         title.textContent =
             "No fue posible analizar";
 
-
         level.textContent =
             "⚪ Revisión no disponible";
-
 
         level.style.background =
             "#f0edf2";
 
-
         level.style.color =
             "#6f6874";
-
 
         message.textContent =
             resultado?.message ||
             "Ocurrió un problema al realizar el análisis.";
 
-
         reasons.innerHTML =
             "";
-
 
         return;
 
     }
 
-
     title.textContent =
         resultado.level;
-
 
     if (
         resultado.level ===
@@ -3521,16 +4045,13 @@ function renderAnalysis(resultado) {
         level.textContent =
             "🟢 Bajo cuidado";
 
-
         level.style.background =
             "#eaf7ee";
-
 
         level.style.color =
             "#4c9464";
 
     }
-
 
     else if (
         resultado.level ===
@@ -3540,40 +4061,32 @@ function renderAnalysis(resultado) {
         level.textContent =
             "🟡 Requiere reflexión";
 
-
         level.style.background =
             "#fff3d4";
-
 
         level.style.color =
             "#926b12";
 
     }
 
-
     else {
 
         level.textContent =
             "🔴 Alto cuidado";
 
-
         level.style.background =
             "#fde8ec";
-
 
         level.style.color =
             "#a83f55";
 
     }
 
-
     message.textContent =
         resultado.message;
 
-
     reasons.innerHTML =
         "";
-
 
     if (
         resultado.observations &&
@@ -3588,67 +4101,54 @@ function renderAnalysis(resultado) {
                         "div"
                     );
 
-
                 reason.className =
                     "reason";
-
 
                 const icon =
                     document.createElement(
                         "div"
                     );
 
-
                 icon.textContent =
                     observation.icon ||
                     "•";
-
 
                 const content =
                     document.createElement(
                         "div"
                     );
 
-
                 const strong =
                     document.createElement(
                         "strong"
                     );
 
-
                 strong.textContent =
                     observation.title;
-
 
                 const paragraph =
                     document.createElement(
                         "p"
                     );
 
-
                 paragraph.textContent =
                     observation.description;
-
 
                 content.appendChild(
                     strong
                 );
 
-
                 content.appendChild(
                     paragraph
                 );
-
 
                 reason.appendChild(
                     icon
                 );
 
-
                 reason.appendChild(
                     content
                 );
-
 
                 reasons.appendChild(
                     reason
@@ -3658,7 +4158,6 @@ function renderAnalysis(resultado) {
         );
 
     }
-
 
     else {
 
@@ -3713,17 +4212,14 @@ function changePerspective(
 
         });
 
-
     button.classList.add(
         "active"
     );
-
 
     const text =
         document.getElementById(
             "perspectiveText"
         );
-
 
     const perspectives = {
 
@@ -3742,7 +4238,6 @@ function changePerspective(
 
         `,
 
-
         profesor: `
 
             <strong>
@@ -3758,7 +4253,6 @@ function changePerspective(
 
         `,
 
-
         reclutador: `
 
             <strong>
@@ -3773,7 +4267,6 @@ function changePerspective(
             a la intención original.
 
         `,
-
 
         desconocido: `
 
@@ -3791,7 +4284,6 @@ function changePerspective(
         `
 
     };
-
 
     text.innerHTML =
         perspectives[type];
@@ -3821,7 +4313,6 @@ function decision(type) {
 
     };
 
-
     showToast(
         "✓ " +
         messages[type]
@@ -3841,15 +4332,12 @@ function showToast(message) {
             "toast"
         );
 
-
     toast.textContent =
         message;
-
 
     toast.classList.add(
         "show"
     );
-
 
     setTimeout(() => {
 

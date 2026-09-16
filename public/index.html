@@ -183,8 +183,6 @@ button {
     display: flex;
 }
 
-/* SIDEBAR */
-
 .sidebar {
     width: 250px;
     min-height: 100vh;
@@ -278,8 +276,6 @@ button {
     font-weight: 600;
 }
 
-/* MAIN */
-
 .main {
     margin-left: 250px;
     width: calc(100% - 250px);
@@ -329,8 +325,6 @@ button {
     align-items: center;
     justify-content: center;
 }
-
-/* CARDS */
 
 .grid {
     display: grid;
@@ -425,8 +419,6 @@ button {
     line-height: 1.5;
 }
 
-/* ALERT */
-
 .alert-card {
     border-left: 4px solid #e6ae3e;
 }
@@ -454,8 +446,6 @@ button {
     font-size: 14px;
 }
 
-/* SCREENS */
-
 .screen {
     display: none;
 }
@@ -464,7 +454,9 @@ button {
     display: block;
 }
 
-/* ANALYSIS */
+/* =========================================================
+   ANALISIS
+   ========================================================= */
 
 .back {
     border: none;
@@ -528,8 +520,6 @@ button {
     font-size: 13px;
     margin-top: 8px;
 }
-
-/* NEW POST FORM */
 
 .form-card {
     max-width: 850px;
@@ -622,8 +612,6 @@ button {
     line-height: 1.5;
 }
 
-/* ANALYSIS LEVEL */
-
 .level {
     display: inline-flex;
     padding: 8px 12px;
@@ -651,8 +639,6 @@ button {
     font-size: 13px;
     margin-top: 3px;
 }
-
-/* PERSPECTIVES */
 
 .perspective-buttons {
     display: flex;
@@ -682,8 +668,6 @@ button {
     line-height: 1.6;
     color: #655e69;
 }
-
-/* DECISION */
 
 .decision-grid {
     display: grid;
@@ -716,7 +700,7 @@ button {
 }
 
 /* =========================================================
-   NETWORKS
+   REDES
    ========================================================= */
 
 .network {
@@ -831,7 +815,182 @@ button {
     background: #faf8fc;
 }
 
-/* FUTURE */
+/* =========================================================
+   INSTAGRAM REAL
+   ========================================================= */
+
+.instagram-panel {
+    margin-top: 22px;
+}
+
+.instagram-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.instagram-profile {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.instagram-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f4d9ff, #e7ddff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.instagram-profile strong {
+    display: block;
+    font-size: 15px;
+}
+
+.instagram-profile span {
+    color: #999;
+    font-size: 12px;
+}
+
+.instagram-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.instagram-posts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.instagram-post-card {
+    border: 1px solid #e8e2eb;
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+}
+
+.instagram-post-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    background: #eee8f1;
+}
+
+.instagram-post-image-placeholder {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(135deg, #eee8f1, #ddd4e4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+}
+
+.instagram-post-body {
+    padding: 15px;
+}
+
+.instagram-post-caption {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #55505a;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 120px;
+    overflow: hidden;
+}
+
+.instagram-analysis {
+    margin-top: 13px;
+    padding-top: 13px;
+    border-top: 1px solid #eee9ef;
+}
+
+.instagram-level {
+    display: inline-flex;
+    padding: 6px 9px;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 9px;
+}
+
+.instagram-level.low {
+    background: #eaf7ee;
+    color: #4c9464;
+}
+
+.instagram-level.medium {
+    background: #fff3d4;
+    color: #926b12;
+}
+
+.instagram-level.high {
+    background: #fde9ed;
+    color: #a64b60;
+}
+
+.instagram-analysis p {
+    font-size: 12px;
+    color: #77707b;
+    line-height: 1.5;
+}
+
+.instagram-warning {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #8d6817;
+}
+
+.instagram-open {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #7043b8;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.instagram-open:hover {
+    text-decoration: underline;
+}
+
+.instagram-empty {
+    padding: 30px;
+    text-align: center;
+    background: #faf8fc;
+    border-radius: 15px;
+    color: #817983;
+    font-size: 13px;
+}
+
+.instagram-loading {
+    padding: 25px;
+    text-align: center;
+    color: #817983;
+    font-size: 13px;
+}
+
+.instagram-note {
+    margin-top: 12px;
+    font-size: 11px;
+    color: #999;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   FUTURE
+   ========================================================= */
 
 .future {
     text-align: center;
@@ -855,7 +1014,9 @@ button {
     margin-bottom: 25px;
 }
 
-/* RESPONSIBLE AI */
+/* =========================================================
+   RESPONSIBLE AI
+   ========================================================= */
 
 .ai-list {
     display: grid;
@@ -881,7 +1042,9 @@ button {
     line-height: 1.5;
 }
 
-/* TOAST */
+/* =========================================================
+   TOAST
+   ========================================================= */
 
 .toast {
     position: fixed;
@@ -903,7 +1066,16 @@ button {
     opacity: 1;
 }
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width: 1000px) {
+
+    .instagram-posts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
 @media(max-width: 850px) {
 
@@ -969,6 +1141,10 @@ button {
     .social-form {
         padding-left: 0;
     }
+
+    .instagram-posts {
+        grid-template-columns: 1fr;
+    }
 }
 
 </style>
@@ -977,7 +1153,7 @@ button {
 <body>
 
 <!-- =========================================================
-     PANTALLA DE AUTENTICACION
+     AUTENTICACION
      ========================================================= -->
 
 <div id="authScreen" class="auth-screen">
@@ -1013,22 +1189,11 @@ button {
 
         </div>
 
-        <div
-            id="authMessage"
-            class="auth-message"
-        ></div>
+        <div id="authMessage" class="auth-message"></div>
 
-        <!-- LOGIN -->
+        <div id="loginForm" class="auth-form active">
 
-        <div
-            id="loginForm"
-            class="auth-form active"
-        >
-
-            <label
-                class="auth-label"
-                for="loginEmail"
-            >
+            <label class="auth-label" for="loginEmail">
                 Correo electrónico
             </label>
 
@@ -1040,10 +1205,7 @@ button {
                 autocomplete="email"
             >
 
-            <label
-                class="auth-label"
-                for="loginPassword"
-            >
+            <label class="auth-label" for="loginPassword">
                 Contraseña
             </label>
 
@@ -1055,26 +1217,15 @@ button {
                 autocomplete="current-password"
             >
 
-            <button
-                class="auth-button"
-                onclick="loginUser()"
-            >
+            <button class="auth-button" onclick="loginUser()">
                 Iniciar sesión
             </button>
 
         </div>
 
-        <!-- REGISTRO -->
+        <div id="registerForm" class="auth-form">
 
-        <div
-            id="registerForm"
-            class="auth-form"
-        >
-
-            <label
-                class="auth-label"
-                for="registerName"
-            >
+            <label class="auth-label" for="registerName">
                 ¿Cómo te llamas?
             </label>
 
@@ -1086,10 +1237,7 @@ button {
                 autocomplete="name"
             >
 
-            <label
-                class="auth-label"
-                for="registerEmail"
-            >
+            <label class="auth-label" for="registerEmail">
                 Correo electrónico
             </label>
 
@@ -1101,10 +1249,7 @@ button {
                 autocomplete="email"
             >
 
-            <label
-                class="auth-label"
-                for="registerPassword"
-            >
+            <label class="auth-label" for="registerPassword">
                 Contraseña
             </label>
 
@@ -1116,10 +1261,7 @@ button {
                 autocomplete="new-password"
             >
 
-            <label
-                class="auth-label"
-                for="registerPasswordConfirm"
-            >
+            <label class="auth-label" for="registerPasswordConfirm">
                 Repite tu contraseña
             </label>
 
@@ -1131,10 +1273,7 @@ button {
                 autocomplete="new-password"
             >
 
-            <button
-                class="auth-button"
-                onclick="registerUser()"
-            >
+            <button class="auth-button" onclick="registerUser()">
                 Crear mi cuenta
             </button>
 
@@ -1150,13 +1289,10 @@ button {
 </div>
 
 <!-- =========================================================
-     APLICACION
+     APP
      ========================================================= -->
 
-<div
-    class="app"
-    style="display:none;"
->
+<div class="app" style="display:none;">
 
 <aside class="sidebar">
 
@@ -1171,43 +1307,29 @@ button {
 
     <nav class="nav">
 
-        <button
-            class="active"
-            onclick="showScreen('inicio', this)"
-        >
+        <button class="active" onclick="showScreen('inicio', this)">
             🏠 <span>Inicio</span>
         </button>
 
-        <button
-            onclick="showScreen('huella', this)"
-        >
+        <button onclick="showScreen('huella', this)">
             👣 <span>Mi huella</span>
         </button>
 
-        <button
-            onclick="showScreen('alertas', this)"
-        >
+        <button onclick="showScreen('alertas', this)">
             🔔 <span>Alertas</span>
         </button>
 
-        <button
-            onclick="showScreen('redes', this)"
-        >
+        <button onclick="showScreen('redes', this)">
             🔗 <span>Mis redes</span>
         </button>
 
-        <button
-            onclick="showScreen('ia', this)"
-        >
+        <button onclick="showScreen('ia', this)">
             🤖 <span>IA responsable</span>
         </button>
 
     </nav>
 
-    <button
-        class="logout-button"
-        onclick="logoutUser()"
-    >
+    <button class="logout-button" onclick="logoutUser()">
         🚪 <span>Cerrar sesión</span>
     </button>
 
@@ -1217,9 +1339,7 @@ button {
             Modo demostración
         </small>
 
-        <button
-            onclick="openNewPost()"
-        >
+        <button onclick="openNewPost()">
             Nueva publicación
         </button>
 
@@ -1233,10 +1353,7 @@ button {
      INICIO
      ========================================================= -->
 
-<section
-    id="inicio"
-    class="screen active"
->
+<section id="inicio" class="screen active">
 
     <div class="topbar">
 
@@ -1253,17 +1370,11 @@ button {
 
         </div>
 
-        <button
-            class="notification"
-            onclick="showScreen('alertas')"
-        >
+        <button class="notification" onclick="showScreen('alertas')">
 
             🔔
 
-            <span
-                id="badge"
-                class="badge"
-            >
+            <span id="badge" class="badge">
                 1
             </span>
 
@@ -1292,10 +1403,7 @@ button {
 
             </div>
 
-            <button
-                class="primary"
-                onclick="openNewPost()"
-            >
+            <button class="primary" onclick="openNewPost()">
                 Nueva publicación →
             </button>
 
@@ -1396,15 +1504,9 @@ button {
      NUEVA PUBLICACION
      ========================================================= -->
 
-<section
-    id="nueva"
-    class="screen"
->
+<section id="nueva" class="screen">
 
-    <button
-        class="back"
-        onclick="showScreen('inicio')"
-    >
+    <button class="back" onclick="showScreen('inicio')">
         ← Volver al inicio
     </button>
 
@@ -1436,10 +1538,7 @@ button {
 
         <div class="form-group">
 
-            <label
-                class="form-label"
-                for="postText"
-            >
+            <label class="form-label" for="postText">
                 Texto de la publicación
             </label>
 
@@ -1453,17 +1552,11 @@ button {
 
         <div class="form-group">
 
-            <label
-                class="form-label"
-                for="postContext"
-            >
+            <label class="form-label" for="postContext">
                 Contexto de la publicación
             </label>
 
-            <select
-                id="postContext"
-                class="context-select"
-            >
+            <select id="postContext" class="context-select">
 
                 <option value="público">
                     Público
@@ -1499,10 +1592,7 @@ button {
 
                 <label class="check-option">
 
-                    <input
-                        type="checkbox"
-                        id="locationVisible"
-                    >
+                    <input type="checkbox" id="locationVisible">
 
                     <span>
                         📍 La publicación muestra o permite identificar
@@ -1513,10 +1603,7 @@ button {
 
                 <label class="check-option">
 
-                    <input
-                        type="checkbox"
-                        id="academicContext"
-                    >
+                    <input type="checkbox" id="academicContext">
 
                     <span>
                         🎓 La publicación está relacionada con mi vida
@@ -1527,10 +1614,7 @@ button {
 
                 <label class="check-option">
 
-                    <input
-                        type="checkbox"
-                        id="ambiguousContext"
-                    >
+                    <input type="checkbox" id="ambiguousContext">
 
                     <span>
                         👀 Alguien que no conoce el contexto podría
@@ -1552,10 +1636,7 @@ button {
 
         </div>
 
-        <button
-            class="primary"
-            onclick="analyzeNewPost()"
-        >
+        <button class="primary" onclick="analyzeNewPost()">
             Analizar publicación →
         </button>
 
@@ -1567,10 +1648,7 @@ button {
      ALERTAS
      ========================================================= -->
 
-<section
-    id="alertas"
-    class="screen"
->
+<section id="alertas" class="screen">
 
     <div class="topbar">
 
@@ -1603,10 +1681,7 @@ button {
 
             </p>
 
-            <button
-                class="primary"
-                onclick="openNewPost()"
-            >
+            <button class="primary" onclick="openNewPost()">
                 Crear publicación
             </button>
 
@@ -1620,15 +1695,9 @@ button {
      ANALISIS
      ========================================================= -->
 
-<section
-    id="analisis"
-    class="screen"
->
+<section id="analisis" class="screen">
 
-    <button
-        class="back"
-        onclick="showScreen('alertas')"
-    >
+    <button class="back" onclick="showScreen('alertas')">
         ← Volver a alertas
     </button>
 
@@ -1654,10 +1723,7 @@ button {
 
             <div class="post-header">
 
-                <div
-                    id="userAvatar"
-                    class="avatar"
-                >
+                <div id="userAvatar" class="avatar">
                     ?
                 </div>
 
@@ -1679,17 +1745,11 @@ button {
                 📸
             </div>
 
-            <p
-                id="displayPostText"
-                class="post-text"
-            >
+            <p id="displayPostText" class="post-text">
                 Aquí aparecerá tu publicación.
             </p>
 
-            <p
-                id="displayPostContext"
-                class="post-context"
-            >
+            <p id="displayPostContext" class="post-context">
                 📍 Contexto: público
             </p>
 
@@ -1705,24 +1765,15 @@ button {
                 Requiere reflexión
             </h2>
 
-            <div
-                id="analysisLevel"
-                class="level"
-            >
+            <div id="analysisLevel" class="level">
                 🟡 Requiere reflexión
             </div>
 
-            <p
-                id="analysisMessage"
-                style="color:#777;line-height:1.6"
-            >
+            <p id="analysisMessage" style="color:#777;line-height:1.6">
                 El análisis aparecerá aquí.
             </p>
 
-            <div
-                id="analysisReasons"
-                style="margin-top:20px"
-            >
+            <div id="analysisReasons" style="margin-top:20px">
 
                 <div class="reason">
 
@@ -1763,15 +1814,9 @@ button {
      PERSPECTIVAS
      ========================================================= -->
 
-<section
-    id="perspectivas"
-    class="screen"
->
+<section id="perspectivas" class="screen">
 
-    <button
-        class="back"
-        onclick="showScreen('analisis')"
-    >
+    <button class="back" onclick="showScreen('analisis')">
         ← Volver al análisis
     </button>
 
@@ -1796,37 +1841,25 @@ button {
 
         <div class="perspective-buttons">
 
-            <button
-                class="active"
-                onclick="changePerspective('amigo', this)"
-            >
+            <button class="active" onclick="changePerspective('amigo', this)">
                 👩‍🦰 Amigo
             </button>
 
-            <button
-                onclick="changePerspective('profesor', this)"
-            >
+            <button onclick="changePerspective('profesor', this)">
                 👨‍🏫 Profesor
             </button>
 
-            <button
-                onclick="changePerspective('reclutador', this)"
-            >
+            <button onclick="changePerspective('reclutador', this)">
                 💼 Reclutador
             </button>
 
-            <button
-                onclick="changePerspective('desconocido', this)"
-            >
+            <button onclick="changePerspective('desconocido', this)">
                 👤 Desconocido
             </button>
 
         </div>
 
-        <div
-            id="perspectiveText"
-            class="perspective-result"
-        >
+        <div id="perspectiveText" class="perspective-result">
 
             <strong>
                 Como amigo:
@@ -1855,10 +1888,7 @@ button {
      FUTURO
      ========================================================= -->
 
-<section
-    id="futuro"
-    class="screen"
->
+<section id="futuro" class="screen">
 
     <div class="future">
 
@@ -1881,74 +1911,32 @@ button {
         </p>
 
         <p>
-
             <strong>
                 ¿Seguiría sintiéndose como una publicación que representa
                 la huella digital que quieres construir?
             </strong>
-
         </p>
 
         <div class="decision-grid">
 
-            <button
-                class="decision"
-                onclick="decision('mantener')"
-            >
-
-                <strong>
-                    ✓ Mantener
-                </strong>
-
-                <span>
-                    La publicación sigue representándome.
-                </span>
-
+            <button class="decision" onclick="decision('mantener')">
+                <strong>✓ Mantener</strong>
+                <span>La publicación sigue representándome.</span>
             </button>
 
-            <button
-                class="decision"
-                onclick="decision('editar')"
-            >
-
-                <strong>
-                    ✎ Editar
-                </strong>
-
-                <span>
-                    Quiero modificar algún elemento.
-                </span>
-
+            <button class="decision" onclick="decision('editar')">
+                <strong>✎ Editar</strong>
+                <span>Quiero modificar algún elemento.</span>
             </button>
 
-            <button
-                class="decision"
-                onclick="decision('audiencia')"
-            >
-
-                <strong>
-                    👥 Cambiar audiencia
-                </strong>
-
-                <span>
-                    Prefiero limitar quién puede verla.
-                </span>
-
+            <button class="decision" onclick="decision('audiencia')">
+                <strong>👥 Cambiar audiencia</strong>
+                <span>Prefiero limitar quién puede verla.</span>
             </button>
 
-            <button
-                class="decision"
-                onclick="decision('eliminar')"
-            >
-
-                <strong>
-                    🗑 Eliminar
-                </strong>
-
-                <span>
-                    Prefiero retirar esta publicación.
-                </span>
-
+            <button class="decision" onclick="decision('eliminar')">
+                <strong>🗑 Eliminar</strong>
+                <span>Prefiero retirar esta publicación.</span>
             </button>
 
         </div>
@@ -1961,10 +1949,7 @@ button {
      MI HUELLA
      ========================================================= -->
 
-<section
-    id="huella"
-    class="screen"
->
+<section id="huella" class="screen">
 
     <div class="topbar">
 
@@ -2036,10 +2021,7 @@ button {
 
     </div>
 
-    <div
-        class="card"
-        style="margin-top:22px"
-    >
+    <div class="card" style="margin-top:22px">
 
         <div class="eyebrow">
             Tu propósito digital
@@ -2049,9 +2031,7 @@ button {
             ¿Qué quieres que tu huella diga de ti?
         </h2>
 
-        <p
-            style="margin-top:10px;color:#888;line-height:1.6"
-        >
+        <p style="margin-top:10px;color:#888;line-height:1.6">
             Huella+ no decide cómo debes utilizar tus redes.
             Te ayuda a conectar tus publicaciones con la identidad
             digital que quieres construir.
@@ -2065,10 +2045,7 @@ button {
      REDES
      ========================================================= -->
 
-<section
-    id="redes"
-    class="screen"
->
+<section id="redes" class="screen">
 
     <div class="topbar">
 
@@ -2079,7 +2056,8 @@ button {
             </h1>
 
             <p>
-                Gestiona los perfiles que quieres asociar a tu huella digital.
+                Conecta tus redes para observar la huella que estás
+                construyendo.
             </p>
 
         </div>
@@ -2087,23 +2065,6 @@ button {
     </div>
 
     <div class="card">
-
-        <div class="eyebrow">
-            Tus perfiles
-        </div>
-
-        <h2>
-            Redes asociadas a tu cuenta
-        </h2>
-
-        <p
-            style="margin-top:8px;color:#777;line-height:1.6;font-size:13px"
-        >
-            Agrega el usuario o enlace de cada perfil que quieras tener
-            registrado en Huella+. Puedes modificarlo o quitarlo cuando quieras.
-        </p>
-
-        <!-- INSTAGRAM -->
 
         <div class="network">
 
@@ -2114,49 +2075,38 @@ button {
                 </div>
 
                 <div>
-
-                    <strong>
-                        Instagram
-                    </strong>
+                    <strong>Instagram</strong>
 
                     <div
                         id="instagramStatus"
-                        style="font-size:12px;color:#999"
+                        style="font-size:12px;color:#999;margin-top:3px"
                     >
-                        Sin agregar
+                        No conectado
                     </div>
-
                 </div>
 
             </div>
 
-            <div
-                id="instagramAction"
-                style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"
-            >
+            <div id="instagramNetworkAction">
 
                 <button
                     class="network-action"
-                    onclick="openSocialForm('instagram')"
+                    onclick="connectInstagram()"
                 >
-                    Agregar
+                    Conectar
                 </button>
 
             </div>
 
         </div>
 
-        <div
-            id="instagramForm"
-            class="social-form"
-            style="display:none"
-        >
+        <div id="instagramForm" class="social-form" style="display:none;">
 
             <input
-                id="instagramInput"
+                id="instagramUsernameInput"
                 class="social-input"
                 type="text"
-                placeholder="@tuusuario o enlace de Instagram"
+                placeholder="@tuusuario"
             >
 
             <button
@@ -2168,14 +2118,12 @@ button {
 
             <button
                 class="social-cancel"
-                onclick="closeSocialForm('instagram')"
+                onclick="cancelSocialForm('instagram')"
             >
                 Cancelar
             </button>
 
         </div>
-
-        <!-- TIKTOK -->
 
         <div class="network">
 
@@ -2186,26 +2134,19 @@ button {
                 </div>
 
                 <div>
-
-                    <strong>
-                        TikTok
-                    </strong>
+                    <strong>TikTok</strong>
 
                     <div
                         id="tiktokStatus"
-                        style="font-size:12px;color:#999"
+                        style="font-size:12px;color:#999;margin-top:3px"
                     >
-                        Sin agregar
+                        No conectado
                     </div>
-
                 </div>
 
             </div>
 
-            <div
-                id="tiktokAction"
-                style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"
-            >
+            <div id="tiktokNetworkAction">
 
                 <button
                     class="network-action"
@@ -2218,17 +2159,13 @@ button {
 
         </div>
 
-        <div
-            id="tiktokForm"
-            class="social-form"
-            style="display:none"
-        >
+        <div id="tiktokForm" class="social-form" style="display:none;">
 
             <input
-                id="tiktokInput"
+                id="tiktokUsernameInput"
                 class="social-input"
                 type="text"
-                placeholder="@tuusuario o enlace de TikTok"
+                placeholder="@tuusuario"
             >
 
             <button
@@ -2240,14 +2177,12 @@ button {
 
             <button
                 class="social-cancel"
-                onclick="closeSocialForm('tiktok')"
+                onclick="cancelSocialForm('tiktok')"
             >
                 Cancelar
             </button>
 
         </div>
-
-        <!-- LINKEDIN -->
 
         <div class="network">
 
@@ -2258,26 +2193,19 @@ button {
                 </div>
 
                 <div>
-
-                    <strong>
-                        LinkedIn
-                    </strong>
+                    <strong>LinkedIn</strong>
 
                     <div
                         id="linkedinStatus"
-                        style="font-size:12px;color:#999"
+                        style="font-size:12px;color:#999;margin-top:3px"
                     >
-                        Sin agregar
+                        No conectado
                     </div>
-
                 </div>
 
             </div>
 
-            <div
-                id="linkedinAction"
-                style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"
-            >
+            <div id="linkedinNetworkAction">
 
                 <button
                     class="network-action"
@@ -2290,17 +2218,13 @@ button {
 
         </div>
 
-        <div
-            id="linkedinForm"
-            class="social-form"
-            style="display:none"
-        >
+        <div id="linkedinForm" class="social-form" style="display:none;">
 
             <input
-                id="linkedinInput"
+                id="linkedinUsernameInput"
                 class="social-input"
                 type="text"
-                placeholder="Tu perfil de LinkedIn"
+                placeholder="Tu perfil"
             >
 
             <button
@@ -2312,19 +2236,14 @@ button {
 
             <button
                 class="social-cancel"
-                onclick="closeSocialForm('linkedin')"
+                onclick="cancelSocialForm('linkedin')"
             >
                 Cancelar
             </button>
 
         </div>
 
-        <!-- X -->
-
-        <div
-            class="network"
-            style="border:none"
-        >
+        <div class="network">
 
             <div class="network-info">
 
@@ -2333,26 +2252,19 @@ button {
                 </div>
 
                 <div>
-
-                    <strong>
-                        X
-                    </strong>
+                    <strong>X</strong>
 
                     <div
                         id="xStatus"
-                        style="font-size:12px;color:#999"
+                        style="font-size:12px;color:#999;margin-top:3px"
                     >
-                        Sin agregar
+                        No conectado
                     </div>
-
                 </div>
 
             </div>
 
-            <div
-                id="xAction"
-                style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end"
-            >
+            <div id="xNetworkAction">
 
                 <button
                     class="network-action"
@@ -2365,17 +2277,13 @@ button {
 
         </div>
 
-        <div
-            id="xForm"
-            class="social-form"
-            style="display:none"
-        >
+        <div id="xForm" class="social-form" style="display:none;">
 
             <input
-                id="xInput"
+                id="xUsernameInput"
                 class="social-input"
                 type="text"
-                placeholder="@tuusuario o enlace de X"
+                placeholder="@tuusuario"
             >
 
             <button
@@ -2387,7 +2295,7 @@ button {
 
             <button
                 class="social-cancel"
-                onclick="closeSocialForm('x')"
+                onclick="cancelSocialForm('x')"
             >
                 Cancelar
             </button>
@@ -2396,21 +2304,62 @@ button {
 
     </div>
 
-    <div
-        class="card"
-        style="margin-top:20px;background:#faf7ff"
-    >
+    <!-- INSTAGRAM ANALYSIS -->
 
-        <strong>
-            🔐 Privacidad primero
-        </strong>
+    <div id="instagramPanel" class="card instagram-panel">
 
-        <p
-            style="margin-top:8px;color:#777;line-height:1.6;font-size:13px"
-        >
-            Huella+ no necesita tus contraseñas de redes sociales.
-            En esta versión solamente guardamos el usuario o enlace que
-            tú decidas asociar a tu cuenta.
+        <div class="instagram-header">
+
+            <div class="instagram-profile">
+
+                <div class="instagram-avatar">
+                    ◎
+                </div>
+
+                <div>
+
+                    <strong>
+                        Análisis de Instagram
+                    </strong>
+
+                    <span id="instagramConnectedUsername">
+                        @Instagram
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="instagram-actions">
+
+                <button
+                    class="network-action"
+                    onclick="refreshInstagramAnalysis()"
+                >
+                    Actualizar
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="instagramPosts" class="instagram-posts">
+
+            <div class="instagram-empty">
+
+                Conecta Instagram para analizar tus publicaciones.
+
+            </div>
+
+        </div>
+
+        <p class="instagram-note">
+
+            La conexión actual es una prueba mediante Meta.
+            Huella+ analiza las publicaciones disponibles en la cuenta
+            conectada en el servidor. La versión final permitirá que cada
+            usuario autorice su propia cuenta mediante Meta.
+
         </p>
 
     </div>
@@ -2421,10 +2370,7 @@ button {
      IA RESPONSABLE
      ========================================================= -->
 
-<section
-    id="ia"
-    class="screen"
->
+<section id="ia" class="screen">
 
     <div class="topbar">
 
@@ -2435,7 +2381,7 @@ button {
             </h1>
 
             <p>
-                Aprende a utilizar inteligencia artificial sin perder el control.
+                Cómo utiliza Huella+ la inteligencia artificial.
             </p>
 
         </div>
@@ -2445,32 +2391,24 @@ button {
     <div class="card">
 
         <div class="eyebrow">
-            Aprender para decidir
+            Nuestro enfoque
         </div>
 
         <h2>
-            Tu huella también incluye cómo utilizas la IA.
+            La IA observa. Tú decides.
         </h2>
-
-        <p
-            style="margin-top:10px;color:#777;line-height:1.6"
-        >
-            La inteligencia artificial puede ayudarte a crear, analizar
-            y comunicar, pero requiere criterio sobre los datos que
-            compartes y la información que produces.
-        </p>
 
         <div class="ai-list">
 
             <div class="ai-item">
 
                 <h3>
-                    🔐 Privacidad
+                    🔎 No predice tu futuro
                 </h3>
 
                 <p>
-                    Evita compartir información personal o sensible con
-                    herramientas de IA sin revisar cómo será utilizada.
+                    Huella+ no intenta adivinar qué sucederá por publicar
+                    algo. Presenta aspectos que podrías considerar.
                 </p>
 
             </div>
@@ -2478,12 +2416,12 @@ button {
             <div class="ai-item">
 
                 <h3>
-                    🔎 Verificación
+                    👥 Presenta perspectivas
                 </h3>
 
                 <p>
-                    La IA puede generar información incorrecta.
-                    Comprueba los datos antes de utilizarlos o publicarlos.
+                    Una publicación puede ser interpretada de diferentes
+                    maneras dependiendo de quién la observe.
                 </p>
 
             </div>
@@ -2491,12 +2429,12 @@ button {
             <div class="ai-item">
 
                 <h3>
-                    🧠 Pensamiento crítico
+                    🔐 Respeta tu decisión
                 </h3>
 
                 <p>
-                    Utiliza la IA como apoyo para pensar, no como sustituto
-                    automático de tu propio criterio.
+                    Huella+ no decide qué debes publicar, eliminar o
+                    compartir. La decisión permanece contigo.
                 </p>
 
             </div>
@@ -2504,12 +2442,13 @@ button {
             <div class="ai-item">
 
                 <h3>
-                    🌱 Uso consciente
+                    💭 Busca generar reflexión
                 </h3>
 
                 <p>
-                    Considera el propósito, los datos utilizados y el impacto
-                    de las herramientas de IA que utilizas.
+                    El objetivo es ayudarte a detenerte unos segundos
+                    antes de publicar y observar el contenido desde
+                    diferentes perspectivas.
                 </p>
 
             </div>
@@ -2524,10 +2463,7 @@ button {
 
 </div>
 
-<div
-    id="toast"
-    class="toast"
-></div>
+<div id="toast" class="toast"></div>
 
 <script>
 
@@ -2538,707 +2474,95 @@ button {
 const SUPABASE_URL =
     "https://bhmvjxbbdcygumepjhbz.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
+const SUPABASE_ANON_KEY =
     "sb_publishable_HfJcWn4wu4YETrFrwL75uw_TTeOrbtH";
 
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
+        SUPABASE_ANON_KEY
     );
 
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
 let currentUser = null;
+let currentAnalysis = null;
+
+
+/* =========================================================
+   UTILIDADES
+   ========================================================= */
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+
+}
 
 
 /* =========================================================
    AUTENTICACION
    ========================================================= */
 
-async function initializeAuth() {
-
-    try {
-
-        const {
-            data: {
-                session
-            }
-        } = await supabaseClient.auth.getSession();
-
-        if (session && session.user) {
-
-            currentUser =
-                session.user;
-
-            showApp();
-
-            updateUserInterface();
-
-        }
-
-        else {
-
-            showAuthScreen();
-
-        }
-
-        supabaseClient.auth.onAuthStateChange(
-            async (event, session) => {
-
-                if (session && session.user) {
-
-                    currentUser =
-                        session.user;
-
-                    showApp();
-
-                    updateUserInterface();
-
-                }
-
-                else {
-
-                    currentUser =
-                        null;
-
-                    showAuthScreen();
-
-                }
-
-            }
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Error inicializando autenticación:",
-            error
-        );
-
-        showAuthScreen();
-
-    }
-
-}
-
-
-/* =========================================================
-   MOSTRAR APP
-   ========================================================= */
-
-function showApp() {
-
-    const authScreen =
-        document.getElementById("authScreen");
-
-    const app =
-        document.querySelector(".app");
-
-    if (authScreen) {
-
-        authScreen.style.display =
-            "none";
-
-    }
-
-    if (app) {
-
-        app.style.display =
-            "flex";
-
-    }
-
-}
-
-
-/* =========================================================
-   MOSTRAR LOGIN
-   ========================================================= */
-
-function showAuthScreen() {
-
-    const authScreen =
-        document.getElementById("authScreen");
-
-    const app =
-        document.querySelector(".app");
-
-    if (authScreen) {
-
-        authScreen.style.display =
-            "flex";
-
-    }
-
-    if (app) {
-
-        app.style.display =
-            "none";
-
-    }
-
-}
-
-
-/* =========================================================
-   ACTUALIZAR NOMBRE DEL USUARIO
-   ========================================================= */
-
-function updateUserInterface() {
-
-    if (!currentUser) {
-        return;
-    }
-
-    const name =
-        currentUser.user_metadata?.name ||
-        currentUser.email?.split("@")[0] ||
-        "Usuario";
-
-    const firstLetter =
-        name
-            .charAt(0)
-            .toUpperCase();
-
-    const welcomeTitle =
-        document.getElementById(
-            "welcomeTitle"
-        );
-
-    const postUserName =
-        document.getElementById(
-            "postUserName"
-        );
-
-    const userAvatar =
-        document.getElementById(
-            "userAvatar"
-        );
-
-    if (welcomeTitle) {
-
-        welcomeTitle.textContent =
-            "Hola, " + name + " 👋";
-
-    }
-
-    if (postUserName) {
-
-        postUserName.textContent =
-            name;
-
-    }
-
-    if (userAvatar) {
-
-        userAvatar.textContent =
-            firstLetter;
-
-    }
-
-    /* Cargar las redes del usuario actual */
-
-    loadSocialAccounts();
-
-}
-
-
-/* =========================================================
-   REDES SOCIALES POR USUARIO
-   ========================================================= */
-
-const socialPlatforms = [
-    "instagram",
-    "tiktok",
-    "linkedin",
-    "x"
-];
-
-
-async function loadSocialAccounts() {
-
-    if (!currentUser) {
-        return;
-    }
-
-    try {
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-                .from("social_accounts")
-                .select("*")
-                .eq(
-                    "user_id",
-                    currentUser.id
-                );
-
-        if (error) {
-
-            console.error(
-                "Error cargando redes:",
-                error
-            );
-
-            showToast(
-                "No pudimos cargar tus redes."
-            );
-
-            return;
-
-        }
-
-        socialPlatforms.forEach(
-            platform => {
-
-                renderSocialAccount(
-                    platform,
-                    null
-                );
-
-            }
-        );
-
-        if (data) {
-
-            data.forEach(
-                account => {
-
-                    renderSocialAccount(
-                        account.platform,
-                        account
-                    );
-
-                }
-            );
-
-        }
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Error cargando redes:",
-            error
-        );
-
-    }
-
-}
-
-
-function renderSocialAccount(
-    platform,
-    account
-) {
-
-    const status =
-        document.getElementById(
-            platform + "Status"
-        );
-
-    const action =
-        document.getElementById(
-            platform + "Action"
-        );
-
-    const form =
-        document.getElementById(
-            platform + "Form"
-        );
-
-    const input =
-        document.getElementById(
-            platform + "Input"
-        );
-
-    if (!status || !action) {
-        return;
-    }
-
-    if (account) {
-
-        status.textContent =
-            account.username;
-
-        status.style.color =
-            "#4c9464";
-
-        action.innerHTML = `
-
-            <span class="connected">
-                ✓ Agregada
-            </span>
-
-            <button
-                class="network-action"
-                onclick="openSocialForm('${platform}')"
-            >
-                Editar
-            </button>
-
-            <button
-                class="network-remove"
-                onclick="removeSocialAccount('${platform}')"
-            >
-                Quitar
-            </button>
-
-        `;
-
-        if (input) {
-
-            input.value =
-                account.username;
-
-        }
-
-        if (form) {
-
-            form.style.display =
-                "none";
-
-        }
-
-    }
-
-    else {
-
-        status.textContent =
-            "Sin agregar";
-
-        status.style.color =
-            "#999";
-
-        action.innerHTML = `
-
-            <button
-                class="network-action"
-                onclick="openSocialForm('${platform}')"
-            >
-                Agregar
-            </button>
-
-        `;
-
-        if (input) {
-
-            input.value =
-                "";
-
-        }
-
-        if (form) {
-
-            form.style.display =
-                "none";
-
-        }
-
-    }
-
-}
-
-
-function openSocialForm(
-    platform
-) {
-
-    const form =
-        document.getElementById(
-            platform + "Form"
-        );
-
-    const input =
-        document.getElementById(
-            platform + "Input"
-        );
-
-    if (!form) {
-        return;
-    }
-
-    form.style.display =
-        "flex";
-
-    if (input) {
-
-        setTimeout(() => {
-
-            input.focus();
-
-        }, 100);
-
-    }
-
-}
-
-
-function closeSocialForm(
-    platform
-) {
-
-    const form =
-        document.getElementById(
-            platform + "Form"
-        );
-
-    if (form) {
-
-        form.style.display =
-            "none";
-
-    }
-
-}
-
-
-async function saveSocialAccount(
-    platform
-) {
-
-    if (!currentUser) {
-
-        showToast(
-            "Inicia sesión para guardar tus redes."
-        );
-
-        return;
-
-    }
-
-    const input =
-        document.getElementById(
-            platform + "Input"
-        );
-
-    if (!input) {
-        return;
-    }
-
-    const username =
-        input.value.trim();
-
-    if (!username) {
-
-        showToast(
-            "✏️ Escribe tu usuario o enlace."
-        );
-
-        input.focus();
-
-        return;
-
-    }
-
-    try {
-
-        showToast(
-            "Guardando..."
-        );
-
-        const {
-            error
-        } =
-            await supabaseClient
-                .from("social_accounts")
-                .upsert(
-                    {
-                        user_id:
-                            currentUser.id,
-
-                        platform:
-                            platform,
-
-                        username:
-                            username,
-
-                        updated_at:
-                            new Date().toISOString()
-
-                    },
-                    {
-                        onConflict:
-                            "user_id,platform"
-                    }
-                );
-
-        if (error) {
-
-            console.error(
-                "Error guardando red:",
-                error
-            );
-
-            showToast(
-                "No pudimos guardar la cuenta."
-            );
-
-            return;
-
-        }
-
-        renderSocialAccount(
-            platform,
-            {
-                platform:
-                    platform,
-
-                username:
-                    username
-            }
-        );
-
-        showToast(
-            "✓ Cuenta guardada"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Error guardando red:",
-            error
-        );
-
-        showToast(
-            "Ocurrió un problema al guardar."
-        );
-
-    }
-
-}
-
-
-async function removeSocialAccount(
-    platform
-) {
-
-    if (!currentUser) {
-        return;
-    }
-
-    const confirmed =
-        confirm(
-            "¿Quieres quitar esta cuenta de Huella+?"
-        );
-
-    if (!confirmed) {
-        return;
-    }
-
-    try {
-
-        const {
-            error
-        } =
-            await supabaseClient
-                .from("social_accounts")
-                .delete()
-                .eq(
-                    "user_id",
-                    currentUser.id
-                )
-                .eq(
-                    "platform",
-                    platform
-                );
-
-        if (error) {
-
-            console.error(
-                "Error eliminando red:",
-                error
-            );
-
-            showToast(
-                "No pudimos quitar la cuenta."
-            );
-
-            return;
-
-        }
-
-        renderSocialAccount(
-            platform,
-            null
-        );
-
-        showToast(
-            "✓ Cuenta quitada"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Error eliminando red:",
-            error
-        );
-
-        showToast(
-            "Ocurrió un problema."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   CAMBIAR LOGIN / REGISTRO
-   ========================================================= */
-
 function showAuthMode(mode) {
 
     const loginForm =
-        document.getElementById(
-            "loginForm"
-        );
+        document.getElementById("loginForm");
 
     const registerForm =
-        document.getElementById(
-            "registerForm"
-        );
+        document.getElementById("registerForm");
 
     const loginTab =
-        document.getElementById(
-            "loginTab"
-        );
+        document.getElementById("loginTab");
 
     const registerTab =
-        document.getElementById(
-            "registerTab"
-        );
+        document.getElementById("registerTab");
 
-    clearAuthMessage();
+    const message =
+        document.getElementById("authMessage");
+
+    message.classList.remove("show");
 
     if (mode === "login") {
 
         loginForm.classList.add("active");
-
         registerForm.classList.remove("active");
 
         loginTab.classList.add("active");
-
         registerTab.classList.remove("active");
 
-    }
-
-    else {
+    } else {
 
         loginForm.classList.remove("active");
-
         registerForm.classList.add("active");
 
         loginTab.classList.remove("active");
-
         registerTab.classList.add("active");
 
     }
@@ -3246,9 +2570,16 @@ function showAuthMode(mode) {
 }
 
 
-/* =========================================================
-   REGISTRAR USUARIO
-   ========================================================= */
+function showAuthMessage(message) {
+
+    const element =
+        document.getElementById("authMessage");
+
+    element.textContent = message;
+    element.classList.add("show");
+
+}
+
 
 async function registerUser() {
 
@@ -3269,19 +2600,12 @@ async function registerUser() {
             .getElementById("registerPassword")
             .value;
 
-    const passwordConfirm =
+    const confirmPassword =
         document
-            .getElementById(
-                "registerPasswordConfirm"
-            )
+            .getElementById("registerPasswordConfirm")
             .value;
 
-    if (
-        !name ||
-        !email ||
-        !password ||
-        !passwordConfirm
-    ) {
+    if (!name || !email || !password) {
 
         showAuthMessage(
             "Completa todos los campos."
@@ -3294,17 +2618,14 @@ async function registerUser() {
     if (password.length < 6) {
 
         showAuthMessage(
-            "La contraseña debe tener al menos 6 caracteres."
+            "La contraseña debe tener mínimo 6 caracteres."
         );
 
         return;
 
     }
 
-    if (
-        password !==
-        passwordConfirm
-    ) {
+    if (password !== confirmPassword) {
 
         showAuthMessage(
             "Las contraseñas no coinciden."
@@ -3314,90 +2635,49 @@ async function registerUser() {
 
     }
 
-    showAuthMessage(
-        "Creando tu cuenta..."
-    );
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.signUp({
 
-    try {
+        email,
+        password,
 
-        const {
-            data,
-            error
-        } =
-            await supabaseClient.auth.signUp({
+        options: {
 
-                email: email,
-
-                password: password,
-
-                options: {
-
-                    data: {
-                        name: name
-                    }
-
-                }
-
-            });
-
-        if (error) {
-
-            console.error(error);
-
-            showAuthMessage(
-                translateAuthError(
-                    error.message
-                )
-            );
-
-            return;
+            data: {
+                name
+            }
 
         }
 
-        if (
-            data &&
-            data.session
-        ) {
+    });
 
-            currentUser =
-                data.user;
+    if (error) {
 
-            showApp();
+        showAuthMessage(
+            error.message
+        );
 
-            updateUserInterface();
-
-            showToast(
-                "✓ Cuenta creada correctamente"
-            );
-
-        }
-
-        else {
-
-            showAuthMessage(
-                "Cuenta creada. Revisa tu correo para continuar."
-            );
-
-        }
+        return;
 
     }
 
-    catch (error) {
+    if (data.user) {
 
-        console.error(error);
+        currentUser =
+            data.user;
 
-        showAuthMessage(
-            "Ocurrió un problema al crear la cuenta."
+        showApp();
+
+        showToast(
+            `Bienvenido/a, ${name} 👋`
         );
 
     }
 
 }
 
-
-/* =========================================================
-   INICIAR SESION
-   ========================================================= */
 
 async function loginUser() {
 
@@ -3422,238 +2702,140 @@ async function loginUser() {
 
     }
 
-    showAuthMessage(
-        "Iniciando sesión..."
-    );
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.signInWithPassword({
 
-    try {
+        email,
+        password
 
-        const {
-            data,
-            error
-        } =
-            await supabaseClient.auth.signInWithPassword({
+    });
 
-                email: email,
-
-                password: password
-
-            });
-
-        if (error) {
-
-            console.error(error);
-
-            showAuthMessage(
-                "No pudimos iniciar sesión. Revisa tu correo y contraseña."
-            );
-
-            return;
-
-        }
-
-        currentUser =
-            data.user;
-
-        showApp();
-
-        updateUserInterface();
-
-        showToast(
-            "✓ Bienvenido a Huella+"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(error);
+    if (error) {
 
         showAuthMessage(
-            "Ocurrió un problema al iniciar sesión."
+            error.message
         );
 
+        return;
+
     }
+
+    currentUser =
+        data.user;
+
+    showApp();
+
+    showToast(
+        "Sesión iniciada correctamente."
+    );
 
 }
 
-
-/* =========================================================
-   CERRAR SESION
-   ========================================================= */
 
 async function logoutUser() {
 
-    try {
+    await supabaseClient.auth.signOut();
 
-        const {
-            error
-        } =
-            await supabaseClient.auth.signOut();
+    currentUser = null;
 
-        if (error) {
+    document.querySelector(".app").style.display =
+        "none";
 
-            console.error(error);
+    document.getElementById("authScreen").style.display =
+        "flex";
 
-            showToast(
-                "No fue posible cerrar sesión."
-            );
-
-            return;
-
-        }
-
-        currentUser =
-            null;
-
-        showAuthScreen();
-
-        showAuthMode("login");
-
-        showToast(
-            "Sesión cerrada"
-        );
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        showToast(
-            "No fue posible cerrar sesión."
-        );
-
-    }
+    showAuthMode("login");
 
 }
 
 
 /* =========================================================
-   MENSAJES DE AUTENTICACION
+   MOSTRAR APP
    ========================================================= */
 
-function showAuthMessage(message) {
+function showApp() {
 
-    const element =
-        document.getElementById(
-            "authMessage"
-        );
+    document.getElementById("authScreen").style.display =
+        "none";
 
-    if (!element) {
-        return;
+    document.querySelector(".app").style.display =
+        "flex";
+
+    updateUserInterface();
+
+    loadSocialAccounts();
+
+}
+
+
+/* =========================================================
+   USUARIO
+   ========================================================= */
+
+function getUserName() {
+
+    if (!currentUser) {
+
+        return "Usuario";
+
     }
 
-    element.textContent =
-        message;
-
-    element.classList.add(
-        "show"
+    return (
+        currentUser.user_metadata?.name ||
+        currentUser.email?.split("@")[0] ||
+        "Usuario"
     );
 
 }
 
 
-function clearAuthMessage() {
+function updateUserInterface() {
 
-    const element =
-        document.getElementById(
-            "authMessage"
-        );
+    const name =
+        getUserName();
 
-    if (!element) {
-        return;
-    }
+    document.getElementById(
+        "welcomeTitle"
+    ).textContent =
+        `Hola ${name} 👋`;
 
-    element.textContent =
-        "";
+    document.getElementById(
+        "postUserName"
+    ).textContent =
+        name;
 
-    element.classList.remove(
-        "show"
-    );
-
-}
-
-
-/* =========================================================
-   TRADUCIR ERRORES COMUNES
-   ========================================================= */
-
-function translateAuthError(message) {
-
-    if (!message) {
-
-        return "Ocurrió un problema.";
-
-    }
-
-    const lower =
-        message.toLowerCase();
-
-    if (
-        lower.includes("user already registered")
-    ) {
-
-        return "Este correo ya tiene una cuenta. Intenta iniciar sesión.";
-
-    }
-
-    if (
-        lower.includes("invalid login credentials")
-    ) {
-
-        return "El correo o la contraseña no son correctos.";
-
-    }
-
-    if (
-        lower.includes("password should be at least")
-    ) {
-
-        return "La contraseña debe tener al menos 6 caracteres.";
-
-    }
-
-    if (
-        lower.includes("invalid email")
-    ) {
-
-        return "Escribe un correo electrónico válido.";
-
-    }
-
-    return message;
+    document.getElementById(
+        "userAvatar"
+    ).textContent =
+        name
+            .charAt(0)
+            .toUpperCase();
 
 }
 
 
 /* =========================================================
-   CAMBIAR PANTALLA
+   NAVEGACION
    ========================================================= */
 
-function showScreen(
-    id,
-    button
-) {
+function showScreen(screenId, button = null) {
 
     document
         .querySelectorAll(".screen")
         .forEach(screen => {
 
-            screen.classList.remove(
-                "active"
-            );
+            screen.classList.remove("active");
 
         });
 
     const target =
-        document.getElementById(id);
+        document.getElementById(screenId);
 
     if (target) {
 
-        target.classList.add(
-            "active"
-        );
+        target.classList.add("active");
 
     }
 
@@ -3661,505 +2843,239 @@ function showScreen(
 
         document
             .querySelectorAll(".nav button")
-            .forEach(btn => {
+            .forEach(navButton => {
 
-                btn.classList.remove(
-                    "active"
-                );
+                navButton.classList.remove("active");
 
             });
 
-        button.classList.add(
-            "active"
-        );
+        button.classList.add("active");
 
-    }
+    } else {
 
-}
+        const navButtons =
+            document.querySelectorAll(".nav button");
 
+        navButtons.forEach(navButton => {
 
-/* =========================================================
-   ABRIR NUEVA PUBLICACION
-   ========================================================= */
+            navButton.classList.remove("active");
 
-function openNewPost() {
+        });
 
-    showScreen(
-        "nueva"
-    );
-
-    const textarea =
-        document.getElementById(
-            "postText"
-        );
-
-    if (textarea) {
-
-        setTimeout(() => {
-
-            textarea.focus();
-
-        }, 100);
-
-    }
-
-}
-
-
-/* =========================================================
-   ANALISIS REAL DEL BACKEND
-   ========================================================= */
-
-async function analizarPublicacion(
-    texto,
-    contexto = "público",
-    locationVisible = false,
-    academicContext = false,
-    ambiguousContext = false
-) {
-
-    try {
-
-        const respuesta =
-            await fetch(
-                "/api/analyze",
-                {
-
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json"
-
-                    },
-
-                    body:
-                        JSON.stringify({
-
-                            text:
-                                texto,
-
-                            context:
-                                contexto,
-
-                            locationVisible:
-                                locationVisible,
-
-                            academicContext:
-                                academicContext,
-
-                            ambiguousContext:
-                                ambiguousContext
-
-                        })
-
-                }
+        const matchingButton =
+            Array.from(navButtons).find(buttonElement =>
+                buttonElement
+                    .getAttribute("onclick")
+                    ?.includes(`'${screenId}'`)
             );
 
-        const resultado =
-            await respuesta.json();
+        if (matchingButton) {
 
-        console.log(
-            "Resultado de Huella+:",
-            resultado
-        );
-
-        if (!respuesta.ok) {
-
-            throw new Error(
-                resultado.message ||
-                "Error en el análisis"
-            );
+            matchingButton.classList.add("active");
 
         }
 
-        return resultado;
-
     }
 
-    catch (error) {
+    if (screenId === "redes") {
 
-        console.error(
-            "Error conectando con Huella+:",
-            error
-        );
-
-        return {
-
-            ok: false,
-
-            message:
-                "No fue posible conectar con el análisis."
-
-        };
+        loadSocialAccounts();
 
     }
 
 }
 
 
+function openNewPost() {
+
+    showScreen("nueva");
+
+}
+
+
 /* =========================================================
-   ANALIZAR NUEVA PUBLICACION
+   ANALISIS DE NUEVA PUBLICACION
    ========================================================= */
 
 async function analyzeNewPost() {
 
-    const textarea =
-        document.getElementById(
-            "postText"
-        );
-
-    const contexto =
+    const text =
         document
-            .getElementById(
-                "postContext"
-            )
+            .getElementById("postText")
+            .value
+            .trim();
+
+    const context =
+        document
+            .getElementById("postContext")
             .value;
-
-    const locationVisible =
-        document
-            .getElementById(
-                "locationVisible"
-            )
-            .checked;
 
     const academicContext =
         document
-            .getElementById(
-                "academicContext"
-            )
+            .getElementById("academicContext")
             .checked;
 
     const ambiguousContext =
         document
-            .getElementById(
-                "ambiguousContext"
-            )
+            .getElementById("ambiguousContext")
             .checked;
 
-    const texto =
-        textarea.value.trim();
-
-    if (!texto) {
+    if (!text) {
 
         showToast(
-            "✏️ Escribe una publicación primero"
+            "Escribe una publicación primero."
         );
-
-        textarea.focus();
 
         return;
 
     }
 
-    window.publicacionActual = {
+    try {
 
-        text:
-            texto,
+        const response =
+            await fetch("/api/analyze", {
 
-        context:
-            contexto,
+                method: "POST",
 
-        locationVisible:
-            locationVisible,
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-        academicContext:
-            academicContext,
+                body: JSON.stringify({
 
-        ambiguousContext:
-            ambiguousContext
+                    text,
+                    context,
+                    academicContext,
+                    ambiguousContext
 
-    };
+                })
 
-    hasAlert =
-        true;
+            });
 
-    document.getElementById(
-        "badge"
-    ).style.display =
-        "flex";
+        const data =
+            await response.json();
 
-    document.getElementById(
-        "alertTitle"
-    ).textContent =
-        "Nueva publicación analizada";
+        if (!response.ok) {
 
-    document.getElementById(
-        "alertText"
-    ).textContent =
-        "Huella+ revisó la publicación que ingresaste.";
+            throw new Error(
+                data.error ||
+                "No se pudo analizar la publicación."
+            );
 
-    document.getElementById(
-        "displayPostText"
-    ).textContent =
-        texto;
+        }
 
-    document.getElementById(
-        "displayPostContext"
-    ).textContent =
-        "🌐 Contexto: " +
-        contexto;
+        currentAnalysis =
+            data;
 
-    showToast(
-        "🔎 Analizando publicación..."
-    );
-
-    const resultado =
-        await analizarPublicacion(
-
-            texto,
-
-            contexto,
-
-            locationVisible,
-
-            academicContext,
-
-            ambiguousContext
-
+        renderAnalysis(
+            text,
+            context,
+            data
         );
 
-    window.ultimoAnalisis =
-        resultado;
+        showScreen("analisis");
 
-    renderAnalysis(
-        resultado
-    );
+    } catch (error) {
 
-    document.getElementById(
-        "alertContent"
-    ).innerHTML = `
+        console.error(error);
 
-        <div class="card alert-card">
+        showToast(
+            error.message
+        );
 
-            <div class="alert-header">
-
-                <div class="alert-icon">
-                    🔔
-                </div>
-
-                <div>
-
-                    <strong>
-                        Publicación analizada
-                    </strong>
-
-                    <p style="font-size:12px;color:#999">
-                        Huella+ · Hace unos segundos
-                    </p>
-
-                </div>
-
-            </div>
-
-            <p>
-                Huella+ terminó la revisión de la publicación
-                que ingresaste.
-            </p>
-
-            <button
-                class="primary"
-                onclick="showScreen('analisis')"
-            >
-                Ver análisis →
-            </button>
-
-        </div>
-
-    `;
-
-    showScreen(
-        "analisis"
-    );
-
-    showToast(
-        "✓ Análisis completado"
-    );
+    }
 
 }
 
 
-/* =========================================================
-   MOSTRAR RESULTADO DEL ANALISIS
-   ========================================================= */
+function renderAnalysis(text, context, data) {
 
-function renderAnalysis(resultado) {
+    document.getElementById(
+        "displayPostText"
+    ).textContent =
+        text;
 
-    const title =
-        document.getElementById(
-            "analysisTitle"
-        );
+    document.getElementById(
+        "displayPostContext"
+    ).textContent =
+        `📍 Contexto: ${context}`;
 
     const level =
+        data.level ||
+        "Requiere reflexión";
+
+    document.getElementById(
+        "analysisTitle"
+    ).textContent =
+        level;
+
+    const levelElement =
         document.getElementById(
             "analysisLevel"
         );
 
-    const message =
-        document.getElementById(
-            "analysisMessage"
-        );
+    levelElement.textContent =
+        level;
+
+    if (level === "Bajo cuidado") {
+
+        levelElement.style.background =
+            "#eaf7ee";
+
+        levelElement.style.color =
+            "#4c9464";
+
+    } else if (level === "Alto cuidado") {
+
+        levelElement.style.background =
+            "#fde9ed";
+
+        levelElement.style.color =
+            "#a64b60";
+
+    } else {
+
+        levelElement.style.background =
+            "#fff3d4";
+
+        levelElement.style.color =
+            "#926b12";
+
+    }
+
+    document.getElementById(
+        "analysisMessage"
+    ).textContent =
+        data.message ||
+        "Huella+ analizó el contenido.";
 
     const reasons =
         document.getElementById(
             "analysisReasons"
         );
 
-    if (
-        !resultado ||
-        !resultado.ok
-    ) {
+    reasons.innerHTML = "";
 
-        title.textContent =
-            "No fue posible analizar";
+    const warnings =
+        Array.isArray(data.warnings)
+            ? data.warnings
+            : [];
 
-        level.textContent =
-            "⚪ Revisión no disponible";
+    const observations =
+        Array.isArray(data.observations)
+            ? data.observations
+            : [];
 
-        level.style.background =
-            "#f0edf2";
+    const items = [
+        ...warnings.map(warning => ({
+            icon: "⚠️",
+            title: "Aspecto para revisar",
+            description: warning
+        })),
+        ...observations
+    ];
 
-        level.style.color =
-            "#6f6874";
-
-        message.textContent =
-            resultado?.message ||
-            "Ocurrió un problema al realizar el análisis.";
-
-        reasons.innerHTML =
-            "";
-
-        return;
-
-    }
-
-    title.textContent =
-        resultado.level;
-
-    if (
-        resultado.level ===
-        "Bajo cuidado"
-    ) {
-
-        level.textContent =
-            "🟢 Bajo cuidado";
-
-        level.style.background =
-            "#eaf7ee";
-
-        level.style.color =
-            "#4c9464";
-
-    }
-
-    else if (
-        resultado.level ===
-        "Requiere reflexión"
-    ) {
-
-        level.textContent =
-            "🟡 Requiere reflexión";
-
-        level.style.background =
-            "#fff3d4";
-
-        level.style.color =
-            "#926b12";
-
-    }
-
-    else {
-
-        level.textContent =
-            "🔴 Alto cuidado";
-
-        level.style.background =
-            "#fde8ec";
-
-        level.style.color =
-            "#a83f55";
-
-    }
-
-    message.textContent =
-        resultado.message;
-
-    reasons.innerHTML =
-        "";
-
-    if (
-        resultado.observations &&
-        resultado.observations.length > 0
-    ) {
-
-        resultado.observations.forEach(
-            observation => {
-
-                const reason =
-                    document.createElement(
-                        "div"
-                    );
-
-                reason.className =
-                    "reason";
-
-                const icon =
-                    document.createElement(
-                        "div"
-                    );
-
-                icon.textContent =
-                    observation.icon ||
-                    "•";
-
-                const content =
-                    document.createElement(
-                        "div"
-                    );
-
-                const strong =
-                    document.createElement(
-                        "strong"
-                    );
-
-                strong.textContent =
-                    observation.title;
-
-                const paragraph =
-                    document.createElement(
-                        "p"
-                    );
-
-                paragraph.textContent =
-                    observation.description;
-
-                content.appendChild(
-                    strong
-                );
-
-                content.appendChild(
-                    paragraph
-                );
-
-                reason.appendChild(
-                    icon
-                );
-
-                reason.appendChild(
-                    content
-                );
-
-                reasons.appendChild(
-                    reason
-                );
-
-            }
-        );
-
-    }
-
-    else {
+    if (!items.length) {
 
         reasons.innerHTML = `
 
@@ -4172,12 +3088,12 @@ function renderAnalysis(resultado) {
                 <div>
 
                     <strong>
-                        Sin observaciones
+                        Sin alertas detectadas
                     </strong>
 
                     <p>
-                        No encontramos elementos que requieran
-                        una revisión adicional en esta demostración.
+                        No se identificaron aspectos adicionales
+                        para revisar en este análisis.
                     </p>
 
                 </div>
@@ -4186,7 +3102,41 @@ function renderAnalysis(resultado) {
 
         `;
 
+        return;
+
     }
+
+    items.forEach(item => {
+
+        const reason =
+            document.createElement("div");
+
+        reason.className =
+            "reason";
+
+        reason.innerHTML = `
+
+            <div>
+                ${escapeHtml(item.icon || "💭")}
+            </div>
+
+            <div>
+
+                <strong>
+                    ${escapeHtml(item.title || "Observación")}
+                </strong>
+
+                <p>
+                    ${escapeHtml(item.description || "")}
+                </p>
+
+            </div>
+
+        `;
+
+        reasons.appendChild(reason);
+
+    });
 
 }
 
@@ -4195,26 +3145,17 @@ function renderAnalysis(resultado) {
    PERSPECTIVAS
    ========================================================= */
 
-function changePerspective(
-    type,
-    button
-) {
+function changePerspective(type, button) {
 
     document
-        .querySelectorAll(
-            ".perspective-buttons button"
-        )
-        .forEach(btn => {
+        .querySelectorAll(".perspective-buttons button")
+        .forEach(item => {
 
-            btn.classList.remove(
-                "active"
-            );
+            item.classList.remove("active");
 
         });
 
-    button.classList.add(
-        "active"
-    );
+    button.classList.add("active");
 
     const text =
         document.getElementById(
@@ -4224,69 +3165,42 @@ function changePerspective(
     const perspectives = {
 
         amigo: `
-
-            <strong>
-                Como amigo:
-            </strong>
-
+            <strong>Como amigo:</strong>
             <br><br>
-
-            Probablemente podría entender la publicación
-            como una expresión cotidiana de tu vida.
-            El contexto que ya conoce puede ayudarle a interpretar
-            el contenido.
-
+            Probablemente podría entender la publicación como una
+            expresión cotidiana de tu vida. El contexto que ya conoce
+            puede ayudarle a interpretar el contenido.
         `,
 
         profesor: `
-
-            <strong>
-                Como profesor:
-            </strong>
-
+            <strong>Como profesor:</strong>
             <br><br>
-
-            Podría interpretar la publicación principalmente
-            desde el contexto académico. La publicación no tiene
-            necesariamente una valoración negativa, pero el contexto
-            visible puede influir en la lectura que haga de ella.
-
+            Podría observar principalmente el contexto académico,
+            la forma en que presentas la información y qué impresión
+            general transmite la publicación.
         `,
 
         reclutador: `
-
-            <strong>
-                Como reclutador:
-            </strong>
-
+            <strong>Como reclutador:</strong>
             <br><br>
-
-            Podría observar la publicación como parte de una
-            presencia digital más amplia. Una persona que no conoce
-            tu contexto podría darle una interpretación diferente
-            a la intención original.
-
+            Podría interpretar el contenido dentro de la imagen
+            profesional que estás construyendo, especialmente si la
+            publicación es pública.
         `,
 
         desconocido: `
-
-            <strong>
-                Como persona desconocida:
-            </strong>
-
+            <strong>Como desconocido:</strong>
             <br><br>
-
-            Al no tener información adicional sobre ti,
-            podría interpretar únicamente lo que aparece
-            explícitamente en la publicación, sin conocer
-            el contexto que tú tienes.
-
+            Al no tener contexto previo sobre ti, probablemente tendría
+            que interpretar la publicación únicamente a partir de lo
+            que puede observar directamente.
         `
 
     };
 
     text.innerHTML =
-        perspectives[type];
+        perspectives[type] ||
+        perspectives.amigo;
 
 }
 
@@ -4300,71 +3214,916 @@ function decision(type) {
     const messages = {
 
         mantener:
-            "Has decidido mantener la publicación.",
+            "Has decidido que la publicación sigue representándote.",
 
         editar:
-            "Has decidido revisar y editar la publicación.",
+            "Puedes volver al análisis y modificar el contenido.",
 
         audiencia:
-            "Has decidido cambiar la audiencia de la publicación.",
+            "Puedes considerar limitar quién puede ver la publicación.",
 
         eliminar:
-            "Has decidido eliminar la publicación."
+            "Has decidido que prefieres retirar la publicación."
 
     };
 
     showToast(
-        "✓ " +
-        messages[type]
+        messages[type] ||
+        "Decisión registrada."
     );
 
 }
 
 
 /* =========================================================
-   NOTIFICACION
+   REDES SOCIALES - SUPABASE
    ========================================================= */
 
-function showToast(message) {
+async function loadSocialAccounts() {
 
-    const toast =
+    if (!currentUser) {
+
+        return;
+
+    }
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("social_accounts")
+        .select("*")
+        .eq("user_id", currentUser.id);
+
+    if (error) {
+
+        console.error(
+            "Error cargando redes:",
+            error
+        );
+
+        return;
+
+    }
+
+    if (!Array.isArray(data)) {
+
+        return;
+
+    }
+
+    data.forEach(account => {
+
+        updateSocialUI(
+            account.platform,
+            account.username
+        );
+
+    });
+
+    const instagram =
+        data.find(
+            account =>
+                account.platform === "instagram"
+        );
+
+    if (instagram) {
+
+        loadInstagramConnection();
+
+    }
+
+}
+
+
+function updateSocialUI(platform, username) {
+
+    const status =
         document.getElementById(
-            "toast"
+            `${platform}Status`
         );
 
-    toast.textContent =
-        message;
+    const action =
+        document.getElementById(
+            `${platform}NetworkAction`
+        );
 
-    toast.classList.add(
-        "show"
+    if (!status || !action) {
+
+        return;
+
+    }
+
+    status.textContent =
+        `@${username}`;
+
+    status.className =
+        "connected";
+
+    action.innerHTML = `
+
+        <button
+            class="network-remove"
+            onclick="removeSocialAccount('${platform}')"
+        >
+            Desconectar
+        </button>
+
+    `;
+
+}
+
+
+function openSocialForm(platform) {
+
+    const form =
+        document.getElementById(
+            `${platform}Form`
+        );
+
+    if (form) {
+
+        form.style.display =
+            "flex";
+
+    }
+
+}
+
+
+function cancelSocialForm(platform) {
+
+    const form =
+        document.getElementById(
+            `${platform}Form`
+        );
+
+    if (form) {
+
+        form.style.display =
+            "none";
+
+    }
+
+}
+
+
+async function saveSocialAccount(platform) {
+
+    if (!currentUser) {
+
+        showToast(
+            "Debes iniciar sesión."
+        );
+
+        return;
+
+    }
+
+    const input =
+        document.getElementById(
+            `${platform}UsernameInput`
+        );
+
+    const username =
+        input.value
+            .trim()
+            .replace(/^@/, "");
+
+    if (!username) {
+
+        showToast(
+            "Escribe un usuario."
+        );
+
+        return;
+
+    }
+
+    const {
+        error
+    } = await supabaseClient
+        .from("social_accounts")
+        .upsert({
+
+            user_id:
+                currentUser.id,
+
+            platform,
+
+            username,
+
+            updated_at:
+                new Date().toISOString()
+
+        }, {
+
+            onConflict:
+                "user_id,platform"
+
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        showToast(
+            "No se pudo guardar la red."
+        );
+
+        return;
+
+    }
+
+    cancelSocialForm(platform);
+
+    updateSocialUI(
+        platform,
+        username
     );
 
-    setTimeout(() => {
+    showToast(
+        "Red guardada correctamente."
+    );
 
-        toast.classList.remove(
-            "show"
+    if (platform === "instagram") {
+
+        loadInstagramConnection();
+
+    }
+
+}
+
+
+async function removeSocialAccount(platform) {
+
+    if (!currentUser) {
+
+        return;
+
+    }
+
+    const {
+        error
+    } = await supabaseClient
+        .from("social_accounts")
+        .delete()
+        .eq("user_id", currentUser.id)
+        .eq("platform", platform);
+
+    if (error) {
+
+        console.error(error);
+
+        showToast(
+            "No se pudo desconectar la red."
         );
 
-    }, 3500);
+        return;
+
+    }
+
+    const status =
+        document.getElementById(
+            `${platform}Status`
+        );
+
+    const action =
+        document.getElementById(
+            `${platform}NetworkAction`
+        );
+
+    if (status) {
+
+        status.textContent =
+            "No conectado";
+
+        status.className = "";
+
+    }
+
+    if (action) {
+
+        action.innerHTML = `
+
+            <button
+                class="network-action"
+                onclick="${
+                    platform === "instagram"
+                        ? "connectInstagram()"
+                        : `openSocialForm('${platform}')`
+                }"
+            >
+                ${platform === "instagram" ? "Conectar" : "Agregar"}
+            </button>
+
+        `;
+
+    }
+
+    if (platform === "instagram") {
+
+        document.getElementById(
+            "instagramConnectedUsername"
+        ).textContent =
+            "@Instagram";
+
+        document.getElementById(
+            "instagramPosts"
+        ).innerHTML = `
+
+            <div class="instagram-empty">
+                Conecta Instagram para analizar tus publicaciones.
+            </div>
+
+        `;
+
+    }
+
+    showToast(
+        "Red desconectada."
+    );
 
 }
 
 
 /* =========================================================
-   VARIABLE DE ALERTA
+   INSTAGRAM
    ========================================================= */
 
-let hasAlert =
-    false;
+function connectInstagram() {
+
+    if (!currentUser) {
+
+        showToast(
+            "Debes iniciar sesión primero."
+        );
+
+        return;
+
+    }
+
+    supabaseClient.auth.getSession()
+        .then(({ data, error }) => {
+
+            if (error || !data.session) {
+
+                showToast(
+                    "Tu sesión ha expirado. Inicia sesión nuevamente."
+                );
+
+                return;
+
+            }
+
+            return fetch(
+                "/auth/instagram",
+                {
+                    headers: {
+
+                        "Authorization":
+                            `Bearer ${data.session.access_token}`,
+
+                        "Accept":
+                            "application/json"
+
+                    }
+                }
+            );
+
+        })
+        .then(response => {
+
+            if (!response) {
+
+                return null;
+
+            }
+
+            return response.json()
+                .then(result => ({
+
+                    ok: response.ok,
+
+                    result
+
+                }));
+
+        })
+        .then(data => {
+
+            if (!data) {
+
+                return;
+
+            }
+
+            if (!data.ok || !data.result.url) {
+
+                throw new Error(
+                    data.result.error ||
+                    "No se pudo iniciar la conexión con Instagram."
+                );
+
+            }
+
+            window.location.href =
+                data.result.url;
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Error iniciando Instagram:",
+                error
+            );
+
+            showToast(
+                error.message ||
+                "No se pudo conectar Instagram."
+            );
+
+        });
+
+}
+
+async function loadInstagramConnection() {
+
+    try {
+
+        await loadInstagramProfile();
+
+        await loadInstagramMedia();
+
+        const status =
+            document.getElementById(
+                "instagramStatus"
+            );
+
+        if (status) {
+
+            status.textContent =
+                "Cuenta conectada";
+
+            status.className =
+                "connected";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Instagram:",
+            error
+        );
+
+        const postsContainer =
+            document.getElementById(
+                "instagramPosts"
+            );
+
+        postsContainer.innerHTML = `
+
+            <div class="instagram-empty">
+
+                <strong>
+                    No pudimos conectar Instagram.
+                </strong>
+
+                <br><br>
+
+                ${escapeHtml(error.message)}
+
+            </div>
+
+        `;
+
+    }
+
+}
 
 
 /* =========================================================
-   INICIAR AUTENTICACION
+   PERFIL DE INSTAGRAM
+   ========================================================= */
+
+async function loadInstagramProfile() {
+
+    const response =
+        await fetch(
+            "/api/instagram/profile"
+        );
+
+    const data =
+        await response.json();
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.error ||
+            "No se pudo obtener el perfil."
+        );
+
+    }
+
+    /*
+     * El backend puede devolver directamente:
+     *
+     * {
+     *     id: "...",
+     *     username: "..."
+     * }
+     *
+     * o:
+     *
+     * {
+     *     ok: true,
+     *     profile: {...}
+     * }
+     */
+
+    const profile =
+        data.profile ||
+        data;
+
+    const username =
+        profile.username ||
+        "Instagram";
+
+    document.getElementById(
+        "instagramConnectedUsername"
+    ).textContent =
+        `@${username}`;
+
+    return profile;
+
+}
+
+
+/* =========================================================
+   PUBLICACIONES DE INSTAGRAM
+   ========================================================= */
+
+async function loadInstagramMedia() {
+
+    const postsContainer =
+        document.getElementById(
+            "instagramPosts"
+        );
+
+    postsContainer.innerHTML = `
+
+        <div class="instagram-loading">
+            ⏳ Analizando publicaciones...
+        </div>
+
+    `;
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/instagram/media"
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "No se pudieron obtener las publicaciones."
+            );
+
+        }
+
+        /*
+         * El backend actual devuelve:
+         *
+         * {
+         *     ok: true,
+         *     media: [...]
+         * }
+         *
+         * También dejamos compatibilidad con
+         * data.posts y con un array directo.
+         */
+
+        const posts =
+            Array.isArray(data.media)
+                ? data.media
+                : Array.isArray(data.posts)
+                    ? data.posts
+                    : Array.isArray(data)
+                        ? data
+                        : [];
+
+        renderInstagramPosts(posts);
+
+        return posts;
+
+    } catch (error) {
+
+        console.error(error);
+
+        postsContainer.innerHTML = `
+
+            <div class="instagram-empty">
+
+                <strong>
+                    No pudimos cargar las publicaciones.
+                </strong>
+
+                <br><br>
+
+                ${escapeHtml(error.message)}
+
+            </div>
+
+        `;
+
+        throw error;
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER INSTAGRAM
+   ========================================================= */
+
+function renderInstagramPosts(posts) {
+
+    const container =
+        document.getElementById(
+            "instagramPosts"
+        );
+
+    if (!Array.isArray(posts) || posts.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="instagram-empty">
+
+                <strong>
+                    No encontramos publicaciones disponibles para analizar.
+                </strong>
+
+                <br><br>
+
+                Verifica que la cuenta conectada tenga publicaciones
+                disponibles para la aplicación.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    container.innerHTML = "";
+
+    posts.forEach(post => {
+
+        const card =
+            document.createElement("article");
+
+        card.className =
+            "instagram-post-card";
+
+        const analysis =
+            post.analysis || {};
+
+        const level =
+            analysis.level ||
+            "Bajo cuidado";
+
+        let levelClass =
+            "low";
+
+        if (level === "Requiere reflexión") {
+
+            levelClass =
+                "medium";
+
+        }
+
+        if (level === "Alto cuidado") {
+
+            levelClass =
+                "high";
+
+        }
+
+        const caption =
+            post.caption ||
+            "Esta publicación no tiene texto.";
+
+        const warnings =
+            Array.isArray(analysis.warnings)
+                ? analysis.warnings
+                : [];
+
+        const observations =
+            Array.isArray(analysis.observations)
+                ? analysis.observations
+                : [];
+
+        let observationsHtml = "";
+
+        observations.forEach(observation => {
+
+            observationsHtml += `
+
+                <div class="instagram-warning">
+
+                    ${escapeHtml(observation.icon || "•")}
+                    ${escapeHtml(observation.title || "Observación")}
+
+                </div>
+
+            `;
+
+        });
+
+        let warningsHtml = "";
+
+        warnings.forEach(warning => {
+
+            warningsHtml += `
+
+                <div class="instagram-warning">
+
+                    ⚠️ ${escapeHtml(warning)}
+
+                </div>
+
+            `;
+
+        });
+
+        let imageHtml = `
+
+            <div class="instagram-post-image-placeholder">
+                📸
+            </div>
+
+        `;
+
+        if (post.media_url) {
+
+            imageHtml = `
+
+                <img
+                    class="instagram-post-image"
+                    src="${escapeHtml(post.media_url)}"
+                    alt="Publicación de Instagram"
+                    loading="lazy"
+                    onerror="this.outerHTML='<div class=&quot;instagram-post-image-placeholder&quot;>📸</div>'"
+                >
+
+            `;
+
+        }
+
+        card.innerHTML = `
+
+            ${imageHtml}
+
+            <div class="instagram-post-body">
+
+                <div class="instagram-post-caption">
+                    ${escapeHtml(caption)}
+                </div>
+
+                <div class="instagram-analysis">
+
+                    <div class="instagram-level ${levelClass}">
+                        ${escapeHtml(level)}
+                    </div>
+
+                    <p>
+                        ${escapeHtml(
+                            analysis.message ||
+                            "Huella+ analizó esta publicación."
+                        )}
+                    </p>
+
+                    ${observationsHtml}
+
+                    ${warningsHtml}
+
+                    ${
+                        post.permalink
+                            ? `
+                                <a
+                                    class="instagram-open"
+                                    href="${escapeHtml(post.permalink)}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Ver en Instagram →
+                                </a>
+                            `
+                            : ""
+                    }
+
+                </div>
+
+            </div>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+   ACTUALIZAR INSTAGRAM
+   ========================================================= */
+
+async function refreshInstagramAnalysis() {
+
+    const button =
+        document.querySelector(
+            ".instagram-actions .network-action"
+        );
+
+    if (button) {
+
+        button.disabled = true;
+        button.textContent =
+            "Actualizando...";
+
+    }
+
+    try {
+
+        await loadInstagramConnection();
+
+    } finally {
+
+        if (button) {
+
+            button.disabled = false;
+            button.textContent =
+                "Actualizar";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   DOM READY
    ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    initializeAuth
+    async () => {
+
+        const {
+            data
+        } =
+            await supabaseClient.auth.getSession();
+
+        if (data.session?.user) {
+
+            currentUser =
+                data.session.user;
+
+            showApp();
+
+        }
+
+        supabaseClient.auth.onAuthStateChange(
+            (_event, session) => {
+
+                if (session?.user) {
+
+                    currentUser =
+                        session.user;
+
+                    showApp();
+
+                } else {
+
+                    currentUser = null;
+
+                }
+
+            }
+        );
+
+    }
 );
 
 </script>

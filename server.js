@@ -36,29 +36,22 @@ async function obtenerUsuarioSupabase(accessToken) {
 
   }
 
-
   const response =
     await fetch(
       `${process.env.SUPABASE_URL}/auth/v1/user`,
       {
-
         headers: {
-
           apikey:
             process.env.SUPABASE_PUBLISHABLE_KEY,
 
           Authorization:
             `Bearer ${accessToken}`
-
         }
-
       }
     );
 
-
   const data =
     await response.json();
-
 
   if (
     !response.ok ||
@@ -68,7 +61,6 @@ async function obtenerUsuarioSupabase(accessToken) {
     return null;
 
   }
-
 
   return data;
 
@@ -80,7 +72,6 @@ async function obtenerUsuarioDesdeRequest(req) {
   const authHeader =
     req.headers.authorization || "";
 
-
   if (
     !authHeader.startsWith("Bearer ")
   ) {
@@ -89,19 +80,16 @@ async function obtenerUsuarioDesdeRequest(req) {
 
   }
 
-
   const accessToken =
     authHeader
       .replace("Bearer ", "")
       .trim();
-
 
   if (!accessToken) {
 
     return null;
 
   }
-
 
   return await obtenerUsuarioSupabase(
     accessToken
@@ -123,29 +111,22 @@ async function obtenerConexionInstagram(userId) {
 
   }
 
-
   const response =
     await fetch(
       `${process.env.SUPABASE_URL}/rest/v1/instagram_connections?user_id=eq.${encodeURIComponent(userId)}&select=id,user_id,instagram_user_id,instagram_username,access_token,token_expires_at`,
       {
-
         headers: {
-
           apikey:
             process.env.SUPABASE_SERVICE_ROLE_KEY,
 
           Authorization:
             `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
-
         }
-
       }
     );
 
-
   const data =
     await response.json();
-
 
   if (!response.ok) {
 
@@ -159,7 +140,6 @@ async function obtenerConexionInstagram(userId) {
     );
 
   }
-
 
   return data[0] || null;
 
@@ -185,7 +165,7 @@ app.get("/api/status", (req, res) => {
 
 
 // ================================
-// INSTAGRAM - INICIO DE SESION
+// INSTAGRAM - INICIO DE SESIÓN
 // ================================
 
 app.get(
@@ -196,7 +176,6 @@ app.get(
 
       const authHeader =
         req.headers.authorization || "";
-
 
       if (
         !authHeader.startsWith("Bearer ")
@@ -213,18 +192,15 @@ app.get(
 
       }
 
-
       const supabaseAccessToken =
         authHeader
           .replace("Bearer ", "")
           .trim();
 
-
       const userData =
         await obtenerUsuarioSupabase(
           supabaseAccessToken
         );
-
 
       if (!userData) {
 
@@ -238,7 +214,6 @@ app.get(
         });
 
       }
-
 
       if (
         !process.env.META_APP_ID ||
@@ -264,17 +239,14 @@ app.get(
       const state =
         crypto.randomBytes(32).toString("hex");
 
-
       instagramStates.set(
         state,
         {
-
           userId:
             userData.id,
 
           createdAt:
             Date.now()
-
         }
       );
 
@@ -302,6 +274,12 @@ app.get(
 
 
       instagramUrl.searchParams.set(
+        "force_reauth",
+        "true"
+      );
+
+
+      instagramUrl.searchParams.set(
         "client_id",
         process.env.META_APP_ID
       );
@@ -319,9 +297,17 @@ app.get(
       );
 
 
+      // Permisos utilizados por Huella+
+
       instagramUrl.searchParams.set(
         "scope",
-        "instagram_business_basic"
+        [
+          "instagram_business_basic",
+          "instagram_business_manage_messages",
+          "instagram_business_manage_comments",
+          "instagram_business_content_publish",
+          "instagram_business_manage_insights"
+        ].join(",")
       );
 
 
@@ -365,7 +351,6 @@ app.get(
         "Error iniciando Instagram OAuth:",
         error
       );
-
 
       return res.status(500).json({
 
@@ -538,6 +523,9 @@ app.get(
       );
 
 
+      // Debe ser exactamente la misma URI
+      // utilizada durante la autorización
+
       tokenBody.set(
         "redirect_uri",
         process.env.INSTAGRAM_REDIRECT_URI
@@ -547,6 +535,12 @@ app.get(
       tokenBody.set(
         "code",
         code
+      );
+
+
+      console.log(
+        "Intercambiando código de Instagram usando redirect_uri:",
+        process.env.INSTAGRAM_REDIRECT_URI
       );
 
 
@@ -647,7 +641,6 @@ app.get(
 
         accessToken =
           longTokenData.access_token;
-
 
         expiresIn =
           longTokenData.expires_in || null;

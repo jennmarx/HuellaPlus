@@ -456,13 +456,41 @@ app.get(
     // VERIFICAR CODE
     // ========================================================
 
-    if (!code) {
+    const instagramCode =
+      String(code || "").trim();
+
+
+    if (!instagramCode) {
 
       return res.status(400).send(
         "Instagram no devolvió el código de autorización."
       );
 
     }
+
+
+    // ========================================================
+    // DEPURACIÓN SEGURA DEL CODE
+    //
+    // NO mostramos el código completo.
+    // Solo longitud y primeros/últimos caracteres.
+    // ========================================================
+
+    console.log(
+      "Código recibido:",
+      instagramCode.length,
+      "caracteres"
+    );
+
+    console.log(
+      "Código empieza por:",
+      instagramCode.slice(0, 10)
+    );
+
+    console.log(
+      "Código termina por:",
+      instagramCode.slice(-10)
+    );
 
 
     try {
@@ -533,7 +561,7 @@ app.get(
 
       tokenForm.append(
         "code",
-        code
+        instagramCode
       );
 
 

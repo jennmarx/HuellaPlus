@@ -4282,7 +4282,7 @@ function renderInstagramSummary(posts) {
 
         highlightsHtml += `
             <div class="instagram-summary-highlight">
-                <strong>Aspectos que más aparecen:</strong>
+                <strong>🔎 Lo que más encontramos:</strong>
                 ${observationsSorted
                     .map(item =>
                         `${escapeHtml(item[0])} (${item[1]})`
@@ -4299,7 +4299,7 @@ function renderInstagramSummary(posts) {
 
         highlightsHtml += `
             <div class="instagram-summary-highlight">
-                <strong>Advertencias frecuentes:</strong>
+                <strong>💡 Detalles para tener en cuenta:</strong>
                 ${warningsSorted
                     .map(item =>
                         `${escapeHtml(item[0])} (${item[1]})`
@@ -4316,24 +4316,18 @@ function renderInstagramSummary(posts) {
        MENSAJE GENERAL
        ======================================================== */
 
-    let message = "";
+    let message =
+    "¡Vas por buen camino! 💜 Tus publicaciones muestran un nivel bajo de exposición. Solo encontramos algunos detalles que puedes revisar para seguir cuidando tu huella digital.";
 
-    if (generalLevel === "Bajo cuidado") {
+if (generalLevel === "Requiere reflexión") {
+    recommendation =
+        "Hay algunos detalles para revisar 👀 Tus publicaciones tienen ciertos elementos que podrían revelar más información de la que imaginas. Vale la pena revisarlas antes de seguir compartiendo.";
+}
 
-        message =
-            "En general, tus publicaciones muestran un nivel bajo de exposición de información sensible. Aun así, conviene revisar cada publicación antes de compartir información personal.";
-
-    } else if (generalLevel === "Requiere reflexión") {
-
-        message =
-            "En general, tu perfil presenta algunos elementos que merecen revisión. No significa que tus publicaciones sean inseguras, pero sí hay información que podrías compartir con más cuidado.";
-
-    } else {
-
-        message =
-            "En general, varias publicaciones presentan elementos que podrían aumentar tu exposición digital. Te recomendamos revisar especialmente la información personal, ubicaciones y otros datos que aparecen en ellas.";
-
-    }
+if (generalLevel === "Alto cuidado") {
+    recommendation =
+        "Ojo con lo que estás compartiendo 🚨 Encontramos varios elementos que podrían exponer información personal o sensible. Te recomendamos revisar estas publicaciones antes de mantenerlas públicas.";
+}
 
 
     summary.innerHTML = `

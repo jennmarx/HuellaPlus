@@ -952,6 +952,20 @@ button {
     color: #8d6817;
 }
 
+.instagram-warning-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #6f6572;
+}
+
+.instagram-warning-description {
+    margin-top: 4px;
+    margin-left: 22px;
+    color: #8a828d;
+    line-height: 1.45;
+}
+
 .instagram-open {
     display: inline-block;
     margin-top: 12px;
@@ -4189,6 +4203,8 @@ function renderInstagramSummary(posts) {
                 ? analysis.observations
                 : [];
 
+let observationsHtml = "";
+
         observations.forEach(observation => {
 
             const title =
@@ -4473,23 +4489,44 @@ function renderInstagramPosts(posts) {
             Array.isArray(analysis.observations)
                 ? analysis.observations
                 : [];
+       let observationsHtml = "";
 
-        let observationsHtml = "";
+       observations.forEach(observation => {
 
-        observations.forEach(observation => {
+    observationsHtml += `
 
-            observationsHtml += `
+        <div class="instagram-warning">
 
-                <div class="instagram-warning">
+            <div class="instagram-warning-title">
 
-                    ${escapeHtml(observation.icon || "•")}
-                    ${escapeHtml(observation.title || "Observación")}
+                ${escapeHtml(observation.icon || "•")}
 
-                </div>
+                <strong>
+                    ${escapeHtml(
+                        observation.title ||
+                        "Observación"
+                    )}
+                </strong>
 
-            `;
+            </div>
 
-        });
+            ${
+                observation.description
+                    ? `
+                        <div class="instagram-warning-description">
+                            ${escapeHtml(
+                                observation.description
+                            )}
+                        </div>
+                    `
+                    : ""
+            }
+
+        </div>
+
+    `;
+
+});
 
         let warningsHtml = "";
 

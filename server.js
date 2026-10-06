@@ -246,6 +246,8 @@ async function analizarImagenGemini(
     // DESCARGAR IMAGEN
     // --------------------------------------------------------
 
+    console.log("GEMINI DEBUG 1: intentando descargar imagen...");
+
     const imageResponse =
       await fetch(mediaUrl);
 
@@ -257,6 +259,11 @@ async function analizarImagenGemini(
       );
 
     }
+
+   console.log(
+  "GEMINI DEBUG 2: imagen descargada correctamente",
+  imageResponse.status
+);
 
 
     const contentType =
@@ -291,6 +298,8 @@ async function analizarImagenGemini(
     // --------------------------------------------------------
     // ANÁLISIS CON GEMINI
     // --------------------------------------------------------
+
+    console.log("GEMINI DEBUG 3: enviando imagen a Gemini...");
 
     const response =
       await gemini.models.generateContent({
@@ -468,6 +477,7 @@ No incluyas texto fuera del JSON.
 
       });
 
+console.log("GEMINI DEBUG 4: Gemini respondió correctamente");
 
     // --------------------------------------------------------
     // PROCESAR RESPUESTA

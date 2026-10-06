@@ -3463,6 +3463,169 @@ async function removeSocialAccount(platform) {
 
     }
 
+
+    // =========================================================
+    // INSTAGRAM - DESCONEXIÓN REAL DESDE EL SERVIDOR
+    // =========================================================
+
+    if (platform === "instagram") {
+
+        try {
+
+            const {
+                data,
+                error
+            } = await supabaseClient.auth.getSession();
+
+
+            if (error || !data.session) {
+
+                showToast(
+                    "Tu sesión ha expirado. Inicia sesión nuevamente."
+                );
+
+                return;
+
+            }
+
+
+            const response =
+                await fetch(
+                    "/api/instagram/disconnect",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+
+                            "Authorization":
+                                `Bearer ${data.session.access_token}`,
+
+                            "Accept":
+                                "application/json"
+
+                        }
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok || !result.ok) {
+
+                console.error(
+                    "Error desconectando Instagram:",
+                    result
+                );
+
+                showToast(
+                    result.message ||
+                    "No se pudo desconectar Instagram."
+                );
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // ACTUALIZAR INTERFAZ
+            // =====================================================
+
+            const status =
+                document.getElementById(
+                    `${platform}Status`
+                );
+
+
+            const action =
+                document.getElementById(
+                    `${platform}NetworkAction`
+                );
+
+
+            if (status) {
+
+                status.textContent =
+                    "No conectado";
+
+                status.className = "";
+
+            }
+
+
+            if (action) {
+
+                action.innerHTML = `
+
+                    <button
+                        class="network-action"
+                        onclick="connectInstagram()"
+                    >
+                        Conectar
+                    </button>
+
+                `;
+
+            }
+
+
+            document.getElementById(
+                "instagramConnectedUsername"
+            ).textContent =
+                "@Instagram";
+
+
+            document.getElementById(
+                "instagramPosts"
+            ).innerHTML = `
+
+                <div class="instagram-empty">
+
+                    Conecta Instagram para analizar
+                    tus publicaciones.
+
+                </div>
+
+            `;
+
+
+            // Limpiar los datos que estaban cargados
+            instagramConnectedUsername = null;
+            instagramPosts = [];
+
+
+            showToast(
+                "Instagram desconectado correctamente."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Error desconectando Instagram:",
+                error
+            );
+
+            showToast(
+                "No se pudo desconectar Instagram."
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    // =========================================================
+    // OTRAS REDES
+    // =========================================================
+
     const {
         error
     } = await supabaseClient
@@ -3470,6 +3633,7 @@ async function removeSocialAccount(platform) {
         .delete()
         .eq("user_id", currentUser.id)
         .eq("platform", platform);
+
 
     if (error) {
 
@@ -3483,15 +3647,18 @@ async function removeSocialAccount(platform) {
 
     }
 
+
     const status =
         document.getElementById(
             `${platform}Status`
         );
 
+
     const action =
         document.getElementById(
             `${platform}NetworkAction`
         );
+
 
     if (status) {
 
@@ -3502,50 +3669,28 @@ async function removeSocialAccount(platform) {
 
     }
 
+
     if (action) {
 
         action.innerHTML = `
 
             <button
                 class="network-action"
-                onclick="${
-                    platform === "instagram"
-                        ? "connectInstagram()"
-                        : `openSocialForm('${platform}')`
-                }"
+                onclick="openSocialForm('${platform}')"
             >
-                ${platform === "instagram" ? "Conectar" : "Agregar"}
+                Agregar
             </button>
 
         `;
 
     }
 
-    if (platform === "instagram") {
-
-        document.getElementById(
-            "instagramConnectedUsername"
-        ).textContent =
-            "@Instagram";
-
-        document.getElementById(
-            "instagramPosts"
-        ).innerHTML = `
-
-            <div class="instagram-empty">
-                Conecta Instagram para analizar tus publicaciones.
-            </div>
-
-        `;
-
-    }
 
     showToast(
         "Red desconectada."
     );
 
 }
-
 
 /* =========================================================
    INSTAGRAM

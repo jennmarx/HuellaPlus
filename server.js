@@ -931,6 +931,160 @@ app.get(
 
 
 // ============================================================
+// INSTAGRAM - DESCONECTAR
+// ============================================================
+
+app.post(
+  "/api/instagram/disconnect",
+  async (req, res) => {
+
+    try {
+
+      const user =
+        await obtenerUsuarioDesdeRequest(req);
+
+      if (!user) {
+
+        return res.status(401).json({
+
+          ok: false,
+
+          message:
+            "Debes iniciar sesión en Huella+."
+
+        });
+
+      }
+
+      if (
+        !process.env.SUPABASE_URL ||
+        !process.env.SUPABASE_SERVICE_ROLE_KEY
+      ) {
+
+        return res.status(500).json({
+
+          ok: false,
+
+          message:
+            "Falta configurar la clave segura de Supabase."
+
+        });
+
+      }
+
+      const supabaseHeaders = {
+
+        apikey:
+          process.env.SUPABASE_SERVICE_ROLE_KEY,
+
+        Authorization:
+          `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+
+        "Content-Type":
+          "application/json",
+
+        Prefer:
+          "return=minimal"
+
+      };
+
+      // Eliminar la conexión real de Instagram
+      const instagramResponse =
+        await fetch(
+          `${process.env.SUPABASE_URL}/rest/v1/instagram_connections?user_id=eq.${encodeURIComponent(user.id)}`,
+          {
+            method: "DELETE",
+            headers: supabaseHeaders
+          }
+        );
+
+      if (!instagramResponse.ok) {
+
+        const errorText =
+          await instagramResponse.text();
+
+        console.error(
+          "Error eliminando conexión de Instagram:",
+          errorText
+        );
+
+        return res.status(500).json({
+
+          ok: false,
+
+          message:
+            "No fue posible desconectar Instagram."
+
+        });
+
+      }
+
+      // Eliminar también Instagram de Mis redes
+      const socialResponse =
+        await fetch(
+          `${process.env.SUPABASE_URL}/rest/v1/social_accounts?user_id=eq.${encodeURIComponent(user.id)}&platform=eq.instagram`,
+          {
+            method: "DELETE",
+            headers: supabaseHeaders
+          }
+        );
+
+      if (!socialResponse.ok) {
+
+        const socialError =
+          await socialResponse.text();
+
+        console.error(
+          "Error eliminando Instagram de Mis redes:",
+          socialError
+        );
+
+        return res.status(500).json({
+
+          ok: false,
+
+          message:
+            "La conexión de Instagram fue eliminada, pero no se pudo actualizar Mis redes."
+
+        });
+
+      }
+
+      console.log(
+        `Instagram desconectado correctamente para el usuario ${user.id}`
+      );
+
+      return res.json({
+
+        ok: true,
+
+        message:
+          "Instagram desconectado correctamente."
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "Error desconectando Instagram:",
+        error
+      );
+
+      return res.status(500).json({
+
+        ok: false,
+
+        message:
+          "No fue posible desconectar Instagram."
+
+      });
+
+    }
+
+  }
+);
+
+// ============================================================
 // INSTAGRAM - PERFIL
 // ============================================================
 

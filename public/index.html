@@ -988,6 +988,120 @@ button {
     line-height: 1.5;
 }
 
+/* ============================================================
+   RESUMEN GENERAL DE INSTAGRAM
+   ============================================================ */
+
+.instagram-summary {
+    display: none;
+    margin-bottom: 24px;
+    padding: 22px;
+    border: 1px solid #e7e1eb;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #faf7ff 0%, #ffffff 100%);
+}
+
+.instagram-summary-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.instagram-summary-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.instagram-summary-description {
+    margin: 5px 0 0;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.instagram-summary-level {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 13px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.instagram-summary-level.low {
+    background: #e9f8ef;
+    color: #21864a;
+}
+
+.instagram-summary-level.medium {
+    background: #fff5d9;
+    color: #9a6a00;
+}
+
+.instagram-summary-level.high {
+    background: #fde9e9;
+    color: #b83232;
+}
+
+.instagram-summary-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.instagram-summary-stat {
+    padding: 15px;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid #eee8f1;
+}
+
+.instagram-summary-stat strong {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.instagram-summary-stat span {
+    color: #777;
+    font-size: 12px;
+}
+
+.instagram-summary-text {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.75);
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.instagram-summary-highlight {
+    margin-top: 12px;
+    color: #444;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+@media (max-width: 850px) {
+
+    .instagram-summary-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .instagram-summary-header {
+        flex-direction: column;
+    }
+
+}
+
+
 /* =========================================================
    FUTURE
    ========================================================= */
@@ -2342,6 +2456,8 @@ button {
             </div>
 
         </div>
+
+                  <div id="instagramSummary" class="instagram-summary"></div>
 
         <div id="instagramPosts" class="instagram-posts">
 
@@ -3980,6 +4096,8 @@ async function loadInstagramMedia() {
                         ? data
                         : [];
 
+        renderInstagramSummary(posts);
+
         renderInstagramPosts(posts);
 
         return posts;
@@ -4007,6 +4125,275 @@ async function loadInstagramMedia() {
         throw error;
 
     }
+
+}
+
+/* ============================================================
+   RESUMEN GENERAL DE INSTAGRAM
+   ============================================================ */
+
+function renderInstagramSummary(posts) {
+
+    const summary =
+        document.getElementById(
+            "instagramSummary"
+        );
+
+    if (!summary) {
+        return;
+    }
+
+    if (!Array.isArray(posts) || posts.length === 0) {
+
+        summary.style.display = "none";
+        summary.innerHTML = "";
+
+        return;
+    }
+
+    const total =
+        posts.length;
+
+    let low = 0;
+    let medium = 0;
+    let high = 0;
+
+    const observationCounts = {};
+    const warningCounts = {};
+
+    posts.forEach(post => {
+
+        const analysis =
+            post.analysis || {};
+
+        const level =
+            analysis.level ||
+            "Bajo cuidado";
+
+        if (level === "Alto cuidado") {
+
+            high++;
+
+        } else if (level === "Requiere reflexión") {
+
+            medium++;
+
+        } else {
+
+            low++;
+
+        }
+
+        const observations =
+            Array.isArray(analysis.observations)
+                ? analysis.observations
+                : [];
+
+        observations.forEach(observation => {
+
+            const title =
+                observation.title ||
+                "Observación";
+
+            observationCounts[title] =
+                (observationCounts[title] || 0) + 1;
+
+        });
+
+        const warnings =
+            Array.isArray(analysis.warnings)
+                ? analysis.warnings
+                : [];
+
+        warnings.forEach(warning => {
+
+            const text =
+                typeof warning === "string"
+                    ? warning
+                    : warning.text || warning.title || "";
+
+            if (text) {
+
+                warningCounts[text] =
+                    (warningCounts[text] || 0) + 1;
+
+            }
+
+        });
+
+    });
+
+
+    /* ========================================================
+       CALCULAR NIVEL GENERAL
+       ======================================================== */
+
+    const score =
+        (
+            low * 1 +
+            medium * 2 +
+            high * 3
+        ) / total;
+
+    let generalLevel =
+        "Bajo cuidado";
+
+    let levelClass =
+        "low";
+
+    if (score >= 2.5) {
+
+        generalLevel =
+            "Alto cuidado";
+
+        levelClass =
+            "high";
+
+    } else if (score >= 1.6) {
+
+        generalLevel =
+            "Requiere reflexión";
+
+        levelClass =
+            "medium";
+
+    }
+
+
+    /* ========================================================
+       BUSCAR LOS ASPECTOS MÁS REPETIDOS
+       ======================================================== */
+
+    const observationsSorted =
+        Object.entries(observationCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3);
+
+    const warningsSorted =
+        Object.entries(warningCounts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 2);
+
+
+    let highlightsHtml = "";
+
+
+    if (observationsSorted.length > 0) {
+
+        highlightsHtml += `
+            <div class="instagram-summary-highlight">
+                <strong>Aspectos que más aparecen:</strong>
+                ${observationsSorted
+                    .map(item =>
+                        `${escapeHtml(item[0])} (${item[1]})`
+                    )
+                    .join(" · ")
+                }
+            </div>
+        `;
+
+    }
+
+
+    if (warningsSorted.length > 0) {
+
+        highlightsHtml += `
+            <div class="instagram-summary-highlight">
+                <strong>Advertencias frecuentes:</strong>
+                ${warningsSorted
+                    .map(item =>
+                        `${escapeHtml(item[0])} (${item[1]})`
+                    )
+                    .join(" · ")
+                }
+            </div>
+        `;
+
+    }
+
+
+    /* ========================================================
+       MENSAJE GENERAL
+       ======================================================== */
+
+    let message = "";
+
+    if (generalLevel === "Bajo cuidado") {
+
+        message =
+            "En general, tus publicaciones muestran un nivel bajo de exposición de información sensible. Aun así, conviene revisar cada publicación antes de compartir información personal.";
+
+    } else if (generalLevel === "Requiere reflexión") {
+
+        message =
+            "En general, tu perfil presenta algunos elementos que merecen revisión. No significa que tus publicaciones sean inseguras, pero sí hay información que podrías compartir con más cuidado.";
+
+    } else {
+
+        message =
+            "En general, varias publicaciones presentan elementos que podrían aumentar tu exposición digital. Te recomendamos revisar especialmente la información personal, ubicaciones y otros datos que aparecen en ellas.";
+
+    }
+
+
+    summary.innerHTML = `
+
+        <div class="instagram-summary-header">
+
+            <div>
+
+                <h3 class="instagram-summary-title">
+                    Resumen general de tu huella digital
+                </h3>
+
+                <p class="instagram-summary-description">
+                    Resultado obtenido a partir de las publicaciones analizadas.
+                </p>
+
+            </div>
+
+            <span class="instagram-summary-level ${levelClass}">
+                ${escapeHtml(generalLevel)}
+            </span>
+
+        </div>
+
+
+        <div class="instagram-summary-stats">
+
+            <div class="instagram-summary-stat">
+                <strong>${total}</strong>
+                <span>Publicaciones analizadas</span>
+            </div>
+
+            <div class="instagram-summary-stat">
+                <strong>${low}</strong>
+                <span>Bajo cuidado</span>
+            </div>
+
+            <div class="instagram-summary-stat">
+                <strong>${medium}</strong>
+                <span>Requiere reflexión</span>
+            </div>
+
+            <div class="instagram-summary-stat">
+                <strong>${high}</strong>
+                <span>Alto cuidado</span>
+            </div>
+
+        </div>
+
+
+        <p class="instagram-summary-text">
+            ${escapeHtml(message)}
+        </p>
+
+        ${highlightsHtml}
+
+    `;
+
+    summary.style.display =
+        "block";
 
 }
 

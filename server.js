@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const crypto = require("crypto");
+const { GoogleGenAI } = require("@google/genai");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -109,7 +110,6 @@ async function obtenerUsuarioDesdeRequest(req) {
 
 }
 
-
 async function obtenerConexionInstagram(userId) {
 
   if (
@@ -159,6 +159,273 @@ async function obtenerConexionInstagram(userId) {
 
 
 // ============================================================
+// GEMINI - ANÁLISIS VISUAL
+// ============================================================
+
+const gemini =
+  process.env.GEMINI_API_KEY
+    ? new GoogleGenAI({
+        apiKey: process.env.GEMINI_API_KEY
+      })
+    : null;
+
+
+const geminiImageCache =
+  new Map();
+
+
+const geminiImageProcessing =
+  new Set();
+
+
+async function analizarImagenGemini(
+  mediaUrl,
+  mediaId
+) {
+
+  const cacheKey =
+    mediaId || mediaUrl;
+
+  if (!gemini || !mediaUrl) {
+
+    return {
+      ok: false,
+      observations: []
+    };
+
+  }
+
+
+  // ----------------------------------------------------------
+  // RESULTADO YA GUARDADO
+  // ----------------------------------------------------------
+
+  if (
+    geminiImageCache.has(cacheKey)
+  ) {
+
+    console.log(
+      "Usando análisis visual guardado."
+    );
+
+    return geminiImageCache.get(
+      cacheKey
+    );
+
+  }
+
+
+  // ----------------------------------------------------------
+  // IMAGEN YA EN PROCESO
+  // ----------------------------------------------------------
+
+  if (
+    geminiImageProcessing.has(cacheKey)
+  ) {
+
+    console.log(
+      "Esta imagen ya está siendo analizada. Se omite esta solicitud."
+    );
+
+    return {
+      ok: false,
+      observations: []
+    };
+
+  }
+
+
+  geminiImageProcessing.add(
+    cacheKey
+  );
+
+
+  try {
+
+    const imageResponse =
+      await fetch(mediaUrl);
+
+
+    if (!imageResponse.ok) {
+
+      throw new Error(
+        `No se pudo descargar la imagen: ${imageResponse.status}`
+      );
+
+    }
+
+
+    const contentType =
+      imageResponse.headers.get(
+        "content-type"
+      ) || "image/jpeg";
+
+
+    if (
+      !contentType.startsWith(
+        "image/"
+      )
+    ) {
+
+      geminiImageProcessing.delete(
+        cacheKey
+      );
+
+      return {
+        ok: false,
+        observations: []
+      };
+
+    }
+
+
+    const imageBuffer =
+      Buffer.from(
+        await imageResponse.arrayBuffer()
+      );
+
+
+    const imageBase64 =
+      imageBuffer.toString(
+        "base64"
+      );
+
+
+    const response =
+      await gemini.models.generateContent({
+
+        model:
+          "gemini-3.5-flash-lite",
+
+        contents: [
+
+          {
+            inlineData: {
+              mimeType:
+                contentType,
+
+              data:
+                imageBase64
+            }
+          },
+
+          {
+            text: `
+Analiza esta imagen exclusivamente desde el punto de vista
+de privacidad y huella digital.
+
+Busca elementos visuales que puedan exponer información
+personal, como:
+
+- documentos
+- teléfonos
+- correos
+- direcciones
+- placas
+- ubicaciones específicas
+- información académica
+- pantallas con información personal
+- datos personales escritos
+
+La presencia de una persona o rostro por sí sola NO es
+un problema de privacidad.
+
+Si no encuentras elementos relevantes, devuelve
+observations como una lista vacía.
+
+Devuelve únicamente JSON con esta estructura:
+
+{
+  "observations": [
+    {
+      "risk": "vigila",
+      "icon": "📍",
+      "title": "Ubicación",
+      "description": "Explicación breve."
+    }
+  ]
+}
+
+Usa "vigila" para elementos que conviene revisar.
+
+Usa "controlalo" para información personal o sensible
+que debería ocultarse o revisarse.
+`
+          }
+
+        ],
+
+        config: {
+
+          responseMimeType:
+            "application/json"
+
+        }
+
+      });
+
+
+    const result =
+      JSON.parse(
+        response.text
+      );
+
+
+    const resultado = {
+
+      ok: true,
+
+      observations:
+        Array.isArray(
+          result.observations
+        )
+          ? result.observations
+          : []
+
+    };
+
+
+    geminiImageCache.set(
+      cacheKey,
+      resultado
+    );
+
+
+    geminiImageProcessing.delete(
+      cacheKey
+    );
+
+
+    return resultado;
+
+
+  } catch (error) {
+
+    console.error(
+      "Error en análisis visual con Gemini:",
+      error.message
+    );
+
+
+    geminiImageProcessing.delete(
+      cacheKey
+    );
+
+
+    return {
+
+      ok: false,
+
+      observations: []
+
+    };
+
+  }
+
+}
+
+
+// ============================================================
 // ESTADO DEL SERVIDOR
 // ============================================================
 
@@ -203,6 +470,20 @@ app.get(
         });
 
       }
+
+console.log(
+    "Intento OAuth Instagram:",
+    {
+        tieneMetaAppId:
+            !!process.env.META_APP_ID,
+
+        tieneMetaAppSecret:
+            !!process.env.META_APP_SECRET,
+
+        tieneRedirectUri:
+            !!INSTAGRAM_REDIRECT_URI
+    }
+);
 
       const supabaseAccessToken =
         authHeader
@@ -1625,31 +1906,159 @@ app.get(
       // ANALIZAR PUBLICACIONES
       // ======================================================
 
-      const publicaciones =
-        (data.data || []).map(
-          (publicacion) => {
+      const publicaciones = [];
 
-            const caption =
-              publicacion.caption || "";
+let visualAnalysesCount = 0;
+
+const mediaItems = data.data || [];
+
+for (
+  let index = 0;
+  index < mediaItems.length;
+  index++
+) {
+
+  const publicacion =
+    mediaItems[index];
+
+  const caption =
+    publicacion.caption || "";
 
 
-            const analysis =
-              analizarTextoHuella(
-                caption,
-                "Instagram"
-              );
+  // ======================================================
+  // ANÁLISIS DEL TEXTO
+  // ======================================================
+
+  const analysis =
+    analizarTextoHuella(
+      caption,
+      "Instagram"
+    );
 
 
-            return {
+  // ======================================================
+  // ANÁLISIS VISUAL CON GEMINI
+  // MÁXIMO 3 PUBLICACIONES
+  // ======================================================
 
-              ...publicacion,
+  const puedeAnalizarImagen =
+    visualAnalysesCount < 3 &&
+    (
+      publicacion.media_type === "IMAGE" ||
+      publicacion.media_type === "CAROUSEL_ALBUM"
+    ) &&
+    publicacion.media_url;
 
-              analysis
 
-            };
+  if (puedeAnalizarImagen) {
+
+    visualAnalysesCount++;
+
+    console.log(
+      `Analizando imagen ${visualAnalysesCount}/3 con Gemini...`
+    );
+
+
+    const visualAnalysis =
+  await analizarImagenGemini(
+    publicacion.media_url,
+    publicacion.id
+  );
+
+analysis.visualAnalysis = visualAnalysis;
+
+
+    if (
+      visualAnalysis.ok &&
+      visualAnalysis.observations.length > 0
+    ) {
+
+      visualAnalysis.observations.forEach(
+        (observation) => {
+
+          analysis.observations.push({
+
+            icon:
+              observation.icon ||
+              "👀",
+
+            title:
+              observation.title ||
+              "Observación visual",
+
+            description:
+              observation.description ||
+              ""
+
+          });
+
+
+          if (
+            observation.risk ===
+            "vigila"
+          ) {
+
+            analysis.warnings.push(
+              "La imagen contiene un elemento que conviene revisar."
+            );
 
           }
-        );
+
+
+          if (
+            observation.risk ===
+            "controlalo"
+          ) {
+
+            analysis.warnings.push(
+              "La imagen podría exponer información personal o sensible."
+            );
+
+          }
+
+        }
+      );
+
+
+      // ==================================================
+      // RECALCULAR NIVEL
+      // ==================================================
+
+      if (
+        analysis.warnings.length >= 2
+      ) {
+
+        analysis.level =
+          "Alto cuidado";
+
+      } else if (
+        analysis.warnings.length === 1
+      ) {
+
+        analysis.level =
+          "Requiere reflexión";
+
+      } else {
+
+        analysis.level =
+          "Bajo cuidado";
+
+      }
+
+    }
+
+  }
+
+
+  publicaciones.push({
+
+    ...publicacion,
+
+    analysis
+
+  });
+
+}
 
 
       return res.json({

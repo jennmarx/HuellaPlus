@@ -966,6 +966,50 @@ button {
     line-height: 1.45;
 }
 
+.instagram-visual-analysis {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: #faf7fd;
+    border: 1px solid #eadcf7;
+    border-radius: 10px;
+}
+
+.instagram-visual-analysis-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #6f6572;
+}
+
+.instagram-visual-analysis-description {
+    margin-top: 5px;
+    margin-left: 22px;
+    font-size: 12px;
+    color: #8a828d;
+    line-height: 1.45;
+}
+
+.instagram-visual-observation {
+    margin-top: 9px;
+}
+
+.instagram-visual-observation-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #6f6572;
+}
+
+.instagram-visual-observation-description {
+    margin-top: 3px;
+    margin-left: 22px;
+    font-size: 12px;
+    color: #8a828d;
+    line-height: 1.45;
+}
+
 .instagram-open {
     display: inline-block;
     margin-top: 12px;
@@ -3896,6 +3940,7 @@ function connectInstagram() {
             if (!data.ok || !data.result.url) {
 
                 throw new Error(
+                    data.result.message ||
                     data.result.error ||
                     "No se pudo iniciar la conexión con Instagram."
                 );
@@ -4203,7 +4248,7 @@ function renderInstagramSummary(posts) {
                 ? analysis.observations
                 : [];
 
-let observationsHtml = "";
+
 
         observations.forEach(observation => {
 
@@ -4485,6 +4530,14 @@ function renderInstagramPosts(posts) {
                 ? analysis.warnings
                 : [];
 
+const visualAnalysis =
+    analysis.visualAnalysis || {};
+
+const visualObservations =
+    Array.isArray(visualAnalysis.observations)
+        ? visualAnalysis.observations
+        : [];
+
         const observations =
             Array.isArray(analysis.observations)
                 ? analysis.observations
@@ -4527,6 +4580,87 @@ function renderInstagramPosts(posts) {
     `;
 
 });
+
+let visualAnalysisHtml = "";
+
+if (visualAnalysis.ok) {
+
+    if (visualObservations.length > 0) {
+
+        let visualDetailsHtml = "";
+
+        visualObservations.forEach(observation => {
+
+            visualDetailsHtml += `
+                <div class="instagram-visual-observation">
+
+                    <div class="instagram-visual-observation-title">
+                        ${escapeHtml(
+                            observation.icon || "👀"
+                        )}
+
+                        <strong>
+                            ${escapeHtml(
+                                observation.title ||
+                                "Observación visual"
+                            )}
+                        </strong>
+                    </div>
+
+                    ${
+                        observation.description
+                            ? `
+                                <div class="instagram-visual-observation-description">
+                                    ${escapeHtml(
+                                        observation.description
+                                    )}
+                                </div>
+                            `
+                            : ""
+                    }
+
+                </div>
+            `;
+
+        });
+
+        visualAnalysisHtml = `
+            <div class="instagram-visual-analysis">
+
+                <div class="instagram-visual-analysis-title">
+                    🤖
+                    <strong>
+                        Análisis visual
+                    </strong>
+                </div>
+
+                ${visualDetailsHtml}
+
+            </div>
+        `;
+
+    } else {
+
+        visualAnalysisHtml = `
+            <div class="instagram-visual-analysis">
+
+                <div class="instagram-visual-analysis-title">
+                    🤖
+                    <strong>
+                        Análisis visual
+                    </strong>
+                </div>
+
+                <div class="instagram-visual-analysis-description">
+                    ✓ No se detectaron elementos de exposición relevantes en la imagen.
+                </div>
+
+            </div>
+        `;
+
+    }
+
+}
 
         let warningsHtml = "";
 
@@ -4592,6 +4726,7 @@ function renderInstagramPosts(posts) {
                     </p>
 
                     ${observationsHtml}
+                    ${visualAnalysisHtml}
 
                     ${warningsHtml}
 

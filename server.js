@@ -177,7 +177,6 @@ const geminiImageCache =
 const geminiImageProcessing =
   new Set();
 
-
 async function analizarImagenGemini(
   mediaUrl,
   mediaId
@@ -185,6 +184,7 @@ async function analizarImagenGemini(
 
   const cacheKey =
     mediaId || mediaUrl;
+
 
   if (!gemini || !mediaUrl) {
 
@@ -242,6 +242,10 @@ async function analizarImagenGemini(
 
   try {
 
+    // --------------------------------------------------------
+    // DESCARGAR IMAGEN
+    // --------------------------------------------------------
+
     const imageResponse =
       await fetch(mediaUrl);
 
@@ -262,19 +266,12 @@ async function analizarImagenGemini(
 
 
     if (
-      !contentType.startsWith(
-        "image/"
-      )
+      !contentType.startsWith("image/")
     ) {
 
-      geminiImageProcessing.delete(
-        cacheKey
+      throw new Error(
+        "Instagram no devolvió un archivo de imagen válido."
       );
-
-      return {
-        ok: false,
-        observations: []
-      };
 
     }
 
@@ -291,6 +288,10 @@ async function analizarImagenGemini(
       );
 
 
+    // --------------------------------------------------------
+    // ANÁLISIS CON GEMINI
+    // --------------------------------------------------------
+
     const response =
       await gemini.models.generateContent({
 
@@ -301,56 +302,159 @@ async function analizarImagenGemini(
 
           {
             inlineData: {
+
               mimeType:
                 contentType,
 
               data:
                 imageBase64
+
             }
+
           },
 
           {
+
             text: `
-Analiza esta imagen exclusivamente desde el punto de vista
-de privacidad y huella digital.
 
-Busca elementos visuales que puedan exponer información
-personal, como:
+Eres el sistema de análisis visual de privacidad de una aplicación llamada Huella+.
 
-- documentos
-- teléfonos
-- correos
-- direcciones
-- placas
+Tu tarea es analizar ESTA IMAGEN para detectar información que una persona podría estar exponiendo públicamente en Instagram.
+
+NO analices solamente el texto de la descripción de Instagram.
+Analiza TODO lo que sea visible en la imagen.
+
+Debes prestar especial atención a texto pequeño, documentos, pantallas, placas y elementos que puedan identificar a una persona.
+
+BUSCA ESPECÍFICAMENTE:
+
+1. 📍 DIRECCIONES Y UBICACIONES
+- direcciones completas
+- nombres de calles
+- números de casa o apartamento
+- edificios o lugares que permitan identificar dónde vive una persona
+- mapas
 - ubicaciones específicas
-- información académica
-- pantallas con información personal
-- datos personales escritos
+- letreros con direcciones
 
-La presencia de una persona o rostro por sí sola NO es
-un problema de privacidad.
+2. 📄 DOCUMENTOS
+- cédulas
+- tarjetas de identidad
+- pasaportes
+- carnés
+- certificados
+- formularios
+- documentos universitarios
+- documentos laborales
+- cualquier documento donde puedan aparecer datos personales
 
-Si no encuentras elementos relevantes, devuelve
-observations como una lista vacía.
+3. 🚗 VEHÍCULOS
+- placas o matrículas
+- números de identificación visibles del vehículo
+- documentos del vehículo
 
-Devuelve únicamente JSON con esta estructura:
+4. 📱 INFORMACIÓN DE CONTACTO
+- números telefónicos
+- correos electrónicos
+- nombres de usuario
+- códigos QR que puedan revelar información personal
+- datos de contacto escritos
+
+5. 💬 CONVERSACIONES Y PANTALLAS
+- chats
+- mensajes privados
+- correos
+- capturas de pantalla
+- perfiles de redes sociales
+- notificaciones
+- cualquier pantalla donde aparezcan datos personales
+
+6. 🎓 INFORMACIÓN ACADÉMICA
+- horarios universitarios
+- nombres de universidades
+- grupos o cursos
+- matrículas
+- carnés universitarios
+- documentos académicos
+- información que permita conocer rutinas o lugares frecuentes
+
+7. 🔐 OTROS DATOS PERSONALES
+- nombres completos
+- fechas de nacimiento
+- números de identificación
+- contraseñas
+- códigos
+- información financiera
+- datos privados visibles
+
+IMPORTANTE:
+
+Una persona, rostro, cuerpo, mascota, comida, paisaje o vehículo NORMAL por sí solo NO constituye un problema.
+
+NO marques una imagen como riesgosa simplemente porque aparece una persona.
+
+NO inventes información que no puedas observar.
+
+Si un dato aparece borroso o no puede leerse con suficiente seguridad, no afirmes que existe.
+
+Si detectas texto pequeño pero legible, analízalo.
+
+CLASIFICACIÓN:
+
+"bien":
+No se observa información de privacidad relevante.
+
+"vigila":
+Hay un elemento que no necesariamente es sensible por sí solo, pero conviene revisar antes de publicar.
+Ejemplos:
+- horario académico
+- universidad identificable
+- ubicación general
+- rutina
+- información contextual que podría revelar hábitos
+
+"controlalo":
+Hay información personal, identificable o sensible que debería ocultarse, difuminarse o revisarse antes de publicar.
+Ejemplos:
+- placa claramente visible
+- documento identificable
+- dirección
+- teléfono
+- correo
+- conversación privada
+- número de identificación
+- datos personales visibles
+
+REGLA IMPORTANTE:
+
+Cada observación DEBE incluir obligatoriamente un campo "risk".
+
+Nunca devuelvas una observación sin "risk".
+
+Devuelve únicamente JSON válido.
+
+FORMATO:
 
 {
   "observations": [
     {
       "risk": "vigila",
-      "icon": "📍",
-      "title": "Ubicación",
-      "description": "Explicación breve."
+      "icon": "🎓",
+      "title": "Información académica",
+      "description": "Se observa un horario académico visible que podría revelar parte de tu rutina."
     }
   ]
 }
 
-Usa "vigila" para elementos que conviene revisar.
+Si no detectas nada relevante:
 
-Usa "controlalo" para información personal o sensible
-que debería ocultarse o revisarse.
+{
+  "observations": []
+}
+
+No incluyas texto fuera del JSON.
 `
+
           }
 
         ],
@@ -365,25 +469,209 @@ que debería ocultarse o revisarse.
       });
 
 
-    const result =
-      JSON.parse(
-        response.text
-      );
+    // --------------------------------------------------------
+    // PROCESAR RESPUESTA
+    // --------------------------------------------------------
 
+    const rawText =
+      String(
+        response.text || ""
+      ).trim();
+
+
+    console.log(
+      "Respuesta visual de Gemini:",
+      rawText
+    );
+
+
+    let result;
+
+
+    try {
+
+      result =
+        JSON.parse(
+          rawText
+        );
+
+    } catch {
+
+      // Intentar recuperar JSON si el modelo
+      // agregó accidentalmente texto alrededor.
+
+      const jsonStart =
+        rawText.indexOf("{");
+
+      const jsonEnd =
+        rawText.lastIndexOf("}");
+
+
+      if (
+        jsonStart === -1 ||
+        jsonEnd === -1 ||
+        jsonEnd <= jsonStart
+      ) {
+
+        throw new Error(
+          "Gemini no devolvió un JSON válido."
+        );
+
+      }
+
+
+      result =
+        JSON.parse(
+          rawText.slice(
+            jsonStart,
+            jsonEnd + 1
+          )
+        );
+
+    }
+
+
+    // --------------------------------------------------------
+    // NORMALIZAR OBSERVACIONES
+    // --------------------------------------------------------
+
+    const observations =
+      Array.isArray(
+        result.observations
+      )
+        ? result.observations
+        : [];
+
+
+    const normalizedObservations =
+      observations
+        .map(
+          (observation) => {
+
+            const title =
+              String(
+                observation.title || ""
+              ).trim();
+
+
+            const description =
+              String(
+                observation.description || ""
+              ).trim();
+
+
+            let risk =
+              String(
+                observation.risk || ""
+              )
+                .trim()
+                .toLowerCase();
+
+
+            // ----------------------------------------------
+            // SI GEMINI OLVIDÓ EL RISK,
+            // INFERIRLO POR EL TIPO DE HALLAZGO
+            // ----------------------------------------------
+
+            if (![
+              "bien",
+              "vigila",
+              "controlalo"
+            ].includes(risk)) {
+
+              const textoObservacion =
+                `${title} ${description}`
+                  .toLowerCase();
+
+
+              if (
+                textoObservacion.includes("placa") ||
+                textoObservacion.includes("matrícula") ||
+                textoObservacion.includes("matricula") ||
+                textoObservacion.includes("documento") ||
+                textoObservacion.includes("cédula") ||
+                textoObservacion.includes("cedula") ||
+                textoObservacion.includes("teléfono") ||
+                textoObservacion.includes("telefono") ||
+                textoObservacion.includes("correo") ||
+                textoObservacion.includes("dirección") ||
+                textoObservacion.includes("direccion") ||
+                textoObservacion.includes("contraseña") ||
+                textoObservacion.includes("conversación privada") ||
+                textoObservacion.includes("conversacion privada") ||
+                textoObservacion.includes("dato personal") ||
+                textoObservacion.includes("número de identificación") ||
+                textoObservacion.includes("numero de identificacion")
+              ) {
+
+                risk =
+                  "controlalo";
+
+              } else if (
+                textoObservacion.includes("horario") ||
+                textoObservacion.includes("universidad") ||
+                textoObservacion.includes("académ") ||
+                textoObservacion.includes("ubicación general") ||
+                textoObservacion.includes("ubicacion general") ||
+                textoObservacion.includes("rutina")
+              ) {
+
+                risk =
+                  "vigila";
+
+              } else {
+
+                risk =
+                  "bien";
+
+              }
+
+            }
+
+
+            return {
+
+              risk,
+
+              icon:
+                observation.icon ||
+                "👀",
+
+              title:
+                title ||
+                "Observación visual",
+
+              description:
+                description ||
+                "Se detectó un elemento visual que conviene revisar."
+
+            };
+
+          }
+        )
+        .filter(
+          (observation) =>
+            observation.risk !== "bien"
+        );
+
+
+    // --------------------------------------------------------
+    // RESULTADO FINAL
+    // --------------------------------------------------------
 
     const resultado = {
 
       ok: true,
 
       observations:
-        Array.isArray(
-          result.observations
-        )
-          ? result.observations
-          : []
+        normalizedObservations
 
     };
 
+
+    // --------------------------------------------------------
+    // GUARDAR EN CACHE
+    // --------------------------------------------------------
 
     geminiImageCache.set(
       cacheKey,
@@ -1938,11 +2226,11 @@ for (
 
   // ======================================================
   // ANÁLISIS VISUAL CON GEMINI
-  // MÁXIMO 3 PUBLICACIONES
+  // MÁXIMO 5 PUBLICACIONES
   // ======================================================
 
   const puedeAnalizarImagen =
-    visualAnalysesCount < 3 &&
+    visualAnalysesCount < 5 &&
     (
       publicacion.media_type === "IMAGE" ||
       publicacion.media_type === "CAROUSEL_ALBUM"
@@ -1955,7 +2243,7 @@ for (
     visualAnalysesCount++;
 
     console.log(
-      `Analizando imagen ${visualAnalysesCount}/3 con Gemini...`
+      `Analizando imagen ${visualAnalysesCount}/5 con Gemini...`
     );
 
 
